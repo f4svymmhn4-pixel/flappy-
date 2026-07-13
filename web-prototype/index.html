@@ -1,0 +1,792 @@
+<!doctype html>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FrigoChef AI — Prototype</title>
+<style>
+:root {
+  --cream: #FFF8F3;
+  --card: #FFFFFF;
+  --card-hi: #FFFDF9;
+  --ink: #2B2320;
+  --ink-soft: #8A7F78;
+  --line: rgba(43,35,32,0.08);
+  --coral: #FF7A59;
+  --coral-deep: #FF5A3C;
+  --teal: #3FA796;
+  --success: #34A853;
+  --warning: #F4A825;
+  --danger: #E4572E;
+  --shadow: 0 10px 28px rgba(43,26,18,0.10);
+  --shadow-sm: 0 4px 12px rgba(43,26,18,0.07);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --cream: #1C1410;
+    --card: #2A211C;
+    --card-hi: #332822;
+    --ink: #F5EFEA;
+    --ink-soft: #B8ACA4;
+    --line: rgba(245,239,234,0.09);
+    --coral: #FF8F6B;
+    --coral-deep: #FF6B4A;
+    --teal: #4DBFAC;
+    --success: #4CD07A;
+    --warning: #FFC24D;
+    --danger: #FF6B4D;
+    --shadow: 0 10px 28px rgba(0,0,0,0.35);
+    --shadow-sm: 0 4px 12px rgba(0,0,0,0.28);
+  }
+}
+:root[data-theme="dark"] {
+  --cream: #1C1410; --card: #2A211C; --card-hi: #332822; --ink: #F5EFEA; --ink-soft: #B8ACA4;
+  --line: rgba(245,239,234,0.09); --coral: #FF8F6B; --coral-deep: #FF6B4A; --teal: #4DBFAC;
+  --success: #4CD07A; --warning: #FFC24D; --danger: #FF6B4D;
+  --shadow: 0 10px 28px rgba(0,0,0,0.35); --shadow-sm: 0 4px 12px rgba(0,0,0,0.28);
+}
+:root[data-theme="light"] {
+  --cream: #FFF8F3; --card: #FFFFFF; --card-hi: #FFFDF9; --ink: #2B2320; --ink-soft: #8A7F78;
+  --line: rgba(43,35,32,0.08); --coral: #FF7A59; --coral-deep: #FF5A3C; --teal: #3FA796;
+  --success: #34A853; --warning: #F4A825; --danger: #E4572E;
+  --shadow: 0 10px 28px rgba(43,26,18,0.10); --shadow-sm: 0 4px 12px rgba(43,26,18,0.07);
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: -apple-system, "SF Pro Text", system-ui, sans-serif;
+  overflow-x: hidden;
+  overscroll-behavior-y: none;
+}
+.display, h1, h2, h3, .tabbar-label, button, .btn-label, .navtitle, .sectionhead .label {
+  font-family: ui-rounded, "SF Pro Rounded", -apple-system, system-ui, sans-serif;
+}
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+p { margin: 0; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+img { max-width: 100%; display: block; }
+::selection { background: color-mix(in srgb, var(--coral) 35%, transparent); }
+
+#shell {
+  position: relative;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--cream);
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+}
+
+/* ---------- tab screens (cross-fade) ---------- */
+.tabpanel { display: none; flex: 1; flex-direction: column; min-height: 0; }
+.tabpanel.active { display: flex; animation: fade .28s ease both; }
+@keyframes fade { from { opacity: 0; transform: translateY(6px);} to { opacity: 1; transform: none; } }
+
+.scroll { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: calc(96px + var(--safe-bottom)); }
+
+/* ---------- pushed screens (slide stack) ---------- */
+#stack { position: fixed; inset: 0; max-width: 480px; margin: 0 auto; pointer-events: none; z-index: 40; }
+.screen {
+  position: absolute; inset: 0;
+  background: var(--cream);
+  display: flex; flex-direction: column;
+  transform: translateX(100%);
+  transition: transform .34s cubic-bezier(.32,.72,0,1);
+  pointer-events: auto;
+  min-height: 100dvh;
+}
+.screen.in { transform: translateX(0); }
+@media (prefers-reduced-motion: reduce) { .screen { transition: none; } }
+
+/* ---------- top bar ---------- */
+.topbar {
+  display: flex; align-items: center; gap: 10px;
+  padding: calc(14px + var(--safe-top)) 16px 12px;
+  position: sticky; top: 0; z-index: 5;
+  background: color-mix(in srgb, var(--cream) 88%, transparent);
+  backdrop-filter: blur(14px);
+}
+.topbar .navtitle { flex: 1; font-size: 17px; font-weight: 650; text-align: center; margin-right: 34px; }
+.iconbtn {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--card); box-shadow: var(--shadow-sm); color: var(--ink); flex-shrink: 0;
+}
+.iconbtn:active { transform: scale(.92); }
+.iconbtn.filled-coral { background: var(--coral); color: #fff; box-shadow: none; }
+.badge-dot { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; border-radius: 50%; background: var(--coral); border: 2px solid var(--cream); }
+
+/* ---------- hero / home ---------- */
+.hero {
+  padding: calc(28px + var(--safe-top)) 22px 8px;
+  background:
+    radial-gradient(120% 90% at 15% -10%, color-mix(in srgb, var(--coral) 22%, transparent), transparent 60%),
+    linear-gradient(160deg, color-mix(in srgb, var(--coral) 10%, var(--cream)), var(--cream) 55%);
+  text-align: center;
+}
+.hero h1 { font-size: 30px; font-weight: 800; letter-spacing: -0.01em; }
+.hero p.sub { margin-top: 6px; color: var(--ink-soft); font-size: 15px; line-height: 1.4; }
+.hero .badge {
+  width: 86px; height: 86px; margin: 20px auto 6px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--card); box-shadow: var(--shadow);
+  color: var(--coral);
+}
+.actions { display: flex; flex-direction: column; gap: 12px; padding: 18px 20px 6px; }
+.bigbtn {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 22px 18px; border-radius: 24px; color: #fff;
+  box-shadow: var(--shadow); font-weight: 700; font-size: 16px;
+  transition: transform .15s ease;
+}
+.bigbtn:active { transform: scale(.97); }
+.bigbtn.primary { background: linear-gradient(120deg, var(--coral), var(--coral-deep)); }
+.bigbtn.secondary { background: linear-gradient(120deg, var(--teal), color-mix(in srgb, var(--teal) 70%, #145048)); }
+.bigbtn svg { width: 30px; height: 30px; }
+
+.tiplist { margin: 22px 20px 8px; padding: 14px 16px; background: color-mix(in srgb, var(--card) 70%, transparent); border-radius: 18px; display: flex; flex-direction: column; gap: 12px; }
+.tiprow { display: flex; gap: 10px; align-items: flex-start; font-size: 14px; line-height: 1.4; }
+.tiprow svg { width: 18px; height: 18px; color: var(--coral); flex-shrink: 0; margin-top: 1px; }
+
+/* ---------- section headers ---------- */
+.sectionhead { display: flex; align-items: baseline; justify-content: space-between; padding: 0 18px; margin: 22px 0 10px; }
+.sectionhead .label { display: flex; align-items: center; gap: 8px; font-size: 19px; font-weight: 700; }
+.sectionhead .label svg { width: 20px; height: 20px; color: var(--coral); }
+.sectionhead .count { font-size: 13px; color: var(--ink-soft); font-weight: 500; }
+
+/* ---------- chips ---------- */
+.chiprow { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 18px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 12px; border-radius: 999px; background: var(--card);
+  font-size: 13.5px; font-weight: 600; border: 1px solid var(--line);
+}
+.chip .pct { font-weight: 700; font-size: 12px; }
+.chip.used { background: color-mix(in srgb, var(--success) 14%, var(--card)); color: var(--success); border-color: transparent; }
+.chip.missing { background: color-mix(in srgb, var(--warning) 16%, var(--card)); color: color-mix(in srgb, var(--warning) 70%, var(--ink)); border-color: transparent; }
+.chip.filter { padding: 9px 15px; font-size: 14px; }
+.chip.filter.on { background: linear-gradient(120deg, var(--coral), var(--coral-deep)); color: #fff; border-color: transparent; }
+
+/* ---------- recipe cards ---------- */
+.railwrap { padding: 0 0 4px; }
+.rail { display: flex; gap: 12px; overflow-x: auto; padding: 0 18px 6px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
+.rail::-webkit-scrollbar { display: none; }
+.rcard {
+  flex: 0 0 208px; scroll-snap-align: start;
+  background: var(--card); border-radius: 20px; box-shadow: var(--shadow-sm);
+  overflow: hidden; text-align: left;
+}
+.rcard:active { transform: scale(.98); }
+.rthumb { height: 108px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.92); position: relative; }
+.rthumb svg { width: 34px; height: 34px; }
+.rthumb .heart { position: absolute; top: 8px; right: 8px; width: 24px; height: 24px; border-radius: 50%; background: rgba(0,0,0,.28); display: flex; align-items: center; justify-content: center; }
+.rthumb .heart svg { width: 13px; height: 13px; color: #fff; }
+.rbody { padding: 10px 12px 13px; }
+.rstyle { font-size: 10.5px; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--coral); }
+.rname { font-size: 15px; font-weight: 700; margin: 3px 0 6px; line-height: 1.25; min-height: 38px; }
+.rmeta { display: flex; gap: 9px; font-size: 12px; color: var(--ink-soft); flex-wrap: wrap; }
+.rmeta span { display: inline-flex; align-items: center; gap: 3px; }
+.rmeta svg { width: 12px; height: 12px; }
+.rmissing { margin-top: 6px; font-size: 11.5px; font-weight: 600; color: var(--warning); }
+.rok { margin-top: 6px; font-size: 11.5px; font-weight: 600; color: var(--success); }
+
+/* grid variant for favorites */
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 14px 18px 8px; }
+.grid2 .rcard { flex: none; width: 100%; }
+
+/* ---------- analysis screen ---------- */
+.analysiswrap { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px; padding-bottom: calc(96px + var(--safe-bottom)); text-align: center; gap: 26px; }
+.ring { position: relative; width: 148px; height: 148px; }
+.ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.ring .track { stroke: color-mix(in srgb, var(--coral) 16%, transparent); }
+.ring .bar { stroke: var(--coral); stroke-linecap: round; transform-box: fill-box; transform-origin: center; animation: spin 1.15s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .ring .bar { animation: none; } }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.ring .center { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: var(--coral); }
+.ring .center svg { width: 42px; height: 42px; animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { transform: scale(.92); } 50% { transform: scale(1.08); } }
+.analysiswrap h2 { font-size: 20px; font-weight: 750; min-height: 52px; display:flex; align-items:center; }
+.analysiswrap .sub { color: var(--ink-soft); font-size: 14px; max-width: 280px; }
+.dots { display: flex; gap: 7px; }
+.dots i { width: 8px; height: 8px; border-radius: 999px; background: color-mix(in srgb, var(--coral) 18%, transparent); transition: all .25s ease; }
+.dots i.on { width: 22px; background: var(--coral); }
+
+/* ---------- recipe detail ---------- */
+.rhero { height: 220px; display: flex; align-items: flex-end; padding: 16px; color: #fff; position: relative; }
+.rhero .style { font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; opacity: .9; }
+.rhero h2 { font-size: 25px; font-weight: 800; margin-top: 2px; }
+.factrow { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; padding: 14px 18px 4px; }
+.fact { background: var(--card); border-radius: 14px; padding: 10px 4px; text-align: center; }
+.fact svg { width: 17px; height: 17px; color: var(--coral); }
+.fact .v { font-size: 13px; font-weight: 700; margin-top: 4px; font-variant-numeric: tabular-nums; }
+.fact .l { font-size: 10px; color: var(--ink-soft); margin-top: 1px; }
+.nutgrid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; padding: 0 18px; }
+.nut { background: var(--card); border-radius: 12px; padding: 10px 4px; text-align: center; }
+.nut svg { width: 15px; height: 15px; color: var(--coral); }
+.nut .v { font-size: 13.5px; font-weight: 700; margin-top: 3px; font-variant-numeric: tabular-nums; }
+.nut .l { font-size: 10px; color: var(--ink-soft); }
+.steps { padding: 0 18px 8px; display: flex; flex-direction: column; gap: 14px; }
+.step { display: flex; gap: 12px; align-items: flex-start; }
+.step .n { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(120deg, var(--coral), var(--coral-deep)); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 12.5px; font-weight: 800; }
+.step p { font-size: 14.5px; line-height: 1.5; padding-top: 2px; }
+.dotrating { display: flex; gap: 3px; }
+.dotrating i { width: 6px; height: 6px; border-radius: 50%; background: var(--line); }
+.dotrating i.on { background: var(--dc, var(--coral)); }
+
+/* ---------- filter sheet ---------- */
+.sheetbg { position: fixed; inset: 0; background: rgba(20,12,8,.42); z-index: 95; opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+.sheetbg.show { opacity: 1; pointer-events: auto; }
+.sheet {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 96; max-width: 480px; margin: 0 auto;
+  background: var(--cream); border-radius: 24px 24px 0 0; box-shadow: 0 -12px 30px rgba(0,0,0,.18);
+  transform: translateY(100%); transition: transform .32s cubic-bezier(.32,.72,0,1);
+  max-height: 82vh; display: flex; flex-direction: column;
+  padding-bottom: calc(18px + var(--safe-bottom));
+}
+.sheet.show { transform: translateY(0); }
+.sheet .grabber { width: 36px; height: 4px; border-radius: 3px; background: var(--line); margin: 10px auto 4px; }
+.sheet .shead { display: flex; align-items: center; justify-content: space-between; padding: 8px 18px 4px; }
+.sheet .shead h3 { font-size: 17px; }
+.sheet .shead button { font-size: 15px; font-weight: 700; color: var(--coral); }
+.sheet .sbody { overflow-y: auto; padding: 14px 18px 4px; display: flex; flex-wrap: wrap; gap: 9px; }
+.sheet .sfoot { padding: 14px 18px 2px; }
+.sheet .sfoot .bigbtn { padding: 15px; }
+
+/* ---------- empty state ---------- */
+.empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 30px; gap: 12px; }
+.empty .ico { width: 78px; height: 78px; border-radius: 50%; background: color-mix(in srgb, var(--coral) 12%, transparent); display: flex; align-items: center; justify-content: center; color: var(--coral); }
+.empty .ico svg { width: 34px; height: 34px; }
+.empty h3 { font-size: 18px; }
+.empty p { color: var(--ink-soft); font-size: 14px; max-width: 260px; line-height: 1.5; }
+
+/* ---------- history rows ---------- */
+.hrow { display: flex; align-items: center; gap: 12px; padding: 12px 18px; }
+.hrow .thumb { width: 52px; height: 52px; border-radius: 14px; object-fit: cover; flex-shrink: 0; background: var(--card); display: flex; align-items: center; justify-content: center; color: #fff; }
+.hrow .thumb svg { width: 22px; height: 22px; }
+.hrow .meta { flex: 1; min-width: 0; }
+.hrow .date { font-size: 15px; font-weight: 700; }
+.hrow .sub2 { font-size: 12.5px; color: var(--ink-soft); margin-top: 2px; }
+.hrow svg.chev { width: 16px; height: 16px; color: var(--ink-soft); flex-shrink: 0; }
+.divider { height: 1px; background: var(--line); margin: 0 18px; }
+
+/* ---------- tab bar ---------- */
+.tabbar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
+  max-width: 480px; margin: 0 auto;
+  display: flex; padding: 8px 6px calc(8px + var(--safe-bottom));
+  background: color-mix(in srgb, var(--card) 92%, transparent); backdrop-filter: blur(16px);
+  border-top: 1px solid var(--line);
+}
+.tabbtn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 4px 0; color: var(--ink-soft); }
+.tabbtn.active { color: var(--coral); }
+.tabbtn svg { width: 24px; height: 24px; }
+.tabbar-label { font-size: 10.5px; font-weight: 650; }
+
+.hidden-input { position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+.toast {
+  position: fixed; left: 50%; bottom: 100px; transform: translate(-50%, 10px); z-index: 92;
+  background: var(--ink); color: var(--cream); padding: 10px 18px; border-radius: 999px;
+  font-size: 13.5px; font-weight: 600; opacity: 0; transition: all .25s ease; pointer-events: none;
+  box-shadow: var(--shadow);
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+.focus-ring:focus-visible { outline: 2px solid var(--coral); outline-offset: 2px; }
+</style>
+
+<div id="shell">
+  <main id="home" class="tabpanel active">
+    <div class="scroll" id="home-scroll"></div>
+  </main>
+  <main id="favorites" class="tabpanel">
+    <div class="scroll" id="favorites-scroll"></div>
+  </main>
+  <main id="history" class="tabpanel">
+    <div class="scroll" id="history-scroll"></div>
+  </main>
+</div>
+
+<div id="stack"></div>
+<div class="sheetbg" id="sheetbg"></div>
+<div class="sheet" id="sheet"></div>
+<div class="toast" id="toast"></div>
+
+<nav class="tabbar">
+  <button class="tabbtn active focus-ring" data-tab="home" aria-label="Frigo"></button>
+  <button class="tabbtn focus-ring" data-tab="favorites" aria-label="Favoris"></button>
+  <button class="tabbtn focus-ring" data-tab="history" aria-label="Historique"></button>
+</nav>
+
+<input type="file" accept="image/*" capture="environment" class="hidden-input" id="cameraInput">
+<input type="file" accept="image/*" class="hidden-input" id="galleryInput">
+
+<script id="recipes-data" type="application/json">[{"id": "bfast-omelette-fromage", "name": "Omelette au cheddar et épinards", "mealCategory": "breakfast", "cuisineStyle": "Omelette", "prepTimeMinutes": 10, "difficulty": "easy", "servings": 1, "estimatedCostEUR": 1.8, "calories": 320, "proteinG": 22, "carbsG": 4, "fatG": 24, "fiberG": 1, "sugarG": 2, "sodiumMg": 380, "requiredIngredients": ["œufs", "cheddar", "épinards", "beurre", "sel", "poivre"], "dietaryTags": ["vegetarian", "glutenFree"], "steps": ["Battez les œufs dans un bol avec le sel et le poivre.", "Faites fondre le beurre dans une poêle à feu moyen.", "Ajoutez les épinards et faites-les tomber 1 minute.", "Versez les œufs battus, laissez prendre puis parsemez de cheddar râpé.", "Repliez l'omelette en deux dès que le fromage commence à fondre et servez aussitôt."], "imageSymbol": "frying.pan.fill", "gradientStart": "FF9966", "gradientEnd": "FF5E62"}, {"id": "bfast-pancakes-banane", "name": "Pancakes banane et miel", "mealCategory": "breakfast", "cuisineStyle": "Pancakes", "prepTimeMinutes": 15, "difficulty": "easy", "servings": 2, "estimatedCostEUR": 1.5, "calories": 410, "proteinG": 10, "carbsG": 68, "fatG": 11, "fiberG": 3, "sugarG": 22, "sodiumMg": 260, "requiredIngredients": ["œufs", "lait", "bananes", "miel", "beurre", "farine"], "dietaryTags": ["vegetarian"], "steps": ["Écrasez une banane à la fourchette, mélangez-la aux œufs et au lait.", "Incorporez la farine petit à petit jusqu'à obtenir une pâte lisse.", "Faites fondre un peu de beurre dans une poêle chaude.", "Versez des petites louches de pâte et cuisez 2 minutes de chaque côté.", "Empilez les pancakes, tranchez la seconde banane par-dessus et arrosez de miel."], "imageSymbol": "frying.pan.fill", "gradientStart": "F6D365", "gradientEnd": "FDA085"}, {"id": "bfast-bowl-yaourt", "name": "Bowl de yaourt aux fruits rouges", "mealCategory": "breakfast", "cuisineStyle": "Bowl", "prepTimeMinutes": 5, "difficulty": "easy", "servings": 1, "estimatedCostEUR": 2.0, "calories": 280, "proteinG": 14, "carbsG": 38, "fatG": 8, "fiberG": 5, "sugarG": 24, "sodiumMg": 60, "requiredIngredients": ["yaourt", "fraises", "myrtilles", "miel", "granola"], "dietaryTags": ["vegetarian"], "steps": ["Versez le yaourt dans un bol.", "Lavez et coupez les fraises en morceaux, ajoutez-les avec les myrtilles.", "Parsemez de granola pour le croquant.", "Terminez par un filet de miel avant de déguster."], "imageSymbol": "leaf.fill", "gradientStart": "84FAB0", "gradientEnd": "8FD3F4"}, {"id": "bfast-toast-avocat", "name": "Toast avocat et œuf poché", "mealCategory": "breakfast", "cuisineStyle": "Toast", "prepTimeMinutes": 12, "difficulty": "easy", "servings": 1, "estimatedCostEUR": 2.5, "calories": 350, "proteinG": 16, "carbsG": 28, "fatG": 20, "fiberG": 6, "sugarG": 2, "sodiumMg": 320, "requiredIngredients": ["avocat", "œufs", "citron", "sel", "poivre", "pain"], "dietaryTags": ["vegetarian", "lactoseFree"], "steps": ["Faites griller une tranche de pain.", "Écrasez l'avocat à la fourchette avec un filet de citron, du sel et du poivre.", "Faites pocher l'œuf 3 minutes dans une eau frémissante additionnée de vinaigre.", "Étalez l'avocat sur le toast et déposez l'œuf poché par-dessus.", "Poivrez généreusement et servez immédiatement."], "imageSymbol": "fork.knife", "gradientStart": "A8E063", "gradientEnd": "56AB2F"}, {"id": "bfast-smoothie-banane", "name": "Smoothie banane et lait d'amande", "mealCategory": "breakfast", "cuisineStyle": "Smoothie", "prepTimeMinutes": 5, "difficulty": "easy", "servings": 1, "estimatedCostEUR": 1.6, "calories": 220, "proteinG": 6, "carbsG": 40, "fatG": 5, "fiberG": 4, "sugarG": 26, "sodiumMg": 90, "requiredIngredients": ["bananes", "lait d'amande", "miel"], "dietaryTags": ["vegan", "glutenFree", "lactoseFree"], "steps": ["Épluchez et coupez la banane en morceaux.", "Placez-la dans un blender avec le lait d'amande et le miel.", "Mixez 30 secondes jusqu'à obtenir une texture lisse.", "Versez dans un grand verre et dégustez frais."], "imageSymbol": "cup.and.saucer.fill", "gradientStart": "FCCF31", "gradientEnd": "F55555"}, {"id": "lunch-salade-poulet", "name": "Salade César au poulet", "mealCategory": "lunch", "cuisineStyle": "Salade", "prepTimeMinutes": 20, "difficulty": "easy", "servings": 2, "estimatedCostEUR": 3.5, "calories": 420, "proteinG": 34, "carbsG": 14, "fatG": 26, "fiberG": 4, "sugarG": 4, "sodiumMg": 620, "requiredIngredients": ["poulet", "salade", "parmesan", "citron", "ail", "pain"], "dietaryTags": [], "steps": ["Coupez le pain en cubes et faites-le dorer à la poêle avec un peu d'ail pour des croûtons maison.", "Faites cuire le poulet à la poêle 6 à 8 minutes puis émincez-le.", "Lavez et déchirez la salade dans un grand saladier.", "Ajoutez le poulet, les croûtons et le parmesan râpé.", "Assaisonnez d'un filet de citron et mélangez délicatement avant de servir."], "imageSymbol": "leaf.fill", "gradientStart": "43CEA2", "gradientEnd": "185A9D"}, {"id": "lunch-wrap-thon", "name": "Wrap au thon et crudités", "mealCategory": "lunch", "cuisineStyle": "Wrap", "prepTimeMinutes": 10, "difficulty": "easy", "servings": 1, "estimatedCostEUR": 2.8, "calories": 380, "proteinG": 26, "carbsG": 34, "fatG": 14, "fiberG": 5, "sugarG": 3, "sodiumMg": 540, "requiredIngredients": ["thon en conserve", "salade", "tomates", "mayonnaise", "tortillas"], "dietaryTags": ["lactoseFree"], "steps": ["Égouttez le thon et mélangez-le avec une cuillère de mayonnaise.", "Étalez la préparation au centre de la tortilla.", "Ajoutez la salade et les tomates coupées en dés.", "Repliez les bords puis roulez fermement le wrap.", "Coupez en deux et servez aussitôt."], "imageSymbol": "fork.knife", "gradientStart": "FFAFBD", "gradientEnd": "FFC3A0"}, {"id": "lunch-pates-tomate", "name": "Pâtes sauce tomate et basilic", "mealCategory": "lunch", "cuisineStyle": "Pâtes", "prepTimeMinutes": 20, "difficulty": "easy", "servings": 2, "estimatedCostEUR": 2.2, "calories": 460, "proteinG": 14, "carbsG": 78, "fatG": 10, "fiberG": 5, "sugarG": 8, "sodiumMg": 480, "requiredIngredients": ["sauce tomate", "ail", "basilic", "parmesan", "pâtes"], "dietaryTags": ["vegetarian"], "steps": ["Faites cuire les pâtes dans une grande casserole d'eau bouillante salée.", "Pendant ce temps, faites revenir l'ail émincé dans un peu d'huile.", "Ajoutez la sauce tomate et laissez mijoter 10 minutes.", "Égouttez les pâtes et mélangez-les à la sauce.", "Parsemez de basilic frais et de parmesan râpé avant de servir."], "imageSymbol": "fork.knife", "gradientStart": "FDC830", "gradientEnd": "F37335"}, {"id": "lunch-riz-saute-poulet", "name": "Riz sauté au poulet et légumes", "mealCategory": "lunch", "cuisineStyle": "Wok", "prepTimeMinutes": 25, "difficulty": "medium", "servings": 2, "estimatedCostEUR": 3.2, "calories": 510, "proteinG": 30, "carbsG": 62, "fatG": 14, "fiberG": 4, "sugarG": 6, "sodiumMg": 680, "requiredIngredients": ["poulet", "carottes", "poivrons", "oignon", "sauce soja", "riz"], "dietaryTags": ["lactoseFree"], "steps": ["Faites cuire le riz puis laissez-le refroidir légèrement.", "Coupez le poulet en dés et faites-le dorer dans un wok bien chaud.", "Ajoutez l'oignon, les carottes et les poivrons émincés, faites sauter 5 minutes.", "Incorporez le riz et la sauce soja, mélangez à feu vif 3 à 4 minutes.", "Servez immédiatement, bien chaud."], "imageSymbol": "flame.fill", "gradientStart": "FF9966", "gradientEnd": "FF5E62"}, {"id": "lunch-burger-maison", "name": "Burger maison au cheddar", "mealCategory": "lunch", "cuisineStyle": "Burger", "prepTimeMinutes": 20, "difficulty": "medium", "servings": 2, "estimatedCostEUR": 4.0, "calories": 650, "proteinG": 32, "carbsG": 42, "fatG": 36, "fiberG": 3, "sugarG": 6, "sodiumMg": 780, "requiredIngredients": ["steak haché", "cheddar", "salade", "tomates", "ketchup", "pain à burger"], "dietaryTags": ["gourmet"], "steps": ["Façonnez le steak haché en deux steaks bien tassés, salez et poivrez.", "Faites-les cuire à la poêle 3 à 4 minutes de chaque côté selon la cuisson désirée.", "Déposez une tranche de cheddar sur chaque steak en fin de cuisson pour la faire fondre.", "Faites légèrement griller les pains à burger.", "Montez le burger avec salade, tomates, le steak fondant et le ketchup."], "imageSymbol": "fork.knife", "gradientStart": "F857A6", "gradientEnd": "FF5858"}, {"id": "lunch-soupe-legumes", "name": "Soupe de légumes du frigo", "mealCategory": "lunch", "cuisineStyle": "Soupe", "prepTimeMinutes": 30, "difficulty": "easy", "servings": 3, "estimatedCostEUR": 1.8, "calories": 180, "proteinG": 6, "carbsG": 24, "fatG": 6, "fiberG": 6, "sugarG": 8, "sodiumMg": 420, "requiredIngredients": ["carottes", "courgette", "pommes de terre", "oignon", "ail"], "dietaryTags": ["vegan", "glutenFree", "lactoseFree"], "steps": ["Épluchez et coupez tous les légumes en morceaux.", "Faites revenir l'oignon et l'ail dans un filet d'huile d'olive.", "Ajoutez les autres légumes et couvrez d'eau à hauteur.", "Laissez mijoter 20 minutes jusqu'à ce que les légumes soient tendres.", "Mixez jusqu'à obtenir une texture lisse, rectifiez l'assaisonnement et servez chaud."], "imageSymbol": "cup.and.saucer.fill", "gradientStart": "A8E063", "gradientEnd": "56AB2F"}, {"id": "lunch-bowl-pois-chiches", "name": "Bowl de pois chiches et avocat", "mealCategory": "lunch", "cuisineStyle": "Bowl", "prepTimeMinutes": 15, "difficulty": "easy", "servings": 1, "estimatedCostEUR": 2.6, "calories": 430, "proteinG": 16, "carbsG": 46, "fatG": 20, "fiberG": 11, "sugarG": 5, "sodiumMg": 380, "requiredIngredients": ["pois chiches", "avocat", "tomates", "citron", "huile d'olive"], "dietaryTags": ["vegan", "glutenFree", "lactoseFree"], "steps": ["Égouttez et rincez les pois chiches.", "Coupez l'avocat et les tomates en dés.", "Disposez le tout dans un bol.", "Assaisonnez d'un filet d'huile d'olive, de citron, de sel et de poivre.", "Mélangez délicatement juste avant de servir."], "imageSymbol": "leaf.fill", "gradientStart": "84FAB0", "gradientEnd": "8FD3F4"}, {"id": "dinner-saumon-legumes", "name": "Saumon rôti et légumes de saison", "mealCategory": "dinner", "cuisineStyle": "Rôti", "prepTimeMinutes": 30, "difficulty": "medium", "servings": 2, "estimatedCostEUR": 5.5, "calories": 480, "proteinG": 36, "carbsG": 20, "fatG": 26, "fiberG": 5, "sugarG": 6, "sodiumMg": 380, "requiredIngredients": ["saumon", "brocoli", "carottes", "citron", "huile d'olive"], "dietaryTags": ["glutenFree", "lactoseFree", "gourmet"], "steps": ["Préchauffez le four à 200°C.", "Coupez le brocoli en fleurettes et les carottes en bâtonnets.", "Disposez les légumes sur une plaque, arrosez d'huile d'olive, salez et poivrez.", "Déposez les pavés de saumon sur les légumes et ajoutez quelques tranches de citron.", "Enfournez 18 à 20 minutes jusqu'à ce que le saumon soit cuit à cœur."], "imageSymbol": "fish.fill", "gradientStart": "43CEA2", "gradientEnd": "185A9D"}, {"id": "dinner-curry-poulet", "name": "Curry de poulet crémeux", "mealCategory": "dinner", "cuisineStyle": "Curry", "prepTimeMinutes": 35, "difficulty": "medium", "servings": 3, "estimatedCostEUR": 3.8, "calories": 520, "proteinG": 30, "carbsG": 34, "fatG": 26, "fiberG": 4, "sugarG": 8, "sodiumMg": 620, "requiredIngredients": ["poulet", "oignon", "ail", "curry en poudre", "crème fraîche", "riz"], "dietaryTags": [], "steps": ["Coupez le poulet en morceaux et faites-le dorer dans une cocotte.", "Ajoutez l'oignon et l'ail émincés, faites revenir 3 minutes.", "Saupoudrez de curry en poudre et mélangez pour bien enrober.", "Versez un peu d'eau, couvrez et laissez mijoter 15 minutes.", "Incorporez la crème fraîche en fin de cuisson et servez avec du riz."], "imageSymbol": "flame.fill", "gradientStart": "FDC830", "gradientEnd": "F37335"}, {"id": "dinner-tacos-boeuf", "name": "Tacos au bœuf épicé", "mealCategory": "dinner", "cuisineStyle": "Tacos", "prepTimeMinutes": 25, "difficulty": "medium", "servings": 2, "estimatedCostEUR": 3.6, "calories": 560, "proteinG": 28, "carbsG": 46, "fatG": 28, "fiberG": 6, "sugarG": 5, "sodiumMg": 700, "requiredIngredients": ["steak haché", "tomates", "oignon", "cheddar", "paprika", "tortillas"], "dietaryTags": [], "steps": ["Faites revenir le steak haché avec l'oignon émincé et le paprika.", "Assaisonnez de sel et poivre, laissez cuire 8 minutes en émiettant la viande.", "Réchauffez les tortillas quelques secondes à la poêle.", "Garnissez de viande, de tomates en dés et de cheddar râpé.", "Pliez les tacos et servez immédiatement."], "imageSymbol": "fork.knife", "gradientStart": "F857A6", "gradientEnd": "FF5858"}, {"id": "dinner-gratin-pdt", "name": "Gratin de pommes de terre au jambon", "mealCategory": "dinner", "cuisineStyle": "Gratin", "prepTimeMinutes": 45, "difficulty": "medium", "servings": 4, "estimatedCostEUR": 3.0, "calories": 540, "proteinG": 22, "carbsG": 48, "fatG": 28, "fiberG": 4, "sugarG": 5, "sodiumMg": 640, "requiredIngredients": ["pommes de terre", "jambon", "crème fraîche", "cheddar", "ail"], "dietaryTags": [], "steps": ["Préchauffez le four à 190°C.", "Épluchez et coupez les pommes de terre en fines rondelles.", "Disposez une couche de pommes de terre, de jambon en morceaux et d'ail dans un plat à gratin.", "Répétez les couches puis nappez de crème fraîche et de cheddar râpé.", "Enfournez 35 à 40 minutes jusqu'à ce que le dessus soit bien doré."], "imageSymbol": "flame.fill", "gradientStart": "FCCF31", "gradientEnd": "F55555"}, {"id": "dinner-pizza-maison", "name": "Pizza maison margherita", "mealCategory": "dinner", "cuisineStyle": "Pizza", "prepTimeMinutes": 30, "difficulty": "medium", "servings": 2, "estimatedCostEUR": 3.2, "calories": 620, "proteinG": 24, "carbsG": 74, "fatG": 24, "fiberG": 4, "sugarG": 6, "sodiumMg": 720, "requiredIngredients": ["sauce tomate", "mozzarella", "basilic", "pâte à pizza"], "dietaryTags": ["vegetarian", "gourmet"], "steps": ["Préchauffez le four à 220°C avec la plaque à l'intérieur.", "Étalez la pâte à pizza sur du papier cuisson.", "Nappez de sauce tomate en laissant un bord libre.", "Répartissez la mozzarella en tranches sur toute la surface.", "Enfournez 10 à 12 minutes puis parsemez de basilic frais avant de servir."], "imageSymbol": "flame.fill", "gradientStart": "FF9966", "gradientEnd": "FF5E62"}, {"id": "dinner-cabillaud-vapeur", "name": "Cabillaud vapeur et légumes", "mealCategory": "dinner", "cuisineStyle": "Vapeur", "prepTimeMinutes": 20, "difficulty": "easy", "servings": 2, "estimatedCostEUR": 4.2, "calories": 320, "proteinG": 32, "carbsG": 18, "fatG": 10, "fiberG": 5, "sugarG": 4, "sodiumMg": 340, "requiredIngredients": ["cabillaud", "légumes surgelés", "citron", "huile d'olive"], "dietaryTags": ["glutenFree", "lactoseFree"], "steps": ["Disposez le cabillaud et les légumes surgelés dans un panier vapeur.", "Faites cuire 12 à 15 minutes à la vapeur jusqu'à ce que le poisson s'effeuille facilement.", "Arrosez d'un filet d'huile d'olive et de jus de citron.", "Salez, poivrez et servez aussitôt."], "imageSymbol": "fish.fill", "gradientStart": "84FAB0", "gradientEnd": "8FD3F4"}, {"id": "dinner-omelette-jambon", "name": "Omelette au jambon et champignons", "mealCategory": "dinner", "cuisineStyle": "Omelette", "prepTimeMinutes": 15, "difficulty": "easy", "servings": 2, "estimatedCostEUR": 2.4, "calories": 360, "proteinG": 24, "carbsG": 6, "fatG": 26, "fiberG": 1, "sugarG": 2, "sodiumMg": 480, "requiredIngredients": ["œufs", "jambon", "champignons", "beurre"], "dietaryTags": ["glutenFree"], "steps": ["Coupez le jambon et les champignons en petits morceaux.", "Faites revenir les champignons dans le beurre 3 minutes.", "Battez les œufs, salez et poivrez, puis versez-les dans la poêle avec le jambon.", "Laissez cuire à feu doux jusqu'à ce que l'omelette soit prise.", "Pliez en deux et servez chaud."], "imageSymbol": "frying.pan.fill", "gradientStart": "FDC830", "gradientEnd": "F37335"}, {"id": "gouter-tartine-confiture", "name": "Tartine beurre-confiture", "mealCategory": "afternoonSnack", "cuisineStyle": "Tartine", "prepTimeMinutes": 5, "difficulty": "easy", "servings": 1, "estimatedCostEUR": 0.8, "calories": 260, "proteinG": 5, "carbsG": 40, "fatG": 9, "fiberG": 2, "sugarG": 20, "sodiumMg": 180, "requiredIngredients": ["beurre", "confiture", "pain"], "dietaryTags": ["vegetarian"], "steps": ["Faites griller légèrement le pain si désiré.", "Étalez une fine couche de beurre.", "Ajoutez une généreuse cuillère de confiture par-dessus.", "Dégustez aussitôt."], "imageSymbol": "fork.knife", "gradientStart": "FFAFBD", "gradientEnd": "FFC3A0"}, {"id": "gouter-yaourt-fruits", "name": "Yaourt et pommes au miel", "mealCategory": "afternoonSnack", "cuisineStyle": "Bowl", "prepTimeMinutes": 5, "difficulty": "easy", "servings": 1, "estimatedCostEUR": 1.4, "calories": 180, "proteinG": 8, "carbsG": 24, "fatG": 5, "fiberG": 3, "sugarG": 18, "sodiumMg": 60, "requiredIngredients": ["yaourt", "pommes", "miel"], "dietaryTags": ["vegetarian", "glutenFree"], "steps": ["Coupez la pomme en petits dés.", "Versez le yaourt dans un bol et ajoutez les dés de pomme.", "Arrosez d'un filet de miel avant de servir."], "imageSymbol": "leaf.fill", "gradientStart": "84FAB0", "gradientEnd": "8FD3F4"}, {"id": "gouter-smoothie-fraise", "name": "Smoothie fraise-banane", "mealCategory": "afternoonSnack", "cuisineStyle": "Smoothie", "prepTimeMinutes": 5, "difficulty": "easy", "servings": 1, "estimatedCostEUR": 1.6, "calories": 210, "proteinG": 5, "carbsG": 42, "fatG": 3, "fiberG": 4, "sugarG": 30, "sodiumMg": 40, "requiredIngredients": ["fraises", "bananes", "lait"], "dietaryTags": ["vegetarian", "glutenFree"], "steps": ["Lavez et équeutez les fraises.", "Placez les fraises, la banane et le lait dans un blender.", "Mixez jusqu'à obtenir une texture bien lisse.", "Servez immédiatement bien frais."], "imageSymbol": "cup.and.saucer.fill", "gradientStart": "F857A6", "gradientEnd": "FF5858"}, {"id": "gouter-toast-fromage", "name": "Toast fondant au fromage", "mealCategory": "afternoonSnack", "cuisineStyle": "Toast", "prepTimeMinutes": 8, "difficulty": "easy", "servings": 1, "estimatedCostEUR": 1.5, "calories": 300, "proteinG": 14, "carbsG": 26, "fatG": 16, "fiberG": 2, "sugarG": 3, "sodiumMg": 420, "requiredIngredients": ["cheddar", "beurre", "pain"], "dietaryTags": ["vegetarian"], "steps": ["Beurrez légèrement une face de chaque tranche de pain.", "Déposez le cheddar entre les deux tranches, côté beurré à l'extérieur.", "Faites dorer à la poêle 2 minutes de chaque côté jusqu'à ce que le fromage fonde.", "Coupez en deux et servez chaud."], "imageSymbol": "fork.knife", "gradientStart": "FDC830", "gradientEnd": "F37335"}, {"id": "snack-oeuf-dur", "name": "Œufs durs et crudités", "mealCategory": "snack", "cuisineStyle": "Snack", "prepTimeMinutes": 12, "difficulty": "easy", "servings": 1, "estimatedCostEUR": 1.2, "calories": 220, "proteinG": 16, "carbsG": 8, "fatG": 14, "fiberG": 2, "sugarG": 3, "sodiumMg": 220, "requiredIngredients": ["œufs", "carottes", "concombre", "sel"], "dietaryTags": ["vegetarian", "glutenFree", "lactoseFree"], "steps": ["Faites cuire les œufs 9 minutes dans l'eau bouillante puis refroidissez-les à l'eau froide.", "Écalez les œufs et coupez-les en deux.", "Taillez les carottes et le concombre en bâtonnets.", "Salez légèrement et dégustez ensemble."], "imageSymbol": "basket.fill", "gradientStart": "A8E063", "gradientEnd": "56AB2F"}, {"id": "snack-houmous-legumes", "name": "Bâtonnets de légumes et houmous", "mealCategory": "snack", "cuisineStyle": "Snack", "prepTimeMinutes": 10, "difficulty": "easy", "servings": 2, "estimatedCostEUR": 2.0, "calories": 190, "proteinG": 7, "carbsG": 20, "fatG": 9, "fiberG": 6, "sugarG": 4, "sodiumMg": 260, "requiredIngredients": ["pois chiches", "carottes", "concombre", "citron", "huile d'olive"], "dietaryTags": ["vegan", "glutenFree", "lactoseFree"], "steps": ["Mixez les pois chiches égouttés avec l'huile d'olive et le jus de citron jusqu'à obtenir une purée lisse.", "Salez à votre goût.", "Taillez les carottes et le concombre en bâtonnets.", "Servez le houmous accompagné des bâtonnets de légumes."], "imageSymbol": "basket.fill", "gradientStart": "84FAB0", "gradientEnd": "8FD3F4"}, {"id": "snack-chips-guacamole", "name": "Guacamole maison", "mealCategory": "snack", "cuisineStyle": "Snack", "prepTimeMinutes": 10, "difficulty": "easy", "servings": 2, "estimatedCostEUR": 2.4, "calories": 240, "proteinG": 4, "carbsG": 16, "fatG": 20, "fiberG": 7, "sugarG": 2, "sodiumMg": 200, "requiredIngredients": ["avocat", "citron", "oignon", "tomates", "sel"], "dietaryTags": ["vegan", "glutenFree", "lactoseFree"], "steps": ["Écrasez la chair d'avocat à la fourchette.", "Ajoutez l'oignon et les tomates finement hachés.", "Assaisonnez de jus de citron et de sel.", "Mélangez bien et servez frais."], "imageSymbol": "basket.fill", "gradientStart": "FCCF31", "gradientEnd": "F55555"}, {"id": "snack-jambon-fromage", "name": "Roulés jambon-fromage", "mealCategory": "snack", "cuisineStyle": "Snack", "prepTimeMinutes": 8, "difficulty": "easy", "servings": 2, "estimatedCostEUR": 2.2, "calories": 260, "proteinG": 18, "carbsG": 3, "fatG": 20, "fiberG": 0, "sugarG": 1, "sodiumMg": 520, "requiredIngredients": ["jambon", "cheddar", "moutarde"], "dietaryTags": ["glutenFree"], "steps": ["Étalez une fine couche de moutarde sur chaque tranche de jambon.", "Déposez une tranche de cheddar par-dessus.", "Roulez fermement chaque tranche.", "Coupez en petits tronçons et servez avec des piques."], "imageSymbol": "basket.fill", "gradientStart": "FFAFBD", "gradientEnd": "FFC3A0"}, {"id": "dessert-fondant-choco", "name": "Fondant au chocolat", "mealCategory": "dessert", "cuisineStyle": "Dessert", "prepTimeMinutes": 25, "difficulty": "medium", "servings": 4, "estimatedCostEUR": 2.0, "calories": 380, "proteinG": 6, "carbsG": 42, "fatG": 22, "fiberG": 3, "sugarG": 30, "sodiumMg": 90, "requiredIngredients": ["chocolat", "beurre", "œufs", "farine"], "dietaryTags": ["vegetarian", "gourmet"], "steps": ["Préchauffez le four à 200°C.", "Faites fondre le chocolat et le beurre au bain-marie.", "Fouettez les œufs avec le sucre puis incorporez le mélange chocolat-beurre.", "Ajoutez la farine tamisée et mélangez délicatement.", "Versez dans un moule et enfournez 10 à 12 minutes pour un cœur coulant."], "imageSymbol": "birthday.cake.fill", "gradientStart": "F857A6", "gradientEnd": "FF5858"}, {"id": "dessert-salade-fruits", "name": "Salade de fruits frais", "mealCategory": "dessert", "cuisineStyle": "Dessert", "prepTimeMinutes": 10, "difficulty": "easy", "servings": 2, "estimatedCostEUR": 2.0, "calories": 160, "proteinG": 2, "carbsG": 38, "fatG": 1, "fiberG": 5, "sugarG": 30, "sodiumMg": 10, "requiredIngredients": ["pommes", "bananes", "orange", "raisin", "citron"], "dietaryTags": ["vegan", "glutenFree", "lactoseFree"], "steps": ["Coupez les pommes et les bananes en morceaux.", "Épluchez l'orange et détaillez-la en quartiers.", "Mélangez tous les fruits avec le raisin dans un saladier.", "Arrosez d'un filet de citron pour éviter l'oxydation et servez frais."], "imageSymbol": "birthday.cake.fill", "gradientStart": "A8E063", "gradientEnd": "56AB2F"}, {"id": "dessert-glace-fruits", "name": "Coupe glacée aux fruits rouges", "mealCategory": "dessert", "cuisineStyle": "Dessert", "prepTimeMinutes": 5, "difficulty": "easy", "servings": 2, "estimatedCostEUR": 2.6, "calories": 300, "proteinG": 5, "carbsG": 40, "fatG": 12, "fiberG": 3, "sugarG": 32, "sodiumMg": 60, "requiredIngredients": ["glace vanille", "fraises", "myrtilles", "miel"], "dietaryTags": ["vegetarian", "glutenFree"], "steps": ["Répartissez une boule de glace vanille dans chaque coupe.", "Ajoutez les fraises coupées et les myrtilles.", "Arrosez d'un filet de miel et servez immédiatement."], "imageSymbol": "birthday.cake.fill", "gradientStart": "43CEA2", "gradientEnd": "185A9D"}, {"id": "dessert-yaourt-miel", "name": "Yaourt grec au miel et noix", "mealCategory": "dessert", "cuisineStyle": "Dessert", "prepTimeMinutes": 5, "difficulty": "easy", "servings": 1, "estimatedCostEUR": 1.8, "calories": 240, "proteinG": 12, "carbsG": 22, "fatG": 11, "fiberG": 2, "sugarG": 18, "sodiumMg": 50, "requiredIngredients": ["yaourt", "miel", "noix"], "dietaryTags": ["vegetarian", "glutenFree"], "steps": ["Versez le yaourt dans un bol.", "Arrosez généreusement de miel.", "Parsemez de noix concassées avant de servir."], "imageSymbol": "birthday.cake.fill", "gradientStart": "FDC830", "gradientEnd": "F37335"}]</script>
+<script id="catalog-data" type="application/json">[{"name": "Tomates", "category": "vegetable"}, {"name": "Salade", "category": "vegetable"}, {"name": "Concombre", "category": "vegetable"}, {"name": "Oignon", "category": "vegetable"}, {"name": "Ail", "category": "vegetable"}, {"name": "Carottes", "category": "vegetable"}, {"name": "Poivrons", "category": "vegetable"}, {"name": "Courgette", "category": "vegetable"}, {"name": "Brocoli", "category": "vegetable"}, {"name": "Champignons", "category": "vegetable"}, {"name": "Pommes de terre", "category": "vegetable"}, {"name": "Épinards", "category": "vegetable"}, {"name": "Avocat", "category": "vegetable"}, {"name": "Pommes", "category": "fruit"}, {"name": "Bananes", "category": "fruit"}, {"name": "Citron", "category": "fruit"}, {"name": "Fraises", "category": "fruit"}, {"name": "Raisin", "category": "fruit"}, {"name": "Orange", "category": "fruit"}, {"name": "Myrtilles", "category": "fruit"}, {"name": "Poulet", "category": "meat"}, {"name": "Steak haché", "category": "meat"}, {"name": "Jambon", "category": "meat"}, {"name": "Lardons", "category": "meat"}, {"name": "Saucisses", "category": "meat"}, {"name": "Bacon", "category": "meat"}, {"name": "Saumon", "category": "fish"}, {"name": "Thon frais", "category": "fish"}, {"name": "Crevettes", "category": "fish"}, {"name": "Cabillaud", "category": "fish"}, {"name": "Lait", "category": "dairy"}, {"name": "Parmesan", "category": "dairy"}, {"name": "Cheddar", "category": "dairy"}, {"name": "Mozzarella", "category": "dairy"}, {"name": "Yaourt", "category": "dairy"}, {"name": "Crème fraîche", "category": "dairy"}, {"name": "Fromage blanc", "category": "dairy"}, {"name": "Feta", "category": "dairy"}, {"name": "Œufs", "category": "egg"}, {"name": "Jus d'orange", "category": "beverage"}, {"name": "Lait d'amande", "category": "beverage"}, {"name": "Eau gazeuse", "category": "beverage"}, {"name": "Ketchup", "category": "sauce"}, {"name": "Mayonnaise", "category": "sauce"}, {"name": "Moutarde", "category": "sauce"}, {"name": "Sauce soja", "category": "sauce"}, {"name": "Pesto", "category": "sauce"}, {"name": "Sauce tomate", "category": "sauce"}, {"name": "Vinaigrette", "category": "sauce"}, {"name": "Beurre de cacahuète", "category": "condiment"}, {"name": "Miel", "category": "condiment"}, {"name": "Confiture", "category": "condiment"}, {"name": "Huile d'olive", "category": "condiment"}, {"name": "Vinaigre balsamique", "category": "condiment"}, {"name": "Beurre", "category": "butter"}, {"name": "Sel", "category": "spice"}, {"name": "Poivre", "category": "spice"}, {"name": "Basilic", "category": "spice"}, {"name": "Persil", "category": "spice"}, {"name": "Cumin", "category": "spice"}, {"name": "Paprika", "category": "spice"}, {"name": "Curry en poudre", "category": "spice"}, {"name": "Haricots rouges en conserve", "category": "canned"}, {"name": "Maïs en conserve", "category": "canned"}, {"name": "Thon en conserve", "category": "canned"}, {"name": "Pois chiches", "category": "canned"}, {"name": "Chocolat", "category": "dessert"}, {"name": "Glace vanille", "category": "dessert"}, {"name": "Yaourt sucré", "category": "dessert"}, {"name": "Légumes surgelés", "category": "frozen"}, {"name": "Pizza surgelée", "category": "frozen"}, {"name": "Frites surgelées", "category": "frozen"}]</script>
+<script>
+"use strict";
+const RECIPES = JSON.parse(document.getElementById('recipes-data').textContent);
+const CATALOG = JSON.parse(document.getElementById('catalog-data').textContent);
+
+const CATS = [
+  { id: "breakfast", label: "Petit-déjeuner", icon: "sunrise", target: 3 },
+  { id: "lunch", label: "Déjeuner", icon: "sun", target: 5 },
+  { id: "dinner", label: "Dîner", icon: "moon", target: 5 },
+  { id: "afternoonSnack", label: "Goûter", icon: "cup", target: 3 },
+  { id: "snack", label: "Snack", icon: "bag", target: 3 },
+  { id: "dessert", label: "Dessert", icon: "cake", target: 3 },
+];
+
+const FILTERS = [
+  { id: "highProtein", label: "Riche en protéines" },
+  { id: "lowCalorie", label: "Faible en calories" },
+  { id: "bulking", label: "Prise de masse" },
+  { id: "weightLoss", label: "Perte de poids" },
+  { id: "vegetarian", label: "Végétarien" },
+  { id: "vegan", label: "Vegan" },
+  { id: "lactoseFree", label: "Sans lactose" },
+  { id: "glutenFree", label: "Sans gluten" },
+  { id: "quick", label: "Rapide (< 15 min)" },
+  { id: "economical", label: "Économique" },
+  { id: "gourmet", label: "Gourmand" },
+];
+
+const ICONS = {
+  camera: '<path d="M4 8.5A1.5 1.5 0 0 1 5.5 7h2l1-2h7l1 2h2A1.5 1.5 0 0 1 20 8.5v9A1.5 1.5 0 0 1 18.5 19h-13A1.5 1.5 0 0 1 4 17.5v-9Z"/><circle cx="12" cy="13" r="3.4"/>',
+  image: '<rect x="4" y="5" width="16" height="14" rx="2.4"/><circle cx="9" cy="10" r="1.6"/><path d="m5 17 4.8-5 3.4 3.6 2.3-2.6L20 17"/>',
+  fridge: '<rect x="6" y="3" width="12" height="18" rx="2.2"/><line x1="6" y1="10.5" x2="18" y2="10.5"/><line x1="9" y1="6.2" x2="9" y2="8"/><line x1="9" y1="13.5" x2="9" y2="15.3"/>',
+  heart: '<path d="M12 20.2S4 15.4 4 9.7A4.3 4.3 0 0 1 12 7a4.3 4.3 0 0 1 8 2.7c0 5.7-8 10.5-8 10.5Z"/>',
+  heartFill: '<path d="M12 20.2S4 15.4 4 9.7A4.3 4.3 0 0 1 12 7a4.3 4.3 0 0 1 8 2.7c0 5.7-8 10.5-8 10.5Z" fill="currentColor" stroke="none"/>',
+  clock: '<circle cx="12" cy="12" r="8.2"/><path d="M12 7.6V12l3 2"/>',
+  sliders: '<line x1="5" y1="7" x2="19" y2="7"/><circle cx="15" cy="7" r="1.8" fill="var(--cream,#fff)"/><line x1="5" y1="13" x2="19" y2="13"/><circle cx="9" cy="13" r="1.8" fill="var(--cream,#fff)"/><line x1="5" y1="19" x2="19" y2="19"/><circle cx="13" cy="19" r="1.8" fill="var(--cream,#fff)"/>',
+  chevLeft: '<path d="M14.5 5.5 8 12l6.5 6.5"/>',
+  chevRight: '<path d="M9.5 5.5 16 12l-6.5 6.5"/>',
+  close: '<path d="m6 6 12 12M18 6 6 18"/>',
+  check: '<circle cx="12" cy="12" r="9"/><path d="m7.5 12.3 3 3 6-6.4"/>',
+  cart: '<path d="M4 5h2l1.6 9.4a1.6 1.6 0 0 0 1.6 1.3h6.8a1.6 1.6 0 0 0 1.6-1.3L19 8H7"/><circle cx="10" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/>',
+  flame: '<path d="M12 3.5s4.5 3.6 4.5 8a4.5 4.5 0 1 1-9 0c0-1.2.5-2 1.1-2.9.4.9 1.2 1.4 1.9 1.1-.4-2 .3-4.4 1.5-6.2Z"/>',
+  timer: '<circle cx="12" cy="13" r="8"/><line x1="12" y1="13" x2="12" y2="8.6"/><line x1="9" y1="2.5" x2="15" y2="2.5"/>',
+  person: '<circle cx="12" cy="8" r="3.4"/><path d="M5 20c1-3.8 4-5.6 7-5.6s6 1.8 7 5.6"/>',
+  euro: '<path d="M15.5 6.2A6 6 0 1 0 15.5 17.8"/><line x1="4.5" y1="10" x2="13" y2="10"/><line x1="4.5" y1="13" x2="12" y2="13"/>',
+  sunrise: '<path d="M4 15h16M6.5 15a5.5 5.5 0 0 1 11 0"/><path d="M12 7V4M6 9l-1.8-1.8M18 9l1.8-1.8"/><path d="M2 19h20"/>',
+  sun: '<circle cx="12" cy="12" r="4.2"/><path d="M12 3v2.2M12 18.8V21M4.2 12H2M22 12h-2.2M5.5 5.5l1.5 1.5M17 17l1.5 1.5M18.5 5.5 17 7M7 17l-1.5 1.5"/>',
+  moon: '<path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/>',
+  cup: '<path d="M5 8h11v6a4.5 4.5 0 0 1-4.5 4.5H9.5A4.5 4.5 0 0 1 5 14V8Z"/><path d="M16 9.5h1.3a2.2 2.2 0 0 1 0 4.4H16"/><line x1="7" y1="4.2" x2="7" y2="6.2"/><line x1="10.3" y1="3.5" x2="10.3" y2="6.2"/>',
+  bag: '<path d="M6.5 8h11l1 11.2a1.8 1.8 0 0 1-1.8 2H7.3a1.8 1.8 0 0 1-1.8-2L6.5 8Z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/>',
+  cake: '<path d="M4 20h16v-6.3a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2V20Z"/><path d="M4 20v-2.4h16V20"/><path d="M9 11.7v-2M12 11.7v-2M15 11.7v-2"/><path d="M12 6.4c1 0 1-1.2 0-2s-1-1.2 0-2"/>',
+  fork: '<path d="M8 3v6.5a2.2 2.2 0 0 0 4.4 0V3M10.2 9.5V21M16 3v7c0 1.4 1 2.3 2 2.3V21"/>',
+};
+function icon(name, extra) {
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" ' + (extra||'') + '>' + (ICONS[name]||'') + '</svg>';
+}
+
+/* ---------- palette for placeholder dish art ---------- */
+const PALETTES = {
+  frying: ["#FF9966", "#FF5E62"], leaf: ["#84FAB0", "#8FD3F4"], fork: ["#F6D365", "#FDA085"],
+  fish: ["#43CEA2", "#185A9D"], cup: ["#FCCF31", "#F55555"], flame: ["#FDC830", "#F37335"],
+  cake: ["#F857A6", "#FF5858"], basket: ["#A8E063", "#56AB2F"], pink: ["#FFAFBD", "#FFC3A0"],
+};
+function paletteFor(symbol) {
+  const map = { "frying.pan.fill": "frying", "leaf.fill": "leaf", "fork.knife": "fork", "fish.fill": "fish",
+    "cup.and.saucer.fill": "cup", "flame.fill": "flame", "birthday.cake.fill": "cake", "basket.fill": "basket" };
+  return PALETTES[map[symbol] || "frying"];
+}
+function symbolIcon(symbol) {
+  const map = { "frying.pan.fill": "flame", "leaf.fill": "fork", "fork.knife": "fork", "fish.fill": "fork",
+    "cup.and.saucer.fill": "cup", "flame.fill": "flame", "birthday.cake.fill": "cake", "basket.fill": "bag" };
+  return map[symbol] || "fork";
+}
+function dishStyle(recipe) {
+  const c = [recipe.gradientStart, recipe.gradientEnd];
+  return "background:linear-gradient(135deg,#" + c[0] + ",#" + c[1] + ")";
+}
+
+const esc = (s) => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+
+/* ================= STATE ================= */
+const state = {
+  tab: "home",
+  stack: [],
+  favorites: loadJSON("frigo_favorites", []),
+  history: loadJSON("frigo_history", []),
+  activeFilters: new Set(),
+  pendingImage: null,
+};
+function loadJSON(key, fallback) { try { const v = JSON.parse(localStorage.getItem(key)); return v || fallback; } catch { return fallback; } }
+function saveFavorites() { localStorage.setItem("frigo_favorites", JSON.stringify(state.favorites)); }
+function saveHistory() { localStorage.setItem("frigo_history", JSON.stringify(state.history)); }
+function isFavorite(id) { return state.favorites.some(r => r.id === id); }
+function toggleFavorite(recipe) {
+  if (isFavorite(recipe.id)) { state.favorites = state.favorites.filter(r => r.id !== recipe.id); toast("Retiré des favoris"); }
+  else { state.favorites = [recipe, ...state.favorites]; toast("Ajouté aux favoris"); }
+  saveFavorites();
+}
+function toast(msg) {
+  const el = document.getElementById("toast");
+  el.textContent = msg; el.classList.add("show");
+  clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove("show"), 1600);
+}
+
+/* ================= MATCHING LOGIC (mirrors Swift Recipe.matches) ================= */
+function matchesFilter(r, f) {
+  switch (f) {
+    case "highProtein": return r.nutrition.proteinG >= 20;
+    case "lowCalorie": return r.nutrition.calories <= 450;
+    case "bulking": return r.nutrition.calories >= 500;
+    case "weightLoss": return r.nutrition.calories <= 400;
+    case "quick": return r.prepTimeMinutes <= 15;
+    case "economical": return r.estimatedCostEUR <= 4;
+    default: return r.dietaryTags.includes(f);
+  }
+}
+function buildRecipe(template, availableNames) {
+  const req = template.requiredIngredients.map(s => s.toLowerCase());
+  const used = req.filter(n => availableNames.has(n));
+  const missing = req.filter(n => !availableNames.has(n));
+  return {
+    id: template.id, name: template.name, mealCategory: template.mealCategory, cuisineStyle: template.cuisineStyle,
+    prepTimeMinutes: template.prepTimeMinutes, difficulty: template.difficulty, servings: template.servings,
+    estimatedCostEUR: template.estimatedCostEUR,
+    nutrition: { calories: template.calories, proteinG: template.proteinG, carbsG: template.carbsG, fatG: template.fatG, fiberG: template.fiberG, sugarG: template.sugarG, sodiumMg: template.sodiumMg },
+    usedIngredients: used, missingIngredients: missing, dietaryTags: template.dietaryTags, steps: template.steps,
+    imageSymbol: template.imageSymbol, gradientStart: template.gradientStart, gradientEnd: template.gradientEnd,
+  };
+}
+function generateRecipesByCategory(ingredients, filters) {
+  const availableNames = new Set(ingredients.map(i => i.name.toLowerCase()));
+  const out = {};
+  for (const cat of CATS) {
+    let list = RECIPES.filter(t => t.mealCategory === cat.id).map(t => buildRecipe(t, availableNames));
+    if (filters.size) list = list.filter(r => [...filters].every(f => matchesFilter(r, f)));
+    list.sort((a, b) => (a.missingIngredients.length - b.missingIngredients.length) || (b.usedIngredients.length - a.usedIngredients.length));
+    out[cat.id] = list.slice(0, cat.target);
+  }
+  return out;
+}
+function detectIngredients() {
+  const shuffled = [...CATALOG].sort(() => Math.random() - 0.5);
+  const count = 12 + Math.floor(Math.random() * 9);
+  return shuffled.slice(0, count).map(i => ({ name: i.name, category: i.category, confidence: 0.62 + Math.random() * 0.37 }))
+    .sort((a, b) => b.confidence - a.confidence);
+}
+
+/* ================= RENDER: HOME ================= */
+function renderHome() {
+  document.getElementById("home-scroll").innerHTML = `
+    <div class="hero">
+      <div class="badge">${icon("fridge", 'width="40" height="40"')}</div>
+      <h1>FrigoChef AI</h1>
+      <p class="sub">Photographiez votre frigo, on s'occupe du reste.</p>
+    </div>
+    <div class="actions">
+      <button class="bigbtn primary focus-ring" id="btnCamera">${icon("camera", 'width="30" height="30"')}<span>Prendre une photo</span></button>
+      <button class="bigbtn secondary focus-ring" id="btnGallery">${icon("image", 'width="30" height="30"')}<span>Choisir une photo</span></button>
+    </div>
+    <div class="tiplist">
+      <div class="tiprow">${icon("sun", 'width="18" height="18"')}<span>Notre IA identifie légumes, viandes, sauces, boissons et plus encore.</span></div>
+      <div class="tiprow">${icon("fork", 'width="18" height="18"')}<span>Recevez des idées de repas réalistes, sans rien saisir.</span></div>
+      <div class="tiprow">${icon("heart", 'width="18" height="18"')}<span>Enregistrez vos recettes préférées pour les retrouver hors connexion.</span></div>
+    </div>
+  `;
+  document.getElementById("btnCamera").onclick = () => document.getElementById("cameraInput").click();
+  document.getElementById("btnGallery").onclick = () => document.getElementById("galleryInput").click();
+}
+
+/* ================= RENDER: RECIPE CARD ================= */
+function recipeCardHTML(r) {
+  const fav = isFavorite(r.id);
+  return `
+    <button class="rcard focus-ring" data-open-recipe="${esc(r.id)}">
+      <div class="rthumb" style="${dishStyle(r)}">
+        ${icon(symbolIcon(r.imageSymbol), 'width="34" height="34"')}
+        <span class="heart">${icon(fav ? "heartFill" : "heart", 'width="13" height="13"')}</span>
+      </div>
+      <div class="rbody">
+        <div class="rstyle">${esc(r.cuisineStyle)}</div>
+        <div class="rname">${esc(r.name)}</div>
+        <div class="rmeta">
+          <span>${icon("clock", 'width="12" height="12"')}${r.prepTimeMinutes} min</span>
+          <span>${icon("flame", 'width="12" height="12"')}${r.nutrition.calories} kcal</span>
+        </div>
+        ${r.missingIngredients.length ? `<div class="rmissing">${r.missingIngredients.length} ingrédient(s) à acheter</div>` : `<div class="rok">Tout est déjà dans votre frigo</div>`}
+      </div>
+    </button>`;
+}
+
+/* ================= RENDER: RESULTS (pushed screen) ================= */
+function resultsScreenHTML(session) {
+  const cats = CATS.map(cat => {
+    const list = session.recipesByCategory[cat.id] || [];
+    if (!list.length) return "";
+    return `
+      <div class="sectionhead">
+        <span class="label">${icon(cat.icon, 'width="20" height="20"')}${cat.label}</span>
+        <span class="count">${list.length} idée${list.length > 1 ? "s" : ""}</span>
+      </div>
+      <div class="railwrap"><div class="rail">${list.map(recipeCardHTML).join("")}</div></div>`;
+  }).join("");
+
+  const ingredientsHTML = session.ingredients.map(i => {
+    const pct = Math.round(i.confidence * 100);
+    const color = pct >= 85 ? "var(--success)" : pct >= 60 ? "var(--warning)" : "var(--danger)";
+    return `<span class="chip">${esc(i.name)} <span class="pct" style="color:${color}">${pct}%</span></span>`;
+  }).join("");
+
+  const anyRecipes = CATS.some(c => (session.recipesByCategory[c.id] || []).length);
+
+  return `
+    <div class="topbar">
+      <button class="iconbtn focus-ring" data-pop>${icon("chevLeft", 'width="18" height="18"')}</button>
+      <div class="navtitle">Vos recettes</div>
+      <button class="iconbtn focus-ring" id="btnOpenFilters" style="position:relative">${icon("sliders", 'width="17" height="17"')}${state.activeFilters.size ? '<span class="badge-dot"></span>' : ""}</button>
+    </div>
+    <div class="scroll" style="padding-bottom:calc(96px + var(--safe-bottom))">
+      <div class="sectionhead"><span class="label">${icon("check", 'width="20" height="20"')}Ingrédients détectés</span><span class="count">${session.ingredients.length}</span></div>
+      <div class="chiprow">${ingredientsHTML}</div>
+      ${anyRecipes ? cats : `<div class="empty"><div class="ico">${icon("sliders",'width="34" height="34"')}</div><h3>Aucune recette ne correspond</h3><p>Essayez de retirer un ou plusieurs filtres.</p></div>`}
+    </div>`;
+}
+
+/* ================= RENDER: RECIPE DETAIL (pushed screen) ================= */
+function detailScreenHTML(recipe) {
+  const fav = isFavorite(recipe.id);
+  const n = recipe.nutrition;
+  const diffMap = { easy: { n: 1, label: "Facile", c: "var(--success)" }, medium: { n: 2, label: "Moyen", c: "var(--warning)" }, hard: { n: 3, label: "Difficile", c: "var(--danger)" } };
+  const d = diffMap[recipe.difficulty];
+  const dots = [1, 2, 3].map(i => `<i class="${i <= d.n ? "on" : ""}" style="--dc:${d.c}"></i>`).join("");
+
+  return `
+    <div class="scroll" style="padding-bottom:calc(96px + var(--safe-bottom))">
+      <div class="topbar" style="position:absolute; width:100%; z-index:2; background:transparent; backdrop-filter:none;">
+        <button class="iconbtn focus-ring" data-pop>${icon("chevLeft", 'width="18" height="18"')}</button>
+        <div class="navtitle"></div>
+        <button class="iconbtn focus-ring ${fav ? "filled-coral" : ""}" data-fav="${esc(recipe.id)}">${icon(fav ? "heartFill" : "heart", 'width="16" height="16"')}</button>
+      </div>
+      <div class="rhero" style="${dishStyle(recipe)}">
+        <div>
+          <div class="style">${esc(recipe.cuisineStyle)}</div>
+          <h2>${esc(recipe.name)}</h2>
+        </div>
+      </div>
+      <div class="factrow">
+        <div class="fact">${icon("clock", 'width="17" height="17"')}<div class="v">${recipe.prepTimeMinutes} min</div><div class="l">Préparation</div></div>
+        <div class="fact"><div class="dotrating" style="justify-content:center;margin:1px 0">${dots}</div><div class="v">${d.label}</div><div class="l">Difficulté</div></div>
+        <div class="fact">${icon("person", 'width="17" height="17"')}<div class="v">${recipe.servings}</div><div class="l">Portions</div></div>
+        <div class="fact">${icon("euro", 'width="17" height="17"')}<div class="v">${recipe.estimatedCostEUR.toFixed(2)} €</div><div class="l">Coût estimé</div></div>
+      </div>
+
+      <div class="sectionhead"><span class="label">Valeurs nutritionnelles</span><span class="count">par portion</span></div>
+      <div class="nutgrid">
+        <div class="nut">${icon("flame",'width="15" height="15"')}<div class="v">${n.calories} kcal</div><div class="l">Calories</div></div>
+        <div class="nut"><div class="v">${n.proteinG}g</div><div class="l">Protéines</div></div>
+        <div class="nut"><div class="v">${n.carbsG}g</div><div class="l">Glucides</div></div>
+        <div class="nut"><div class="v">${n.fatG}g</div><div class="l">Lipides</div></div>
+        <div class="nut"><div class="v">${n.fiberG}g</div><div class="l">Fibres</div></div>
+        <div class="nut"><div class="v">${n.sugarG}g</div><div class="l">Sucres</div></div>
+      </div>
+
+      <div class="sectionhead"><span class="label">${icon("check",'width="20" height="20"')}Ingrédients utilisés</span></div>
+      <div class="chiprow">${recipe.usedIngredients.map(i => `<span class="chip used">${icon("check",'width="13" height="13"')}${esc(cap(i))}</span>`).join("") || `<span class="chip">Aucun ingrédient du frigo requis</span>`}</div>
+
+      ${recipe.missingIngredients.length ? `
+      <div class="sectionhead"><span class="label">${icon("cart",'width="20" height="20"')}Ingrédients à acheter</span></div>
+      <div class="chiprow">${recipe.missingIngredients.map(i => `<span class="chip missing">${icon("cart",'width="13" height="13"')}${esc(cap(i))}</span>`).join("")}</div>` : ""}
+
+      <div class="sectionhead"><span class="label">Étapes de préparation</span></div>
+      <div class="steps">${recipe.steps.map((s, i) => `<div class="step"><div class="n">${i + 1}</div><p>${esc(s)}</p></div>`).join("")}</div>
+    </div>`;
+}
+function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+/* ================= RENDER: FAVORITES / HISTORY ================= */
+function renderFavorites() {
+  const el = document.getElementById("favorites-scroll");
+  if (!state.favorites.length) {
+    el.innerHTML = `<div class="topbar"><div class="navtitle" style="margin:0">Favoris</div></div>
+      <div class="empty"><div class="ico">${icon("heart",'width="34" height="34"')}</div><h3>Aucune recette enregistrée</h3><p>Appuyez sur le cœur d'une recette pour la retrouver ici, même hors connexion.</p></div>`;
+    return;
+  }
+  el.innerHTML = `<div class="topbar"><div class="navtitle" style="margin:0">Favoris</div></div>
+    <div class="grid2">${state.favorites.map(recipeCardHTML).join("")}</div>`;
+}
+function renderHistory() {
+  const el = document.getElementById("history-scroll");
+  if (!state.history.length) {
+    el.innerHTML = `<div class="topbar"><div class="navtitle" style="margin:0">Historique</div></div>
+      <div class="empty"><div class="ico">${icon("clock",'width="34" height="34"')}</div><h3>Aucun historique</h3><p>Vos analyses de frigo apparaîtront ici, consultables même sans connexion.</p></div>`;
+    return;
+  }
+  const rows = state.history.map((h, idx) => `
+    <button class="hrow focus-ring" style="width:100%;text-align:left" data-open-history="${idx}">
+      ${h.thumb ? `<img class="thumb" src="${h.thumb}">` : `<div class="thumb" style="${dishStyle({gradientStart:'FF9966',gradientEnd:'FF5E62'})}">${icon("fridge",'width="22" height="22"')}</div>`}
+      <div class="meta">
+        <div class="date">${new Date(h.date).toLocaleDateString("fr-FR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}</div>
+        <div class="sub2">${h.ingredients.length} ingrédients · ${Object.values(h.recipesByCategory).reduce((a, l) => a + l.length, 0)} recettes</div>
+      </div>
+      ${icon("chevRight", 'class="chev"')}
+    </button>${idx < state.history.length - 1 ? '<div class="divider"></div>' : ""}`).join("");
+  el.innerHTML = `<div class="topbar"><div class="navtitle" style="margin:0">Historique</div></div>${rows}`;
+}
+
+/* ================= NAVIGATION (stack) ================= */
+function pushScreen(html, opts) {
+  const wrap = document.createElement("div");
+  wrap.className = "screen";
+  wrap.innerHTML = html;
+  document.getElementById("stack").appendChild(wrap);
+  state.stack.push({ el: wrap, ...opts });
+  requestAnimationFrame(() => requestAnimationFrame(() => wrap.classList.add("in")));
+  bindScreenEvents(wrap);
+  return wrap;
+}
+function popScreen() {
+  const top = state.stack.pop();
+  if (!top) return;
+  top.el.classList.remove("in");
+  setTimeout(() => top.el.remove(), 340);
+  if (top.onPop) top.onPop();
+}
+function bindScreenEvents(scope) {
+  scope.querySelectorAll("[data-pop]").forEach(b => b.onclick = () => popScreen());
+  scope.querySelectorAll("[data-open-recipe]").forEach(b => b.onclick = () => {
+    const r = findRecipeById(b.getAttribute("data-open-recipe"));
+    if (r) pushScreen(detailScreenHTML(r));
+  });
+  scope.querySelectorAll("[data-fav]").forEach(b => b.onclick = () => {
+    const r = findRecipeById(b.getAttribute("data-fav"));
+    if (r) { toggleFavorite(r); const html = detailScreenHTML(r); scope.innerHTML = html; bindScreenEvents(scope); requestAnimationFrame(()=>scope.classList.add("in")); renderFavorites(); }
+  });
+  const filtersBtn = scope.querySelector("#btnOpenFilters");
+  if (filtersBtn) filtersBtn.onclick = openFilterSheet;
+}
+let lastSession = null;
+function findRecipeById(id) {
+  if (lastSession) { for (const cat of CATS) { const hit = (lastSession.recipesByCategory[cat.id] || []).find(r => r.id === id); if (hit) return hit; } }
+  const fav = state.favorites.find(r => r.id === id);
+  if (fav) return fav;
+  for (const h of state.history) for (const cat of CATS) { const hit = (h.recipesByCategory[cat.id] || []).find(r => r.id === id); if (hit) return hit; }
+  return null;
+}
+
+/* ================= ANALYSIS FLOW ================= */
+const STAGES = [
+  { title: "Analyse de votre réfrigérateur…", sub: "Votre photo est en cours de traitement.", icon: "fridge" },
+  { title: "Identification des ingrédients…", sub: "Notre IA repère légumes, fruits, produits laitiers et plus encore.", icon: "check" },
+  { title: "Génération de recettes…", sub: "Des idées de repas réalistes sont en préparation.", icon: "fork" },
+];
+function analysisScreenHTML() {
+  return `<div class="analysiswrap">
+    <div class="ring">
+      <svg viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="42" fill="none" stroke-width="9"/><circle class="bar" cx="50" cy="50" r="42" fill="none" stroke-width="9" stroke-dasharray="66 198"/></svg>
+      <div class="center" id="stageIcon">${icon(STAGES[0].icon, 'width="42" height="42"')}</div>
+    </div>
+    <div>
+      <h2 id="stageTitle">${STAGES[0].title}</h2>
+      <p class="sub" id="stageSub">${STAGES[0].sub}</p>
+    </div>
+    <div class="dots">${STAGES.map((_, i) => `<i class="${i === 0 ? "on" : ""}"></i>`).join("")}</div>
+  </div>`;
+}
+function startAnalysis(dataUrl) {
+  const screen = pushScreen(analysisScreenHTML());
+  let stageIdx = 0;
+  function setStage(i) {
+    stageIdx = i;
+    screen.querySelector("#stageTitle").textContent = STAGES[i].title;
+    screen.querySelector("#stageSub").textContent = STAGES[i].sub;
+    screen.querySelector("#stageIcon").innerHTML = icon(STAGES[i].icon, 'width="42" height="42"');
+    screen.querySelectorAll(".dots i").forEach((d, di) => d.classList.toggle("on", di === i));
+  }
+  setTimeout(() => setStage(1), 900);
+  setTimeout(() => setStage(2), 2300);
+  setTimeout(() => {
+    const ingredients = detectIngredients();
+    const recipesByCategory = generateRecipesByCategory(ingredients, state.activeFilters);
+    const session = { id: "a" + Date.now(), date: Date.now(), thumb: dataUrl, ingredients, recipesByCategory };
+    lastSession = session;
+    state.history = [session, ...state.history].slice(0, 30);
+    saveHistory();
+    popScreen();
+    pushScreen(resultsScreenHTML(session), {});
+  }, 3500);
+}
+
+/* ================= FILTER SHEET ================= */
+function openFilterSheet() {
+  const bg = document.getElementById("sheetbg"), sheet = document.getElementById("sheet");
+  const draft = new Set(state.activeFilters);
+  function render() {
+    sheet.innerHTML = `
+      <div class="grabber"></div>
+      <div class="shead"><h3>Filtres</h3><button id="applyF">Appliquer</button></div>
+      <div class="sbody">${FILTERS.map(f => `<button class="chip filter ${draft.has(f.id) ? "on" : ""} focus-ring" data-f="${f.id}">${esc(f.label)}</button>`).join("")}</div>
+      <div class="sfoot"><button class="bigbtn secondary" id="resetF" style="background:var(--card);color:var(--ink);box-shadow:none;border:1px solid var(--line)">Réinitialiser</button></div>`;
+    sheet.querySelectorAll("[data-f]").forEach(b => b.onclick = () => { const id = b.getAttribute("data-f"); draft.has(id) ? draft.delete(id) : draft.add(id); render(); });
+    sheet.querySelector("#resetF").onclick = () => { draft.clear(); render(); };
+    sheet.querySelector("#applyF").onclick = () => {
+      state.activeFilters = new Set(draft);
+      closeSheet();
+      if (lastSession) { lastSession.recipesByCategory = generateRecipesByCategory(lastSession.ingredients, state.activeFilters); refreshTopResultsScreen(); }
+    };
+  }
+  render();
+  bg.classList.add("show"); sheet.classList.add("show");
+  bg.onclick = closeSheet;
+}
+function closeSheet() { document.getElementById("sheetbg").classList.remove("show"); document.getElementById("sheet").classList.remove("show"); }
+function refreshTopResultsScreen() {
+  const top = state.stack[state.stack.length - 1];
+  if (!top || !lastSession) return;
+  top.el.innerHTML = resultsScreenHTML(lastSession);
+  bindScreenEvents(top.el);
+}
+
+/* ================= HISTORY OPEN ================= */
+document.addEventListener("click", (e) => {
+  const histBtn = e.target.closest("[data-open-history]");
+  if (histBtn) { const idx = +histBtn.getAttribute("data-open-history"); lastSession = state.history[idx]; pushScreen(resultsScreenHTML(lastSession)); }
+});
+
+/* ================= FILE INPUTS ================= */
+function handleFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => startAnalysis(reader.result);
+  reader.readAsDataURL(file);
+  input.value = "";
+}
+document.getElementById("cameraInput").onchange = e => handleFile(e.target);
+document.getElementById("galleryInput").onchange = e => handleFile(e.target);
+
+/* ================= TAB BAR ================= */
+function setTabIcons() {
+  document.querySelectorAll(".tabbtn")[0].innerHTML = icon("fridge", 'width="24" height="24"') + '<span class="tabbar-label">Frigo</span>';
+  document.querySelectorAll(".tabbtn")[1].innerHTML = icon("heart", 'width="24" height="24"') + '<span class="tabbar-label">Favoris</span>';
+  document.querySelectorAll(".tabbtn")[2].innerHTML = icon("clock", 'width="24" height="24"') + '<span class="tabbar-label">Historique</span>';
+}
+function clearStack() {
+  state.stack.forEach(s => s.el.remove());
+  state.stack = [];
+  closeSheet();
+}
+document.querySelectorAll(".tabbtn").forEach(btn => btn.addEventListener("click", () => {
+  const tab = btn.getAttribute("data-tab");
+  state.tab = tab;
+  clearStack();
+  document.querySelectorAll(".tabpanel").forEach(p => p.classList.toggle("active", p.id === tab));
+  document.querySelectorAll(".tabbtn").forEach(b => b.classList.toggle("active", b === btn));
+  if (tab === "favorites") renderFavorites();
+  if (tab === "history") renderHistory();
+}));
+
+/* ================= INIT ================= */
+setTabIcons();
+renderHome();
+renderFavorites();
+renderHistory();
+</script>

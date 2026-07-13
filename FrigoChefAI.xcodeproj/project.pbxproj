@@ -1,0 +1,830 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		000000000000000000100004 /* FrigoChefAIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100003 /* FrigoChefAIApp.swift */; };
+		000000000000000000100008 /* AnalysisProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100007 /* AnalysisProgressView.swift */; };
+		00000000000000000010000A /* DishImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100009 /* DishImageView.swift */; };
+		00000000000000000010000C /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000010000B /* EmptyStateView.swift */; };
+		00000000000000000010000E /* FavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000010000D /* FavoriteButton.swift */; };
+		000000000000000000100010 /* FilterChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000010000F /* FilterChip.swift */; };
+		000000000000000000100012 /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100011 /* FlowLayout.swift */; };
+		000000000000000000100014 /* IngredientChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100013 /* IngredientChip.swift */; };
+		000000000000000000100016 /* NutritionStatsGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100015 /* NutritionStatsGrid.swift */; };
+		000000000000000000100018 /* PrimaryActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100017 /* PrimaryActionButton.swift */; };
+		00000000000000000010001A /* RecipeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100019 /* RecipeCard.swift */; };
+		00000000000000000010001C /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000010001B /* SectionHeader.swift */; };
+		00000000000000000010001F /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000010001E /* AppColors.swift */; };
+		000000000000000000100021 /* AppGradients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100020 /* AppGradients.swift */; };
+		000000000000000000100023 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100022 /* Typography.swift */; };
+		000000000000000000100026 /* AppRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100025 /* AppRoute.swift */; };
+		000000000000000000100028 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100027 /* RootView.swift */; };
+		00000000000000000010002A /* RouteDestinationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100029 /* RouteDestinationView.swift */; };
+		00000000000000000010002E /* AnalysisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000010002D /* AnalysisView.swift */; };
+		000000000000000000100030 /* AnalysisViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000010002F /* AnalysisViewModel.swift */; };
+		000000000000000000100033 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100032 /* FavoritesView.swift */; };
+		000000000000000000100035 /* FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100034 /* FavoritesViewModel.swift */; };
+		000000000000000000100038 /* FiltersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100037 /* FiltersView.swift */; };
+		00000000000000000010003B /* HistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000010003A /* HistoryView.swift */; };
+		00000000000000000010003D /* HistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000010003C /* HistoryViewModel.swift */; };
+		000000000000000000100040 /* HomeFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000010003F /* HomeFlowView.swift */; };
+		000000000000000000100042 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100041 /* HomeView.swift */; };
+		000000000000000000100044 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100043 /* HomeViewModel.swift */; };
+		000000000000000000100047 /* RecipeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100046 /* RecipeDetailView.swift */; };
+		000000000000000000100049 /* RecipeDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100048 /* RecipeDetailViewModel.swift */; };
+		00000000000000000010004C /* ResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000010004B /* ResultsView.swift */; };
+		00000000000000000010004E /* ResultsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000010004D /* ResultsViewModel.swift */; };
+		000000000000000000100051 /* DetectedIngredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100050 /* DetectedIngredient.swift */; };
+		000000000000000000100053 /* DietaryFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100052 /* DietaryFilter.swift */; };
+		000000000000000000100055 /* FridgeAnalysis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100054 /* FridgeAnalysis.swift */; };
+		000000000000000000100057 /* IngredientCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100056 /* IngredientCategory.swift */; };
+		000000000000000000100059 /* MealCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100058 /* MealCategory.swift */; };
+		00000000000000000010005B /* NutritionInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000010005A /* NutritionInfo.swift */; };
+		00000000000000000010005D /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000010005C /* Recipe.swift */; };
+		00000000000000000010005F /* RecipeDifficulty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000010005E /* RecipeDifficulty.swift */; };
+		000000000000000000100061 /* RecipeStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100060 /* RecipeStep.swift */; };
+		000000000000000000100063 /* RecipeTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100062 /* RecipeTemplate.swift */; };
+		000000000000000000100066 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100065 /* Assets.xcassets */; };
+		00000000000000000010006A /* ingredients_catalog.json in Resources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100069 /* ingredients_catalog.json */; };
+		00000000000000000010008D /* ingredients_catalog.json in Resources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100069 /* ingredients_catalog.json */; };
+		00000000000000000010006C /* recipes.json in Resources */ = {isa = PBXBuildFile; fileRef = 00000000000000000010006B /* recipes.json */; };
+		00000000000000000010008E /* recipes.json in Resources */ = {isa = PBXBuildFile; fileRef = 00000000000000000010006B /* recipes.json */; };
+		000000000000000000100070 /* RecipeGenerationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000010006F /* RecipeGenerationService.swift */; };
+		000000000000000000100072 /* VisionAnalysisService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100071 /* VisionAnalysisService.swift */; };
+		000000000000000000100074 /* AppDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100073 /* AppDependencies.swift */; };
+		000000000000000000100077 /* DishImageProviding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100076 /* DishImageProviding.swift */; };
+		00000000000000000010007A /* CameraCaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100079 /* CameraCaptureView.swift */; };
+		00000000000000000010007C /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000010007B /* PhotoPickerView.swift */; };
+		00000000000000000010007F /* FavoritesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000010007E /* FavoritesStore.swift */; };
+		000000000000000000100081 /* HistoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100080 /* HistoryStore.swift */; };
+		000000000000000000100083 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100082 /* PersistenceController.swift */; };
+		000000000000000000100085 /* PersistenceModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100084 /* PersistenceModels.swift */; };
+		000000000000000000100088 /* FavoritesStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100087 /* FavoritesStoreTests.swift */; };
+		00000000000000000010008A /* MockServicesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 000000000000000000100089 /* MockServicesTests.swift */; };
+		00000000000000000010008C /* RecipeMatchingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00000000000000000010008B /* RecipeMatchingTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0000000000000000001000A5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 000000000000000000100093 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 000000000000000000100094;
+			remoteInfo = FrigoChefAI;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		000000000000000000100003 /* FrigoChefAIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrigoChefAIApp.swift; sourceTree = "<group>"; };
+		000000000000000000100007 /* AnalysisProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisProgressView.swift; sourceTree = "<group>"; };
+		000000000000000000100009 /* DishImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishImageView.swift; sourceTree = "<group>"; };
+		00000000000000000010000B /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
+		00000000000000000010000D /* FavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteButton.swift; sourceTree = "<group>"; };
+		00000000000000000010000F /* FilterChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterChip.swift; sourceTree = "<group>"; };
+		000000000000000000100011 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
+		000000000000000000100013 /* IngredientChip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientChip.swift; sourceTree = "<group>"; };
+		000000000000000000100015 /* NutritionStatsGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NutritionStatsGrid.swift; sourceTree = "<group>"; };
+		000000000000000000100017 /* PrimaryActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryActionButton.swift; sourceTree = "<group>"; };
+		000000000000000000100019 /* RecipeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCard.swift; sourceTree = "<group>"; };
+		00000000000000000010001B /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
+		00000000000000000010001E /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
+		000000000000000000100020 /* AppGradients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGradients.swift; sourceTree = "<group>"; };
+		000000000000000000100022 /* Typography.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typography.swift; sourceTree = "<group>"; };
+		000000000000000000100025 /* AppRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRoute.swift; sourceTree = "<group>"; };
+		000000000000000000100027 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
+		000000000000000000100029 /* RouteDestinationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteDestinationView.swift; sourceTree = "<group>"; };
+		00000000000000000010002D /* AnalysisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisView.swift; sourceTree = "<group>"; };
+		00000000000000000010002F /* AnalysisViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalysisViewModel.swift; sourceTree = "<group>"; };
+		000000000000000000100032 /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesView.swift; sourceTree = "<group>"; };
+		000000000000000000100034 /* FavoritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewModel.swift; sourceTree = "<group>"; };
+		000000000000000000100037 /* FiltersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersView.swift; sourceTree = "<group>"; };
+		00000000000000000010003A /* HistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryView.swift; sourceTree = "<group>"; };
+		00000000000000000010003C /* HistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryViewModel.swift; sourceTree = "<group>"; };
+		00000000000000000010003F /* HomeFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFlowView.swift; sourceTree = "<group>"; };
+		000000000000000000100041 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		000000000000000000100043 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		000000000000000000100046 /* RecipeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailView.swift; sourceTree = "<group>"; };
+		000000000000000000100048 /* RecipeDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailViewModel.swift; sourceTree = "<group>"; };
+		00000000000000000010004B /* ResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsView.swift; sourceTree = "<group>"; };
+		00000000000000000010004D /* ResultsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewModel.swift; sourceTree = "<group>"; };
+		000000000000000000100050 /* DetectedIngredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectedIngredient.swift; sourceTree = "<group>"; };
+		000000000000000000100052 /* DietaryFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DietaryFilter.swift; sourceTree = "<group>"; };
+		000000000000000000100054 /* FridgeAnalysis.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FridgeAnalysis.swift; sourceTree = "<group>"; };
+		000000000000000000100056 /* IngredientCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientCategory.swift; sourceTree = "<group>"; };
+		000000000000000000100058 /* MealCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealCategory.swift; sourceTree = "<group>"; };
+		00000000000000000010005A /* NutritionInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NutritionInfo.swift; sourceTree = "<group>"; };
+		00000000000000000010005C /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
+		00000000000000000010005E /* RecipeDifficulty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDifficulty.swift; sourceTree = "<group>"; };
+		000000000000000000100060 /* RecipeStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeStep.swift; sourceTree = "<group>"; };
+		000000000000000000100062 /* RecipeTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTemplate.swift; sourceTree = "<group>"; };
+		000000000000000000100065 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		000000000000000000100067 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		000000000000000000100069 /* ingredients_catalog.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = ingredients_catalog.json; sourceTree = "<group>"; };
+		00000000000000000010006B /* recipes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = recipes.json; sourceTree = "<group>"; };
+		00000000000000000010006F /* RecipeGenerationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeGenerationService.swift; sourceTree = "<group>"; };
+		000000000000000000100071 /* VisionAnalysisService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionAnalysisService.swift; sourceTree = "<group>"; };
+		000000000000000000100073 /* AppDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDependencies.swift; sourceTree = "<group>"; };
+		000000000000000000100076 /* DishImageProviding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishImageProviding.swift; sourceTree = "<group>"; };
+		000000000000000000100079 /* CameraCaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraCaptureView.swift; sourceTree = "<group>"; };
+		00000000000000000010007B /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
+		00000000000000000010007E /* FavoritesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesStore.swift; sourceTree = "<group>"; };
+		000000000000000000100080 /* HistoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryStore.swift; sourceTree = "<group>"; };
+		000000000000000000100082 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		000000000000000000100084 /* PersistenceModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceModels.swift; sourceTree = "<group>"; };
+		000000000000000000100087 /* FavoritesStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesStoreTests.swift; sourceTree = "<group>"; };
+		000000000000000000100089 /* MockServicesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockServicesTests.swift; sourceTree = "<group>"; };
+		00000000000000000010008B /* RecipeMatchingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeMatchingTests.swift; sourceTree = "<group>"; };
+		00000000000000000010008F /* FrigoChefAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FrigoChefAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		000000000000000000100090 /* FrigoChefAITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FrigoChefAITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0000000000000000001000A1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0000000000000000001000A4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		000000000000000000100001 /* FrigoChefAI */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000100002 /* App */,
+				000000000000000000100005 /* Core */,
+				00000000000000000010002B /* Features */,
+				00000000000000000010004F /* Models */,
+				000000000000000000100064 /* Resources */,
+				00000000000000000010006D /* Services */,
+			);
+			path = FrigoChefAI;
+			sourceTree = "<group>";
+		};
+		000000000000000000100002 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000100003 /* FrigoChefAIApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		000000000000000000100005 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000100006 /* Components */,
+				00000000000000000010001D /* DesignSystem */,
+				000000000000000000100024 /* Navigation */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		000000000000000000100006 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000100007 /* AnalysisProgressView.swift */,
+				000000000000000000100009 /* DishImageView.swift */,
+				00000000000000000010000B /* EmptyStateView.swift */,
+				00000000000000000010000D /* FavoriteButton.swift */,
+				00000000000000000010000F /* FilterChip.swift */,
+				000000000000000000100011 /* FlowLayout.swift */,
+				000000000000000000100013 /* IngredientChip.swift */,
+				000000000000000000100015 /* NutritionStatsGrid.swift */,
+				000000000000000000100017 /* PrimaryActionButton.swift */,
+				000000000000000000100019 /* RecipeCard.swift */,
+				00000000000000000010001B /* SectionHeader.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		00000000000000000010001D /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				00000000000000000010001E /* AppColors.swift */,
+				000000000000000000100020 /* AppGradients.swift */,
+				000000000000000000100022 /* Typography.swift */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		000000000000000000100024 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000100025 /* AppRoute.swift */,
+				000000000000000000100027 /* RootView.swift */,
+				000000000000000000100029 /* RouteDestinationView.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		00000000000000000010002B /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				00000000000000000010002C /* Analysis */,
+				000000000000000000100031 /* Favorites */,
+				000000000000000000100036 /* Filters */,
+				000000000000000000100039 /* History */,
+				00000000000000000010003E /* Home */,
+				000000000000000000100045 /* RecipeDetail */,
+				00000000000000000010004A /* Results */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		00000000000000000010002C /* Analysis */ = {
+			isa = PBXGroup;
+			children = (
+				00000000000000000010002D /* AnalysisView.swift */,
+				00000000000000000010002F /* AnalysisViewModel.swift */,
+			);
+			path = Analysis;
+			sourceTree = "<group>";
+		};
+		000000000000000000100031 /* Favorites */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000100032 /* FavoritesView.swift */,
+				000000000000000000100034 /* FavoritesViewModel.swift */,
+			);
+			path = Favorites;
+			sourceTree = "<group>";
+		};
+		000000000000000000100036 /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000100037 /* FiltersView.swift */,
+			);
+			path = Filters;
+			sourceTree = "<group>";
+		};
+		000000000000000000100039 /* History */ = {
+			isa = PBXGroup;
+			children = (
+				00000000000000000010003A /* HistoryView.swift */,
+				00000000000000000010003C /* HistoryViewModel.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
+		00000000000000000010003E /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				00000000000000000010003F /* HomeFlowView.swift */,
+				000000000000000000100041 /* HomeView.swift */,
+				000000000000000000100043 /* HomeViewModel.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		000000000000000000100045 /* RecipeDetail */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000100046 /* RecipeDetailView.swift */,
+				000000000000000000100048 /* RecipeDetailViewModel.swift */,
+			);
+			path = RecipeDetail;
+			sourceTree = "<group>";
+		};
+		00000000000000000010004A /* Results */ = {
+			isa = PBXGroup;
+			children = (
+				00000000000000000010004B /* ResultsView.swift */,
+				00000000000000000010004D /* ResultsViewModel.swift */,
+			);
+			path = Results;
+			sourceTree = "<group>";
+		};
+		00000000000000000010004F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000100050 /* DetectedIngredient.swift */,
+				000000000000000000100052 /* DietaryFilter.swift */,
+				000000000000000000100054 /* FridgeAnalysis.swift */,
+				000000000000000000100056 /* IngredientCategory.swift */,
+				000000000000000000100058 /* MealCategory.swift */,
+				00000000000000000010005A /* NutritionInfo.swift */,
+				00000000000000000010005C /* Recipe.swift */,
+				00000000000000000010005E /* RecipeDifficulty.swift */,
+				000000000000000000100060 /* RecipeStep.swift */,
+				000000000000000000100062 /* RecipeTemplate.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		000000000000000000100064 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000100065 /* Assets.xcassets */,
+				000000000000000000100067 /* Info.plist */,
+				000000000000000000100068 /* MockData */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		000000000000000000100068 /* MockData */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000100069 /* ingredients_catalog.json */,
+				00000000000000000010006B /* recipes.json */,
+			);
+			path = MockData;
+			sourceTree = "<group>";
+		};
+		00000000000000000010006D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				00000000000000000010006E /* AI */,
+				000000000000000000100073 /* AppDependencies.swift */,
+				000000000000000000100075 /* Images */,
+				000000000000000000100078 /* MediaCapture */,
+				00000000000000000010007D /* Persistence */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		00000000000000000010006E /* AI */ = {
+			isa = PBXGroup;
+			children = (
+				00000000000000000010006F /* RecipeGenerationService.swift */,
+				000000000000000000100071 /* VisionAnalysisService.swift */,
+			);
+			path = AI;
+			sourceTree = "<group>";
+		};
+		000000000000000000100075 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000100076 /* DishImageProviding.swift */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		000000000000000000100078 /* MediaCapture */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000100079 /* CameraCaptureView.swift */,
+				00000000000000000010007B /* PhotoPickerView.swift */,
+			);
+			path = MediaCapture;
+			sourceTree = "<group>";
+		};
+		00000000000000000010007D /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				00000000000000000010007E /* FavoritesStore.swift */,
+				000000000000000000100080 /* HistoryStore.swift */,
+				000000000000000000100082 /* PersistenceController.swift */,
+				000000000000000000100084 /* PersistenceModels.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		000000000000000000100086 /* FrigoChefAITests */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000100087 /* FavoritesStoreTests.swift */,
+				000000000000000000100089 /* MockServicesTests.swift */,
+				00000000000000000010008B /* RecipeMatchingTests.swift */,
+			);
+			path = FrigoChefAITests;
+			sourceTree = "<group>";
+		};
+		000000000000000000100091 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				00000000000000000010008F /* FrigoChefAI.app */,
+				000000000000000000100090 /* FrigoChefAITests.xctest */,
+			);
+			path = Products;
+			sourceTree = "<group>";
+		};
+		000000000000000000100092 /* FrigoChefAI */ = {
+			isa = PBXGroup;
+			children = (
+				000000000000000000100001 /* FrigoChefAI */,
+				000000000000000000100086 /* FrigoChefAITests */,
+				000000000000000000100091 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		000000000000000000100094 /* FrigoChefAI */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 000000000000000000100096 /* Build configuration list for PBXNativeTarget "FrigoChefAI" */;
+			buildPhases = (
+				00000000000000000010009F /* Sources */,
+				0000000000000000001000A1 /* Frameworks */,
+				0000000000000000001000A0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FrigoChefAI;
+			productName = FrigoChefAI;
+			productReference = 00000000000000000010008F /* FrigoChefAI.app */;
+			productType = "com.apple.product-type.application";
+		};
+		000000000000000000100095 /* FrigoChefAITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 000000000000000000100097 /* Build configuration list for PBXNativeTarget "FrigoChefAITests" */;
+			buildPhases = (
+				0000000000000000001000A2 /* Sources */,
+				0000000000000000001000A4 /* Frameworks */,
+				0000000000000000001000A3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0000000000000000001000A6 /* PBXTargetDependency */,
+			);
+			name = FrigoChefAITests;
+			productName = FrigoChefAITests;
+			productReference = 000000000000000000100090 /* FrigoChefAITests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		000000000000000000100093 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1520;
+				LastUpgradeCheck = 1520;
+				TargetAttributes = {
+					000000000000000000100094 = {
+						CreatedOnToolsVersion = 15.2;
+					};
+					000000000000000000100095 = {
+						CreatedOnToolsVersion = 15.2;
+						TestTargetID = 000000000000000000100094;
+					};
+				};
+			};
+			buildConfigurationList = 000000000000000000100098 /* Build configuration list for PBXProject "FrigoChefAI" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 000000000000000000100092;
+			productRefGroup = 000000000000000000100091 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				000000000000000000100094 /* FrigoChefAI */,
+				000000000000000000100095 /* FrigoChefAITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0000000000000000001000A0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				000000000000000000100066 /* Assets.xcassets in Resources */,
+				00000000000000000010006A /* ingredients_catalog.json in Resources */,
+				00000000000000000010006C /* recipes.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0000000000000000001000A3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00000000000000000010008D /* ingredients_catalog.json in Resources */,
+				00000000000000000010008E /* recipes.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		00000000000000000010009F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				000000000000000000100004 /* FrigoChefAIApp.swift in Sources */,
+				000000000000000000100008 /* AnalysisProgressView.swift in Sources */,
+				00000000000000000010000A /* DishImageView.swift in Sources */,
+				00000000000000000010000C /* EmptyStateView.swift in Sources */,
+				00000000000000000010000E /* FavoriteButton.swift in Sources */,
+				000000000000000000100010 /* FilterChip.swift in Sources */,
+				000000000000000000100012 /* FlowLayout.swift in Sources */,
+				000000000000000000100014 /* IngredientChip.swift in Sources */,
+				000000000000000000100016 /* NutritionStatsGrid.swift in Sources */,
+				000000000000000000100018 /* PrimaryActionButton.swift in Sources */,
+				00000000000000000010001A /* RecipeCard.swift in Sources */,
+				00000000000000000010001C /* SectionHeader.swift in Sources */,
+				00000000000000000010001F /* AppColors.swift in Sources */,
+				000000000000000000100021 /* AppGradients.swift in Sources */,
+				000000000000000000100023 /* Typography.swift in Sources */,
+				000000000000000000100026 /* AppRoute.swift in Sources */,
+				000000000000000000100028 /* RootView.swift in Sources */,
+				00000000000000000010002A /* RouteDestinationView.swift in Sources */,
+				00000000000000000010002E /* AnalysisView.swift in Sources */,
+				000000000000000000100030 /* AnalysisViewModel.swift in Sources */,
+				000000000000000000100033 /* FavoritesView.swift in Sources */,
+				000000000000000000100035 /* FavoritesViewModel.swift in Sources */,
+				000000000000000000100038 /* FiltersView.swift in Sources */,
+				00000000000000000010003B /* HistoryView.swift in Sources */,
+				00000000000000000010003D /* HistoryViewModel.swift in Sources */,
+				000000000000000000100040 /* HomeFlowView.swift in Sources */,
+				000000000000000000100042 /* HomeView.swift in Sources */,
+				000000000000000000100044 /* HomeViewModel.swift in Sources */,
+				000000000000000000100047 /* RecipeDetailView.swift in Sources */,
+				000000000000000000100049 /* RecipeDetailViewModel.swift in Sources */,
+				00000000000000000010004C /* ResultsView.swift in Sources */,
+				00000000000000000010004E /* ResultsViewModel.swift in Sources */,
+				000000000000000000100051 /* DetectedIngredient.swift in Sources */,
+				000000000000000000100053 /* DietaryFilter.swift in Sources */,
+				000000000000000000100055 /* FridgeAnalysis.swift in Sources */,
+				000000000000000000100057 /* IngredientCategory.swift in Sources */,
+				000000000000000000100059 /* MealCategory.swift in Sources */,
+				00000000000000000010005B /* NutritionInfo.swift in Sources */,
+				00000000000000000010005D /* Recipe.swift in Sources */,
+				00000000000000000010005F /* RecipeDifficulty.swift in Sources */,
+				000000000000000000100061 /* RecipeStep.swift in Sources */,
+				000000000000000000100063 /* RecipeTemplate.swift in Sources */,
+				000000000000000000100070 /* RecipeGenerationService.swift in Sources */,
+				000000000000000000100072 /* VisionAnalysisService.swift in Sources */,
+				000000000000000000100074 /* AppDependencies.swift in Sources */,
+				000000000000000000100077 /* DishImageProviding.swift in Sources */,
+				00000000000000000010007A /* CameraCaptureView.swift in Sources */,
+				00000000000000000010007C /* PhotoPickerView.swift in Sources */,
+				00000000000000000010007F /* FavoritesStore.swift in Sources */,
+				000000000000000000100081 /* HistoryStore.swift in Sources */,
+				000000000000000000100083 /* PersistenceController.swift in Sources */,
+				000000000000000000100085 /* PersistenceModels.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0000000000000000001000A2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				000000000000000000100088 /* FavoritesStoreTests.swift in Sources */,
+				00000000000000000010008A /* MockServicesTests.swift in Sources */,
+				00000000000000000010008C /* RecipeMatchingTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0000000000000000001000A6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 000000000000000000100094 /* FrigoChefAI */;
+			targetProxy = 0000000000000000001000A5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		00000000000000000010009D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		00000000000000000010009E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		000000000000000000100099 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = FrigoChefAI/Resources/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks");
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.frigochefai.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		00000000000000000010009A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = FrigoChefAI/Resources/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks");
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.frigochefai.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		00000000000000000010009B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", "@loader_path/Frameworks");
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FrigoChefAI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FrigoChefAI";
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.frigochefai.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		00000000000000000010009C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks", "@loader_path/Frameworks");
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FrigoChefAI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/FrigoChefAI";
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.frigochefai.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		000000000000000000100098 /* Build configuration list for PBXProject "FrigoChefAI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00000000000000000010009D /* Debug */,
+				00000000000000000010009E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		000000000000000000100096 /* Build configuration list for PBXNativeTarget "FrigoChefAI" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				000000000000000000100099 /* Debug */,
+				00000000000000000010009A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		000000000000000000100097 /* Build configuration list for PBXNativeTarget "FrigoChefAITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00000000000000000010009B /* Debug */,
+				00000000000000000010009C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 000000000000000000100093 /* Project object */;
+}

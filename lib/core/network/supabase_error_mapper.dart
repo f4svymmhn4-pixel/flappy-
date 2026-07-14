@@ -24,5 +24,8 @@ Failure mapSupabaseError(Object error) {
   if (error is AuthException) {
     return AuthFailure(error.message);
   }
+  if (error is RealtimeSubscribeException) {
+    return RealtimeFailure(error.toString());
+  }
   return UnknownFailure(error.toString());
 }

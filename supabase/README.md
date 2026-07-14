@@ -14,6 +14,18 @@ Tables principales : `profiles`, `animals`, `user_animals`, `categories`,
 son rôle est commenté directement dans le fichier de migration qui la crée
 (`comment on table ...`).
 
+## Temps réel
+
+`games`, `game_players`, `game_rounds` et `game_answers` sont publiées sur
+`supabase_realtime` avec `replica identity full` (migration
+`0021_realtime_publication.sql`) — nécessaire pour que
+`supabase_flutter`'s `.stream()` reçoive la ligne complète sur chaque
+`UPDATE`, pas seulement les colonnes modifiées. Les policies RLS
+s'appliquent aussi aux changements diffusés en temps réel : un client ne
+reçoit jamais un événement pour une ligne qu'il n'a pas le droit de lire.
+`questions` n'est volontairement pas publiée (elle n'a de toute façon
+aucune policy `SELECT`).
+
 ## Principes de sécurité (anti-triche)
 
 - **`questions` n'a aucune policy RLS** : un client authentifié ne peut pas

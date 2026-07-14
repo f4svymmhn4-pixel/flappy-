@@ -6,6 +6,8 @@ abstract final class RoutePaths {
   static const String splash = '/';
   static const String onboardingPseudo = '/onboarding/pseudo';
   static const String home = '/home';
+  static const String difficultySelect = '/play/difficulty';
+  static const String animalSelect = '/play/animal';
   static const String lobby = '/lobby';
   static const String lobbyPrivate = '/lobby/private/:code';
   static const String game = '/game/:gameId';
@@ -19,6 +21,8 @@ abstract final class RouteNames {
   static const String splash = 'splash';
   static const String onboardingPseudo = 'onboardingPseudo';
   static const String home = 'home';
+  static const String difficultySelect = 'difficultySelect';
+  static const String animalSelect = 'animalSelect';
   static const String lobby = 'lobby';
   static const String lobbyPrivate = 'lobbyPrivate';
   static const String game = 'game';

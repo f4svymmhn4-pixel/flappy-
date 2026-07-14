@@ -2,6 +2,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/widgets/placeholder_screen.dart';
+import '../../features/home/presentation/screens/home_screen.dart';
+import '../../features/onboarding/presentation/screens/pseudo_screen.dart';
+import '../../features/play_setup/presentation/screens/animal_select_screen.dart';
+import '../../features/play_setup/presentation/screens/difficulty_select_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
 import 'route_paths.dart';
 
@@ -23,18 +27,22 @@ final Provider<GoRouter> appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: RoutePaths.onboardingPseudo,
         name: RouteNames.onboardingPseudo,
-        builder: (context, state) => const PlaceholderScreen(
-          title: 'Choisis ton pseudo',
-          subtitle: "L'écran de création de pseudo arrive à l'étape Frontend.",
-        ),
+        builder: (context, state) => const PseudoScreen(),
       ),
       GoRoute(
         path: RoutePaths.home,
         name: RouteNames.home,
-        builder: (context, state) => const PlaceholderScreen(
-          title: 'Accueil BETIZ',
-          subtitle: "L'écran d'accueil arrive à l'étape Frontend.",
-        ),
+        builder: (context, state) => const HomeScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.difficultySelect,
+        name: RouteNames.difficultySelect,
+        builder: (context, state) => const DifficultySelectScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.animalSelect,
+        name: RouteNames.animalSelect,
+        builder: (context, state) => const AnimalSelectScreen(),
       ),
       GoRoute(
         path: RoutePaths.lobby,

@@ -12,7 +12,8 @@ import '../../domain/entities/game_round.dart';
 import '../../domain/entities/game_status.dart';
 import '../controllers/game_realtime_controller.dart';
 import '../controllers/gameplay_controller.dart';
-import '../widgets/answer_grid.dart';
+import '../widgets/animal_arena.dart';
+import '../widgets/ranking_list.dart';
 import '../widgets/round_timer_bar.dart';
 
 /// Owns one round's lifecycle: countdown -> submit -> reveal -> (a beat to
@@ -135,23 +136,33 @@ class _RoundViewState extends ConsumerState<RoundView> {
               .watch(roundQuestionProvider(round.id))
               .when(
                 data: (question) => Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        question.prompt,
-                        style: AppTextStyles.headline,
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(height: AppSpacing.xl),
-                      AnswerGrid(
-                        question: question,
-                        mySelection: _mySelection,
-                        isRevealed: isRevealed,
-                        playersByOption: _groupByOption(playersState.value),
-                        onSelect: (index) => _selectAnswer(index, round.status),
-                      ),
-                    ],
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Text(
+                          question.prompt,
+                          style: AppTextStyles.headline,
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: AppSpacing.xl),
+                        AnimalArena(
+                          question: question,
+                          mySelection: _mySelection,
+                          isRevealed: isRevealed,
+                          players: playersState.value ?? const <(GamePlayer, GameAnswer?)>[],
+                          onSelect: (index) => _selectAnswer(index, round.status),
+                        ),
+                        if (isRevealed) ...[
+                          const SizedBox(height: AppSpacing.xl),
+                          ref
+                              .watch(gamePlayersStreamProvider(widget.gameId))
+                              .maybeWhen(
+                                data: (players) => RankingList(players: players),
+                                orElse: () => const SizedBox.shrink(),
+                              ),
+                        ],
+                      ],
+                    ),
                   ),
                 ),
                 loading: () => const Expanded(child: Center(child: CircularProgressIndicator())),
@@ -164,15 +175,5 @@ class _RoundViewState extends ConsumerState<RoundView> {
         ],
       ),
     );
-  }
-
-  Map<int, List<GamePlayer>> _groupByOption(List<(GamePlayer, GameAnswer?)>? pairs) {
-    final Map<int, List<GamePlayer>> byOption = {};
-    for (final (player, answer) in pairs ?? const <(GamePlayer, GameAnswer?)>[]) {
-      final int? selected = answer?.selectedOption;
-      if (selected == null) continue;
-      byOption.putIfAbsent(selected, () => []).add(player);
-    }
-    return byOption;
   }
 }

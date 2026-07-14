@@ -67,3 +67,34 @@ final ProviderFamily<AsyncValue<GameRound?>, String> currentRoundProvider =
 
   return AsyncData(current);
 });
+
+/// Every active player in [gameId], paired with their (possibly absent)
+/// answer for [roundId] — one lookup the animal-placement UI needs instead
+/// of cross-referencing two separate streams itself.
+final ProviderFamily<AsyncValue<List<(GamePlayer, GameAnswer?)>>, ({String gameId, String roundId})>
+playerAnswersProvider =
+    Provider.family<AsyncValue<List<(GamePlayer, GameAnswer?)>>, ({String gameId, String roundId})>((
+      ref,
+      args,
+    ) {
+      final AsyncValue<List<GamePlayer>> players = ref.watch(gamePlayersStreamProvider(args.gameId));
+      final AsyncValue<List<GameAnswer>> answers = ref.watch(roundAnswersStreamProvider(args.roundId));
+
+      if (players.isLoading || answers.isLoading) return const AsyncLoading();
+
+      final Object? error = players.error ?? answers.error;
+      if (error != null) {
+        return AsyncError(error, players.stackTrace ?? answers.stackTrace ?? StackTrace.current);
+      }
+
+      final Map<String, GameAnswer> byPlayerId = {
+        for (final answer in answers.value ?? const <GameAnswer>[]) answer.gamePlayerId: answer,
+      };
+
+      final List<(GamePlayer, GameAnswer?)> paired = [
+        for (final player in players.value ?? const <GamePlayer>[])
+          if (player.isActive) (player, byPlayerId[player.id]),
+      ];
+
+      return AsyncData(paired);
+    });

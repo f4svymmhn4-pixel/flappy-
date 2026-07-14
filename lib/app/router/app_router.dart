@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/widgets/placeholder_screen.dart';
+import '../../features/game/presentation/screens/game_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/lobby/presentation/screens/private_lobby_screen.dart';
 import '../../features/onboarding/presentation/screens/pseudo_screen.dart';
@@ -76,10 +77,7 @@ final Provider<GoRouter> appRouterProvider = Provider<GoRouter>((ref) {
         name: RouteNames.game,
         builder: (context, state) {
           final String gameId = state.pathParameters['gameId'] ?? '';
-          return PlaceholderScreen(
-            title: 'Partie en cours',
-            subtitle: 'Game ID : $gameId — le gameplay arrive à une étape dédiée.',
-          );
+          return GameScreen(gameId: gameId);
         },
       ),
       GoRoute(

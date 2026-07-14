@@ -1,15 +1,15 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../core/error/failure.dart';
-import '../../../core/network/supabase_error_mapper.dart';
+import '../error/failure.dart';
+import 'supabase_error_mapper.dart';
 
-/// The `create_private_game`/`join_private_game`/`join_matchmaking`/...
-/// RPCs (see supabase/migrations/0011-0020) signal business-rule failures
-/// with `raise exception '<code>'`, which Postgrest surfaces as a
+/// BETIZ's RPCs (see supabase/migrations/0011 onward — game lifecycle,
+/// gameplay, matchmaking, shop) signal business-rule failures with
+/// `raise exception '<code>'`, which Postgrest surfaces as a
 /// [PostgrestException] whose `message` is exactly that code. Mapped here
-/// instead of in the generic [mapSupabaseError] since these codes are
-/// specific to the game RPC surface, not a general Postgrest/Postgres
-/// concern.
+/// — shared across every feature that calls an RPC — instead of in the
+/// generic [mapSupabaseError], since these codes are specific to our RPC
+/// surface, not a general Postgrest/Postgres concern.
 const Map<String, String> _rpcErrorMessages = {
   'auth_required': 'Tu dois être connecté pour jouer.',
   'pseudo_required': "Choisis d'abord un pseudo.",
@@ -31,7 +31,7 @@ const Map<String, String> _rpcErrorMessages = {
   'no_question_available': 'Aucune question disponible pour ce réglage.',
 };
 
-Failure mapGameRpcError(Object error) {
+Failure mapRpcError(Object error) {
   if (error is PostgrestException) {
     final String? friendly = _rpcErrorMessages[error.message];
     if (friendly != null) return ValidationFailure(friendly);

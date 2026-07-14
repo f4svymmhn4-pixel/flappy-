@@ -1,12 +1,12 @@
 import 'package:betiz/core/error/failure.dart';
-import 'package:betiz/features/game/data/game_rpc_error_mapper.dart';
+import 'package:betiz/core/network/rpc_error_mapper.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() {
-  group('mapGameRpcError', () {
+  group('mapRpcError', () {
     test('maps a known RPC business code to a friendly ValidationFailure', () {
-      final failure = mapGameRpcError(
+      final failure = mapRpcError(
         const PostgrestException(message: 'not_host'),
       );
 
@@ -15,7 +15,7 @@ void main() {
     });
 
     test('falls through to the generic Supabase mapper for unknown messages', () {
-      final failure = mapGameRpcError(
+      final failure = mapRpcError(
         const PostgrestException(message: 'some_unmapped_db_error'),
       );
 
@@ -23,7 +23,7 @@ void main() {
     });
 
     test('non-Postgrest errors fall through to the generic mapper too', () {
-      final failure = mapGameRpcError(StateError('boom'));
+      final failure = mapRpcError(StateError('boom'));
 
       expect(failure, isA<UnknownFailure>());
     });

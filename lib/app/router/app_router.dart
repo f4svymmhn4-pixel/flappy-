@@ -11,6 +11,7 @@ import '../../features/play_setup/presentation/screens/difficulty_select_screen.
 import '../../features/play_setup/presentation/screens/join_code_screen.dart';
 import '../../features/play_setup/presentation/screens/matchmaking_screen.dart';
 import '../../features/play_setup/presentation/screens/play_mode_screen.dart';
+import '../../features/shop/presentation/screens/shop_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
 import 'route_paths.dart';
 
@@ -83,10 +84,7 @@ final Provider<GoRouter> appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: RoutePaths.shop,
         name: RouteNames.shop,
-        builder: (context, state) => const PlaceholderScreen(
-          title: 'Boutique',
-          subtitle: "La boutique d'animaux arrive à une étape dédiée.",
-        ),
+        builder: (context, state) => const ShopScreen(),
       ),
       GoRoute(
         path: RoutePaths.profile,

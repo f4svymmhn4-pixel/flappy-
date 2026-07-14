@@ -3,9 +3,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../core/error/result.dart';
 import '../../../../core/network/network_info.dart';
 import '../../../../core/network/repository_guard.dart';
+import '../../../../core/network/rpc_error_mapper.dart';
 import '../../domain/entities/difficulty.dart';
 import '../../domain/repositories/game_lifecycle_repository.dart';
-import '../game_rpc_error_mapper.dart';
 
 class SupabaseGameLifecycleRepository implements GameLifecycleRepository {
   SupabaseGameLifecycleRepository(this._client, this._networkInfo);
@@ -24,7 +24,7 @@ class SupabaseGameLifecycleRepository implements GameLifecycleRepository {
         params: {'p_difficulty': difficulty.wireValue, 'p_animal_id': animalId},
       );
       return (gameId: json['game_id'] as String, roomCode: json['room_code'] as String);
-    }, mapError: mapGameRpcError);
+    }, mapError: mapRpcError);
   }
 
   @override
@@ -35,21 +35,21 @@ class SupabaseGameLifecycleRepository implements GameLifecycleRepository {
         params: {'p_room_code': roomCode, 'p_animal_id': animalId},
       );
       return json['game_id'] as String;
-    }, mapError: mapGameRpcError);
+    }, mapError: mapRpcError);
   }
 
   @override
   Future<Result<void>> startPrivateGame(String gameId) {
     return guardRepositoryCall(_networkInfo, () async {
       await _client.rpc<void>('start_private_game', params: {'p_game_id': gameId});
-    }, mapError: mapGameRpcError);
+    }, mapError: mapRpcError);
   }
 
   @override
   Future<Result<void>> leaveGame(String gameId) {
     return guardRepositoryCall(_networkInfo, () async {
       await _client.rpc<void>('leave_game', params: {'p_game_id': gameId});
-    }, mapError: mapGameRpcError);
+    }, mapError: mapRpcError);
   }
 
   @override
@@ -63,14 +63,14 @@ class SupabaseGameLifecycleRepository implements GameLifecycleRepository {
         params: {'p_difficulty': difficulty.wireValue, 'p_animal_id': animalId},
       );
       return (matched: json['matched'] as bool, gameId: json['game_id'] as String?);
-    }, mapError: mapGameRpcError);
+    }, mapError: mapRpcError);
   }
 
   @override
   Future<Result<void>> leaveMatchmaking() {
     return guardRepositoryCall(_networkInfo, () async {
       await _client.rpc<void>('leave_matchmaking');
-    }, mapError: mapGameRpcError);
+    }, mapError: mapRpcError);
   }
 
   @override
@@ -84,7 +84,7 @@ class SupabaseGameLifecycleRepository implements GameLifecycleRepository {
         params: {'p_difficulty': difficulty.wireValue, 'p_animal_id': animalId},
       );
       return json['game_id'] as String;
-    }, mapError: mapGameRpcError);
+    }, mapError: mapRpcError);
   }
 
   @override
@@ -98,6 +98,6 @@ class SupabaseGameLifecycleRepository implements GameLifecycleRepository {
           .eq('games.status', 'in_progress')
           .limit(1);
       return rows.isEmpty ? null : rows.first['game_id'] as String;
-    }, mapError: mapGameRpcError);
+    }, mapError: mapRpcError);
   }
 }

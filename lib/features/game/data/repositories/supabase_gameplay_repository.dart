@@ -3,9 +3,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../core/error/result.dart';
 import '../../../../core/network/network_info.dart';
 import '../../../../core/network/repository_guard.dart';
+import '../../../../core/network/rpc_error_mapper.dart';
 import '../../domain/entities/round_question.dart';
 import '../../domain/repositories/gameplay_repository.dart';
-import '../game_rpc_error_mapper.dart';
 
 class SupabaseGameplayRepository implements GameplayRepository {
   SupabaseGameplayRepository(this._client, this._networkInfo);
@@ -21,7 +21,7 @@ class SupabaseGameplayRepository implements GameplayRepository {
         params: {'p_round_id': roundId},
       );
       return RoundQuestion.fromJson(json);
-    }, mapError: mapGameRpcError);
+    }, mapError: mapRpcError);
   }
 
   @override
@@ -31,7 +31,7 @@ class SupabaseGameplayRepository implements GameplayRepository {
         'submit_answer',
         params: {'p_round_id': roundId, 'p_selected_option': selectedOption},
       );
-    }, mapError: mapGameRpcError);
+    }, mapError: mapRpcError);
   }
 
   @override
@@ -41,7 +41,7 @@ class SupabaseGameplayRepository implements GameplayRepository {
         'reveal_round',
         params: {'p_round_id': roundId},
       );
-    }, mapError: mapGameRpcError);
+    }, mapError: mapRpcError);
   }
 
   @override
@@ -51,7 +51,7 @@ class SupabaseGameplayRepository implements GameplayRepository {
         'advance_game',
         params: {'p_game_id': gameId},
       );
-    }, mapError: mapGameRpcError);
+    }, mapError: mapRpcError);
   }
 
   @override
@@ -65,6 +65,6 @@ class SupabaseGameplayRepository implements GameplayRepository {
           .eq('type', 'game_reward')
           .limit(1);
       return rows.isEmpty ? null : rows.first['amount'] as int;
-    }, mapError: mapGameRpcError);
+    }, mapError: mapRpcError);
   }
 }

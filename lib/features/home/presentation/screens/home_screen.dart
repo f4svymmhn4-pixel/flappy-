@@ -7,6 +7,7 @@ import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/theme/app_text_styles.dart';
 import '../../../../core/error/failure.dart';
+import '../../../game/presentation/controllers/game_lifecycle_controller.dart';
 import '../../../profile/domain/entities/profile.dart';
 import '../../../profile/presentation/controllers/profile_controller.dart';
 
@@ -32,13 +33,15 @@ class HomeScreen extends ConsumerWidget {
   }
 }
 
-class _HomeContent extends StatelessWidget {
+class _HomeContent extends ConsumerWidget {
   const _HomeContent({required this.profile});
 
   final Profile profile;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AsyncValue<String?> resumableGame = ref.watch(resumableGameProvider);
+
     return Padding(
       padding: const EdgeInsets.all(AppSpacing.lg),
       child: Column(
@@ -61,6 +64,12 @@ class _HomeContent extends StatelessWidget {
               ),
             ],
           ),
+          resumableGame.maybeWhen(
+            data: (gameId) => gameId == null
+                ? const SizedBox.shrink()
+                : _ResumeGameBanner(gameId: gameId),
+            orElse: () => const SizedBox.shrink(),
+          ),
           const Spacer(),
           const Text('BETIZ', style: AppTextStyles.displayLarge, textAlign: TextAlign.center),
           const SizedBox(height: AppSpacing.xs),
@@ -71,7 +80,7 @@ class _HomeContent extends StatelessWidget {
           ),
           const Spacer(),
           ElevatedButton(
-            onPressed: () => context.push(RoutePaths.difficultySelect),
+            onPressed: () => context.push(RoutePaths.playMode),
             child: const Padding(
               padding: EdgeInsets.symmetric(vertical: AppSpacing.xs),
               child: Text('Jouer'),
@@ -87,6 +96,38 @@ class _HomeContent extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.lg),
         ],
+      ),
+    );
+  }
+}
+
+class _ResumeGameBanner extends StatelessWidget {
+  const _ResumeGameBanner({required this.gameId});
+
+  final String gameId;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: AppSpacing.md),
+      child: Material(
+        color: AppColors.secondary.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(AppRadius.md),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          onTap: () => context.go(RoutePaths.game.replaceFirst(':gameId', gameId)),
+          child: const Padding(
+            padding: EdgeInsets.all(AppSpacing.md),
+            child: Row(
+              children: [
+                Icon(Icons.replay_circle_filled_rounded, color: AppColors.secondary),
+                SizedBox(width: AppSpacing.sm),
+                Expanded(child: Text('Reprendre la partie en cours', style: AppTextStyles.bodyStrong)),
+                Icon(Icons.chevron_right_rounded),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

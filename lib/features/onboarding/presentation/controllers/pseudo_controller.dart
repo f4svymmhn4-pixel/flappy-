@@ -14,6 +14,12 @@ class PseudoController extends AsyncNotifier<void> {
   Future<void> build() async {}
 
   Future<bool> submit(String pseudo) async {
+    // See PlayExecutionController.execute() for why this has to come
+    // first: build() is asynchronous even though it's a no-op, so writing
+    // to `state` before it resolves risks having that write clobbered by
+    // build()'s own completion right after.
+    await future;
+
     final String? localError = validatePseudo(pseudo);
     if (localError != null) {
       state = AsyncError(ValidationFailure(localError), StackTrace.current);

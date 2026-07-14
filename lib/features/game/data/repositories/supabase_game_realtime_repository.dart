@@ -51,4 +51,13 @@ class SupabaseGameRealtimeRepository implements GameRealtimeRepository {
         .eq('round_id', roundId)
         .map((rows) => rows.map(GameAnswerModel.fromJson).toList(growable: false));
   }
+
+  @override
+  Stream<List<GamePlayer>> watchMyGamePlayerRows(String userId) {
+    return _client
+        .from('game_players')
+        .stream(primaryKey: ['id'])
+        .eq('user_id', userId)
+        .map((rows) => rows.map(GamePlayerModel.fromJson).toList(growable: false));
+  }
 }

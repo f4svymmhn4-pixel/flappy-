@@ -23,4 +23,12 @@ abstract interface class GameRealtimeRepository {
 
   /// Every answer submitted for [roundId] so far.
   Stream<List<GameAnswer>> watchAnswers(String roundId);
+
+  /// [userId]'s own `game_players` rows across every game, most recent
+  /// first. RLS lets a user see their own row the instant it's inserted —
+  /// even in a game they never queried for by id — which is exactly what
+  /// lets a waiting matchmaking client notice "I've been placed into a
+  /// game" without knowing the game id in advance, and what lets the app
+  /// offer "resume game" on relaunch.
+  Stream<List<GamePlayer>> watchMyGamePlayerRows(String userId);
 }

@@ -3,9 +3,13 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/widgets/placeholder_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
+import '../../features/lobby/presentation/screens/private_lobby_screen.dart';
 import '../../features/onboarding/presentation/screens/pseudo_screen.dart';
 import '../../features/play_setup/presentation/screens/animal_select_screen.dart';
 import '../../features/play_setup/presentation/screens/difficulty_select_screen.dart';
+import '../../features/play_setup/presentation/screens/join_code_screen.dart';
+import '../../features/play_setup/presentation/screens/matchmaking_screen.dart';
+import '../../features/play_setup/presentation/screens/play_mode_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
 import 'route_paths.dart';
 
@@ -35,6 +39,16 @@ final Provider<GoRouter> appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const HomeScreen(),
       ),
       GoRoute(
+        path: RoutePaths.playMode,
+        name: RouteNames.playMode,
+        builder: (context, state) => const PlayModeScreen(),
+      ),
+      GoRoute(
+        path: RoutePaths.joinByCode,
+        name: RouteNames.joinByCode,
+        builder: (context, state) => const JoinCodeScreen(),
+      ),
+      GoRoute(
         path: RoutePaths.difficultySelect,
         name: RouteNames.difficultySelect,
         builder: (context, state) => const DifficultySelectScreen(),
@@ -45,22 +59,16 @@ final Provider<GoRouter> appRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const AnimalSelectScreen(),
       ),
       GoRoute(
-        path: RoutePaths.lobby,
-        name: RouteNames.lobby,
-        builder: (context, state) => const PlaceholderScreen(
-          title: 'Salle de jeu',
-          subtitle: 'Le matchmaking public arrive à une étape dédiée.',
-        ),
+        path: RoutePaths.matchmaking,
+        name: RouteNames.matchmaking,
+        builder: (context, state) => const MatchmakingScreen(),
       ),
       GoRoute(
-        path: RoutePaths.lobbyPrivate,
-        name: RouteNames.lobbyPrivate,
+        path: RoutePaths.privateLobby,
+        name: RouteNames.privateLobby,
         builder: (context, state) {
-          final String code = state.pathParameters['code'] ?? '';
-          return PlaceholderScreen(
-            title: 'Partie privée',
-            subtitle: 'Code : $code',
-          );
+          final String gameId = state.pathParameters['gameId'] ?? '';
+          return PrivateLobbyScreen(gameId: gameId);
         },
       ),
       GoRoute(

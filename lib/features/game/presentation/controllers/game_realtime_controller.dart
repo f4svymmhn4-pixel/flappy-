@@ -33,6 +33,11 @@ final StreamProviderFamily<List<GameAnswer>, String> roundAnswersStreamProvider 
   return ref.watch(gameRealtimeRepositoryProvider).watchAnswers(roundId);
 });
 
+final StreamProviderFamily<List<GamePlayer>, String> myGamePlayerRowsStreamProvider =
+    StreamProvider.family<List<GamePlayer>, String>((ref, userId) {
+  return ref.watch(gameRealtimeRepositoryProvider).watchMyGamePlayerRows(userId);
+});
+
 /// The round matching `game.currentRound`, derived from
 /// [gameRoundsStreamProvider] rather than fetched separately — one
 /// realtime subscription per game instead of two.

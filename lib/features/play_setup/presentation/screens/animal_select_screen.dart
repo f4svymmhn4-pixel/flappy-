@@ -9,15 +9,45 @@ import '../../../../app/theme/app_text_styles.dart';
 import '../../../../core/error/failure.dart';
 import '../../../animals/domain/entities/animal.dart';
 import '../../../animals/presentation/controllers/animals_controller.dart';
+import '../controllers/play_execution_controller.dart';
 import '../controllers/play_setup_controller.dart';
 
-class AnimalSelectScreen extends ConsumerWidget {
+class AnimalSelectScreen extends ConsumerStatefulWidget {
   const AnimalSelectScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AnimalSelectScreen> createState() => _AnimalSelectScreenState();
+}
+
+class _AnimalSelectScreenState extends ConsumerState<AnimalSelectScreen> {
+  Future<void> _confirm() async {
+    final outcome = await ref.read(playExecutionControllerProvider.notifier).execute();
+    if (!mounted || outcome == null) return;
+
+    switch (outcome) {
+      case PlayOutcomeLobby(:final gameId):
+        context.go(RoutePaths.privateLobby.replaceFirst(':gameId', gameId));
+      case PlayOutcomeGameStarted(:final gameId):
+        context.go(RoutePaths.game.replaceFirst(':gameId', gameId));
+      case PlayOutcomeQueued():
+        context.go(RoutePaths.matchmaking);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final AsyncValue<List<Animal>> animalsState = ref.watch(unlockedAnimalsProvider);
     final String? selectedId = ref.watch(playSetupControllerProvider).animalId;
+    final bool isExecuting = ref.watch(playExecutionControllerProvider).isLoading;
+
+    ref.listen(playExecutionControllerProvider, (previous, next) {
+      final Object? error = next.error;
+      if (error is Failure && next.hasError) {
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(SnackBar(content: Text(error.message)));
+      }
+    });
 
     return Scaffold(
       appBar: AppBar(title: const Text('Choisis ton animal')),
@@ -32,10 +62,17 @@ class AnimalSelectScreen extends ConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.all(AppSpacing.lg),
           child: ElevatedButton(
-            onPressed: selectedId == null
-                ? null
-                : () => context.push(RoutePaths.lobby),
-            child: const Text('Confirmer'),
+            onPressed: selectedId == null || isExecuting ? null : _confirm,
+            child: isExecuting
+                ? const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation(Colors.white),
+                    ),
+                  )
+                : const Text('Confirmer'),
           ),
         ),
       ),

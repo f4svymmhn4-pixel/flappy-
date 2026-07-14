@@ -11,7 +11,14 @@ import '../../../game/presentation/controllers/game_realtime_controller.dart';
 /// only a game id that shows up *after* that baseline counts as a fresh
 /// match. Without this, opening the matchmaking screen after playing any
 /// earlier game would look like an instant match.
-class MatchmakingWatcher extends FamilyAsyncNotifier<String?, String> {
+///
+/// `autoDispose`d deliberately: `build()` blocks on an `await for` over a
+/// live realtime stream for as long as the player is searching, so if this
+/// weren't torn down the moment the matchmaking screen is left (matched,
+/// cancelled, or backed out of), that loop — and the websocket
+/// subscription underneath it — would keep running for the rest of the
+/// app session.
+class MatchmakingWatcher extends AutoDisposeFamilyAsyncNotifier<String?, String> {
   Set<String>? _baselineGameIds;
 
   @override
@@ -41,7 +48,6 @@ class MatchmakingWatcher extends FamilyAsyncNotifier<String?, String> {
   }
 }
 
-final AsyncNotifierProviderFamily<MatchmakingWatcher, String?, String>
-matchmakingWatcherProvider = AsyncNotifierProvider.family<MatchmakingWatcher, String?, String>(
-  MatchmakingWatcher.new,
-);
+final AutoDisposeAsyncNotifierProviderFamily<MatchmakingWatcher, String?, String>
+matchmakingWatcherProvider = AsyncNotifierProvider.autoDispose
+    .family<MatchmakingWatcher, String?, String>(MatchmakingWatcher.new);

@@ -17,8 +17,15 @@ final Provider<LobbyPresenceRepository> lobbyPresenceRepositoryProvider =
 /// The set of user ids currently connected to [LobbyPresenceParams.gameId]'s
 /// lobby. Distinct from `game_players` (a DB row can exist for a player
 /// who force-quit the app): this reflects a live socket.
-final StreamProviderFamily<Set<String>, LobbyPresenceParams> lobbyPresenceStreamProvider =
-    StreamProvider.family<Set<String>, LobbyPresenceParams>((ref, params) {
+///
+/// `autoDispose`d: leaving the lobby should actually close the presence
+/// channel (which is also how other players learn we've disconnected),
+/// not leave it joined for the rest of the app session.
+final AutoDisposeStreamProviderFamily<Set<String>, LobbyPresenceParams>
+lobbyPresenceStreamProvider = StreamProvider.autoDispose.family<Set<String>, LobbyPresenceParams>((
+  ref,
+  params,
+) {
   return ref
       .watch(lobbyPresenceRepositoryProvider)
       .watchOnlinePlayers(

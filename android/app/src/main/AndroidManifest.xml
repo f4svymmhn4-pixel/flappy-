@@ -20,6 +20,14 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+            <!-- Impeller is the default renderer on recent Flutter versions,
+                 but the game's answer-tile/animal animations (Steps 7-8)
+                 are exactly the kind of workload it exists for, so this
+                 makes that intentional instead of implicit. -->
+            <meta-data
+              android:name="io.flutter.embedding.android.EnableImpeller"
+              android:value="true"
+              />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

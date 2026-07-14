@@ -18,16 +18,16 @@ son rôle est commenté directement dans le fichier de migration qui la crée
 
 - **`questions` n'a aucune policy RLS** : un client authentifié ne peut pas
   lire la table brute (donc jamais `correct_option` avant l'heure). La
-  question d'une manche en cours sera servie par une RPC dédiée
-  (`get_active_round_question`, étape Backend) qui masque la bonne réponse
-  tant que la manche n'est pas révélée.
+  question d'une manche en cours est servie par `get_round_question(round_id)`,
+  qui vérifie que l'appelant participe à la partie et ne renvoie
+  `correct_option` que si la manche est `revealed`/`completed`.
 - **`games` / `game_players` / `game_rounds` / `game_answers`** n'ont que
   des policies `SELECT` (lecture pour les seuls participants, via la
   fonction `is_game_participant`). Aucune policy `INSERT`/`UPDATE` pour le
   rôle `authenticated` : score, timing de manche et validité des réponses
-  sont exclusivement calculés côté serveur par des RPC `SECURITY DEFINER`
-  (étape Backend), qui court-circuitent RLS car elles s'exécutent avec les
-  droits du propriétaire de la table.
+  sont exclusivement calculés côté serveur par des RPC `SECURITY DEFINER`,
+  qui court-circuitent RLS car elles s'exécutent avec les droits du
+  propriétaire de la table.
 - **`profiles`** : un joueur peut modifier son pseudo/avatar, mais pas
   `tokens`/`xp`/`level`/les compteurs de stats — le trigger
   `profiles_protect_stats` rejette toute tentative venant d'un contexte non
@@ -38,11 +38,40 @@ son rôle est commenté directement dans le fichier de migration qui la crée
   de `token_transactions` dans la même transaction.
 
 Ces garanties ont été vérifiées avec un harnais de test local (Postgres +
-stub `auth.users`/`auth.uid()`) simulant deux joueurs : tentative de
+stub `auth.users`/`auth.uid()`) simulant plusieurs joueurs : tentative de
 crédit de jetons en direct, pseudo dupliqué, lecture croisée d'une partie
 privée à laquelle on ne participe pas, insertion directe dans
-`game_answers`, et mise en file de matchmaking pour un autre joueur —
-chaque tentative a été rejetée comme prévu.
+`game_answers`, lecture d'une question par un non-participant, mise en
+file de matchmaking pour un autre joueur, déblocage d'un animal sans
+assez de jetons ou en double — chaque tentative a été rejetée comme prévu.
+
+## RPC exposées au client
+
+Toute la logique de partie passe par ces fonctions (`SECURITY DEFINER`,
+`grant execute ... to authenticated`) ; le reste (tables `games`,
+`game_players`, `game_rounds`, `game_answers`, `questions`) n'accepte
+aucune écriture directe du client.
+
+| Fonction | Rôle |
+|---|---|
+| `create_private_game(difficulty, animal_id)` | Crée une partie privée + code à 6 caractères, l'appelant devient hôte |
+| `join_private_game(room_code, animal_id)` | Rejoint une partie privée en attente |
+| `start_private_game(game_id)` | L'hôte démarre la partie (min. 2 joueurs) |
+| `leave_game(game_id)` | Quitte une partie en cours ; la partie continue pour les autres |
+| `join_matchmaking(difficulty, animal_id)` | Rejoint la file publique ; forme et démarre la partie dès 5 joueurs |
+| `leave_matchmaking()` | Quitte la file d'attente |
+| `start_solo_game(difficulty, animal_id)` | Démarre une partie contre 4 bots au niveau choisi |
+| `get_round_question(round_id)` | Renvoie la question de la manche ; `correct_option` reste `null` tant que la manche n'est pas révélée |
+| `submit_answer(round_id, selected_option)` | Enregistre/écrase la réponse du joueur ; le temps de réponse est calculé côté serveur, jamais fourni par le client |
+| `reveal_round(round_id)` | Fige la manche une fois le temps écoulé, calcule qui a trouvé la bonne réponse et dans quel ordre (3/2/1/0 points) |
+| `advance_game(game_id)` | Appelée après l'animation de classement ; démarre la manche suivante ou termine la partie |
+| `unlock_animal(animal_id)` | Achète un animal si le solde de jetons suffit |
+
+`reveal_round`/`advance_game` sont conçues pour être appelées par
+n'importe quel client participant (celle ou celui dont le minuteur local
+atteint zéro en premier) : chacune revérifie l'heure serveur et est
+idempotente, donc un double appel ou un appel prématuré ne fait jamais
+rien de dangereux.
 
 ## Appliquer les migrations
 

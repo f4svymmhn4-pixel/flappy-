@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/widgets/placeholder_screen.dart';
 import '../../features/game/presentation/screens/game_screen.dart';
 import '../../features/home/presentation/screens/home_screen.dart';
 import '../../features/lobby/presentation/screens/private_lobby_screen.dart';
@@ -11,6 +10,7 @@ import '../../features/play_setup/presentation/screens/difficulty_select_screen.
 import '../../features/play_setup/presentation/screens/join_code_screen.dart';
 import '../../features/play_setup/presentation/screens/matchmaking_screen.dart';
 import '../../features/play_setup/presentation/screens/play_mode_screen.dart';
+import '../../features/profile/presentation/screens/profile_screen.dart';
 import '../../features/shop/presentation/screens/shop_screen.dart';
 import '../../features/splash/presentation/screens/splash_screen.dart';
 import 'route_paths.dart';
@@ -89,10 +89,7 @@ final Provider<GoRouter> appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: RoutePaths.profile,
         name: RouteNames.profile,
-        builder: (context, state) => const PlaceholderScreen(
-          title: 'Profil',
-          subtitle: "L'écran de profil arrive à une étape dédiée.",
-        ),
+        builder: (context, state) => const ProfileScreen(),
       ),
     ],
   );

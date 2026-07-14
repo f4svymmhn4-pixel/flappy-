@@ -38,6 +38,20 @@ class ProfileController extends AsyncNotifier<Profile> {
       failure: (failure) => failure,
     );
   }
+
+  Future<Failure?> setFavoriteAnimal(String animalId) async {
+    final Profile current = await future;
+    final result = await ref
+        .read(profileRepositoryProvider)
+        .setFavoriteAnimal(current.id, animalId);
+    return result.when(
+      success: (profile) {
+        state = AsyncData(profile);
+        return null;
+      },
+      failure: (failure) => failure,
+    );
+  }
 }
 
 final AsyncNotifierProvider<ProfileController, Profile> profileControllerProvider =

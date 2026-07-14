@@ -36,4 +36,17 @@ class SupabaseProfileRepository implements ProfileRepository {
       return ProfileModel.fromJson(row);
     });
   }
+
+  @override
+  Future<Result<Profile>> setFavoriteAnimal(String userId, String animalId) {
+    return guardRepositoryCall(_networkInfo, () async {
+      final Map<String, dynamic> row = await _client
+          .from(_table)
+          .update({'avatar_animal_id': animalId})
+          .eq('id', userId)
+          .select()
+          .single();
+      return ProfileModel.fromJson(row);
+    });
+  }
 }

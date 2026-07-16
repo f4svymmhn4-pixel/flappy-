@@ -10,6 +10,7 @@ export const loisirsSeeds: GiftSeed[] = [
     emoji: "🎨",
     passions: ["creation_artistique"],
     sentimental: true,
+    evitePour: ["materiel_creatif"],
   },
   {
     nom: "Console de jeu rétro avec jeux intégrés",
@@ -21,6 +22,7 @@ export const loisirsSeeds: GiftSeed[] = [
     passions: ["jeux_video"],
     giftTypes: ["valeur_sentimentale", "inattendu"],
     sentimental: true,
+    evitePour: ["jeux"],
   },
   {
     nom: "Jeu de société coopératif d'aventure",
@@ -30,6 +32,7 @@ export const loisirsSeeds: GiftSeed[] = [
     categorie: "loisirs",
     emoji: "🎲",
     passions: ["jeux_societe"],
+    evitePour: ["jeux"],
   },
   {
     nom: "Kit de démarrage de jardinage en intérieur",
@@ -39,6 +42,7 @@ export const loisirsSeeds: GiftSeed[] = [
     categorie: "loisirs",
     emoji: "🌿",
     passions: ["jardinage", "nature"],
+    evitePour: ["plantes"],
   },
   {
     nom: "Télescope compact pour débutant",
@@ -68,6 +72,7 @@ export const loisirsSeeds: GiftSeed[] = [
     categorie: "loisirs",
     emoji: "🖋️",
     passions: ["creation_artistique"],
+    evitePour: ["materiel_creatif"],
   },
   {
     nom: "Puzzle 1000 pièces panoramique personnalisé",
@@ -77,6 +82,7 @@ export const loisirsSeeds: GiftSeed[] = [
     categorie: "loisirs",
     emoji: "🧩",
     sentimental: true,
+    evitePour: [],
   },
   {
     nom: "Kit de brasserie de bière maison",
@@ -86,6 +92,8 @@ export const loisirsSeeds: GiftSeed[] = [
     categorie: "loisirs",
     emoji: "🍺",
     passions: ["gastronomie"],
+    reserveAdulte: true,
+    evitePour: ["vin_spiritueux"],
   },
   {
     nom: "Abonnement box de vin découverte",
@@ -95,6 +103,8 @@ export const loisirsSeeds: GiftSeed[] = [
     categorie: "loisirs",
     emoji: "🍷",
     passions: ["gastronomie", "oenologie"],
+    reserveAdulte: true,
+    evitePour: ["vin_spiritueux"],
   },
   {
     nom: "Kit de poterie à faire soi-même",
@@ -104,6 +114,7 @@ export const loisirsSeeds: GiftSeed[] = [
     categorie: "loisirs",
     emoji: "🏺",
     passions: ["creation_artistique", "artisanat"],
+    evitePour: ["materiel_creatif"],
   },
   {
     nom: "Longue-vue d'observation des oiseaux",
@@ -113,6 +124,7 @@ export const loisirsSeeds: GiftSeed[] = [
     categorie: "loisirs",
     emoji: "🦉",
     passions: ["nature", "animaux"],
+    evitePour: [],
   },
   {
     nom: "Set d'échecs en bois sculpté",
@@ -123,6 +135,7 @@ export const loisirsSeeds: GiftSeed[] = [
     emoji: "♟️",
     passions: ["jeux_societe", "apprentissage_culture"],
     stylesExtra: ["elegant_classique"],
+    evitePour: ["objets_collection"],
   },
   {
     nom: "Kit de fabrication de bougies",
@@ -132,6 +145,7 @@ export const loisirsSeeds: GiftSeed[] = [
     categorie: "loisirs",
     emoji: "🕯️",
     passions: ["creation_artistique", "artisanat"],
+    evitePour: ["materiel_creatif"],
   },
   {
     nom: "Livre-jeu d'escape game à domicile",
@@ -141,6 +155,7 @@ export const loisirsSeeds: GiftSeed[] = [
     categorie: "loisirs",
     emoji: "🔐",
     giftTypes: ["experience_memorable", "inattendu"],
+    evitePour: ["jeux"],
   },
   {
     nom: "Kit de fabrication de cocktails maison",
@@ -150,6 +165,8 @@ export const loisirsSeeds: GiftSeed[] = [
     categorie: "loisirs",
     emoji: "🍸",
     passions: ["gastronomie", "mixologie"],
+    reserveAdulte: true,
+    evitePour: ["vin_spiritueux"],
   },
   {
     nom: "Abonnement magazine passion sur-mesure",
@@ -159,6 +176,7 @@ export const loisirsSeeds: GiftSeed[] = [
     categorie: "loisirs",
     emoji: "📰",
     passions: ["apprentissage_culture", "lecture"],
+    evitePour: [],
   },
   {
     nom: "Set de fléchettes électronique",
@@ -168,5 +186,6 @@ export const loisirsSeeds: GiftSeed[] = [
     categorie: "loisirs",
     emoji: "🎯",
     passions: ["jeux_societe"],
+    evitePour: ["jeux"],
   },
 ];

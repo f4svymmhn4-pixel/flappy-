@@ -74,6 +74,7 @@ export const experiencesSeeds: GiftSeed[] = [
     categorie: "experiences",
     emoji: "🍷",
     passions: ["gastronomie", "oenologie"],
+    reserveAdulte: true,
   },
   {
     nom: "Sortie en kart ou pilotage sportif",
@@ -120,6 +121,7 @@ export const experiencesSeeds: GiftSeed[] = [
     categorie: "experiences",
     emoji: "🍸",
     passions: ["mixologie"],
+    reserveAdulte: true,
   },
   {
     nom: "Cours de danse en couple",
@@ -147,6 +149,7 @@ export const experiencesSeeds: GiftSeed[] = [
     categorie: "experiences",
     emoji: "🍇",
     passions: ["gastronomie", "voyage", "oenologie"],
+    reserveAdulte: true,
   },
   {
     nom: "Atelier photo avec un professionnel",

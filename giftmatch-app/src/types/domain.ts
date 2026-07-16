@@ -212,6 +212,8 @@ export interface GiftTags {
   experience: boolean;
   saisons: string[];
   evitePour: AlreadyHas[];
+  /** Sharp tools, alcohol, tobacco... never shown to a child or teen profile. */
+  reserveAdulte: boolean;
 }
 
 export interface Gift {

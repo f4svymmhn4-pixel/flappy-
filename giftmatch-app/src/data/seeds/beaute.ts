@@ -90,6 +90,7 @@ export const beauteSeeds: GiftSeed[] = [
     emoji: "👜",
     sentimental: true,
     genre: "femme",
+    evitePour: [],
   },
   {
     nom: "Coffret rasage traditionnel",
@@ -100,6 +101,7 @@ export const beauteSeeds: GiftSeed[] = [
     emoji: "🪒",
     genre: "homme",
     stylesExtra: ["elegant_classique"],
+    reserveAdulte: true,
   },
   {
     nom: "Huile de barbe et kit d'entretien",
@@ -135,6 +137,7 @@ export const beauteSeeds: GiftSeed[] = [
     emoji: "🧪",
     giftTypes: ["inattendu", "connaissance_profonde"],
     experience: true,
+    evitePour: [],
   },
   {
     nom: "Set de soins pour barbe premium",
@@ -153,6 +156,7 @@ export const beauteSeeds: GiftSeed[] = [
     categorie: "beaute",
     emoji: "💡",
     giftTypes: ["ameliore_quotidien"],
+    evitePour: [],
   },
   {
     nom: "Coffret spa à faire à la maison",

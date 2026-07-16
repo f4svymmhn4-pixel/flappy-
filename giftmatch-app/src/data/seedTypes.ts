@@ -40,7 +40,10 @@ export interface GiftSeed {
   experience?: boolean;
   saisons?: string[];
   occasions?: string[];
+  /** Overrides (replaces, does not merge with) the category's default evitePour list. */
   evitePour?: AlreadyHas[];
+  /** Sharp tools, alcohol, tobacco... forces exclusion for any child/teen profile. */
+  reserveAdulte?: boolean;
 }
 
 export type ExpandedCatalog = Gift[];

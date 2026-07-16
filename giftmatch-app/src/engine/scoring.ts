@@ -11,7 +11,9 @@ const WEIGHTS = {
   detail: 10,
 } as const;
 
-const ALREADY_HAS_PENALTY = 15;
+const ALREADY_HAS_PENALTY = 25;
+
+const KID_AGES: AgeGroup[] = ["0-3", "4-6", "7-10", "11-15"];
 
 export interface ScoreBreakdownItem {
   label: string;
@@ -24,7 +26,7 @@ export interface ScoreResult {
   breakdown: ScoreBreakdownItem[];
 }
 
-function ageGroupFromExact(age: number): AgeGroup {
+export function ageGroupFromExact(age: number): AgeGroup {
   if (age <= 3) return "0-3";
   if (age <= 6) return "4-6";
   if (age <= 10) return "7-10";
@@ -176,6 +178,39 @@ function compatibilityPercent(score: number, maxScore: number): number {
   return Math.min(99, Math.max(55, raw));
 }
 
+function resolvedAgeGroup(answers: QuizAnswers): AgeGroup | undefined {
+  if (answers.ageExact !== undefined) return ageGroupFromExact(answers.ageExact);
+  return answers.ageGroup;
+}
+
+/**
+ * Safety gate applied before any scoring. A child profile (kid age group, or
+ * "mon enfant" as the relation) is restricted to gifts explicitly tagged for
+ * that age — never anything reserved for adults (sharp tools, alcohol,
+ * tobacco) even if it would otherwise score well. Teens/young adults in the
+ * 16-20 bucket still see the full catalog except reserveAdulte items, since
+ * that bucket spans below and above the legal drinking age.
+ */
+export function filterSafeCatalog(gifts: Gift[], answers: QuizAnswers): Gift[] {
+  const ageGroup = resolvedAgeGroup(answers);
+  const isChild = (ageGroup !== undefined && KID_AGES.includes(ageGroup)) || answers.relation === "enfant";
+
+  if (isChild) {
+    const targetAges = ageGroup ? [ageGroup] : KID_AGES;
+    const safeForChild = gifts.filter(
+      (g) => !g.tags.reserveAdulte && g.tags.ages.some((a) => targetAges.includes(a))
+    );
+    // Guaranteed non-empty fallback: the dedicated kids category is always safe.
+    return safeForChild.length > 0 ? safeForChild : gifts.filter((g) => g.categorie === "enfants");
+  }
+
+  if (ageGroup === "16-20") {
+    return gifts.filter((g) => !g.tags.reserveAdulte);
+  }
+
+  return gifts;
+}
+
 /**
  * Scores the whole catalog and returns the top N gifts, sorted from the best
  * match to the weakest of the selection.
@@ -185,7 +220,8 @@ export function getTopGifts(
   answers: QuizAnswers,
   count = 3
 ): ScoredGift[] {
-  const scored = gifts.map((gift) => {
+  const safeGifts = filterSafeCatalog(gifts, answers);
+  const scored = safeGifts.map((gift) => {
     const { score, maxScore } = scoreGift(gift, answers);
     return { gift, score, maxScore };
   });

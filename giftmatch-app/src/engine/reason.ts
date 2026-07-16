@@ -1,6 +1,6 @@
-import { Gift, Passion, QuizAnswers, Relation, Style } from "../types/domain";
+import { AlreadyHas, Gift, GiftCategory, Passion, QuizAnswers, Relation, Style } from "../types/domain";
 import { ScoreBreakdownItem } from "./scoring";
-import { reactionOptions, styleOptions } from "../data/questions";
+import { alreadyHasOptions, reactionOptions, styleOptions } from "../data/questions";
 
 const RELATION_SUBJECT: Record<Relation, string> = {
   partenaire: "ton/ta partenaire",
@@ -84,6 +84,34 @@ const REACTION_LABELS: Record<string, string> = Object.fromEntries(
   reactionOptions.map((o) => [o.value, o.label])
 );
 
+const ALREADY_HAS_LABELS: Record<AlreadyHas, string> = Object.fromEntries(
+  alreadyHasOptions.map((o) => [o.value, lowerFirst(o.label)])
+) as Record<AlreadyHas, string>;
+
+/** Loose category domains for each "already has" answer, used to decide when
+ * a gift genuinely dodges a redundant category the person is already full of. */
+const ALREADY_HAS_DOMAIN: Record<AlreadyHas, GiftCategory[]> = {
+  vetements: ["mode"],
+  chaussures: ["mode"],
+  bijoux: ["mode", "artisanat", "luxe"],
+  beaute: ["beaute"],
+  livres: ["culture"],
+  technologie: ["technologie"],
+  decoration: ["maison", "artisanat"],
+  plantes: ["maison", "cuisine", "loisirs"],
+  cuisine: ["cuisine", "maison"],
+  accessoires_voyage: ["voyage", "mode"],
+  equipement_sport: ["sport"],
+  jeux: ["loisirs", "enfants"],
+  vin_spiritueux: ["cuisine", "loisirs", "luxe", "experiences", "culture", "couples", "maison"],
+  materiel_creatif: ["loisirs"],
+  objets_collection: ["loisirs", "artisanat", "luxe"],
+  accessoires_mode: ["mode"],
+  objets_connectes: ["technologie"],
+  souvenirs_voyage: ["voyage"],
+  sais_pas: [],
+};
+
 function joinFr(items: string[]): string {
   if (items.length === 0) return "";
   if (items.length === 1) return items[0];
@@ -132,10 +160,27 @@ export function buildPersonalizedReason(
     fragments.push(`on a tenu compte de ce que tu nous as confié : "${answers.detail.trim()}"`);
   }
 
+  if (
+    !matched.has("deja_possede") &&
+    answers.alreadyHas.length > 0 &&
+    answers.alreadyHas.some((h) => ALREADY_HAS_DOMAIN[h].includes(gift.categorie))
+  ) {
+    const relevantHas = answers.alreadyHas.find((h) => ALREADY_HAS_DOMAIN[h].includes(gift.categorie));
+    if (relevantHas) {
+      fragments.push(
+        `même si ${relationSubject} a déjà ${ALREADY_HAS_LABELS[relevantHas]}, ce choix change vraiment de l'ordinaire`
+      );
+    }
+  }
+
+  if (fragments.length < 2 && (answers.budget || answers.budgetExact !== undefined)) {
+    fragments.push("il reste dans le budget que tu as fixé");
+  }
+
   if (fragments.length === 0) {
     fragments.push(`${relationSubject} devrait apprécier cette idée dans la catégorie ${gift.categorie.replace("_", " ")}`);
   }
 
-  const top = fragments.slice(0, 3);
+  const top = fragments.slice(0, 4);
   return `Nous avons choisi ce cadeau car ${joinFr(top)}.`;
 }

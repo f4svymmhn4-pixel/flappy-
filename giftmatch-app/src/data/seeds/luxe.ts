@@ -27,6 +27,7 @@ export const luxeSeeds: GiftSeed[] = [
     emoji: "🥃",
     passions: ["gastronomie", "oenologie"],
     genre: "homme",
+    reserveAdulte: true,
   },
   {
     nom: "Sac à main en cuir de créateur",
@@ -53,6 +54,7 @@ export const luxeSeeds: GiftSeed[] = [
     categorie: "luxe",
     emoji: "🍾",
     passions: ["gastronomie"],
+    reserveAdulte: true,
   },
   {
     nom: "Cave à cigares avec accessoires",
@@ -62,6 +64,7 @@ export const luxeSeeds: GiftSeed[] = [
     categorie: "luxe",
     emoji: "🚬",
     genre: "homme",
+    reserveAdulte: true,
   },
   {
     nom: "Écharpe en soie de grande maison",
@@ -107,6 +110,7 @@ export const luxeSeeds: GiftSeed[] = [
     emoji: "🥃",
     passions: ["oenologie"],
     genre: "homme",
+    reserveAdulte: true,
   },
   {
     nom: "Portefeuille en cuir exotique",

@@ -28,6 +28,7 @@ export const cuisineSeeds: GiftSeed[] = [
     emoji: "🔪",
     giftTypes: ["impressionnant", "ameliore_quotidien"],
     genre: "mixte",
+    reserveAdulte: true,
   },
   {
     nom: "Machine à café à grains avec broyeur",
@@ -38,6 +39,7 @@ export const cuisineSeeds: GiftSeed[] = [
     emoji: "☕",
     passions: ["cafe_lifestyle"],
     premium: true,
+    evitePour: [],
   },
   {
     nom: "Kit de fabrication de bière artisanale",
@@ -47,6 +49,7 @@ export const cuisineSeeds: GiftSeed[] = [
     categorie: "cuisine",
     emoji: "🍺",
     giftTypes: ["inattendu", "original_rare"],
+    reserveAdulte: true,
   },
   {
     nom: "Planche à découper en bois d'olivier gravée",
@@ -85,6 +88,7 @@ export const cuisineSeeds: GiftSeed[] = [
     categorie: "cuisine",
     emoji: "🧂",
     passions: ["voyage", "gastronomie"],
+    evitePour: [],
   },
   {
     nom: "Théière en fonte japonaise",
@@ -95,6 +99,7 @@ export const cuisineSeeds: GiftSeed[] = [
     emoji: "🍵",
     passions: ["bien_etre"],
     stylesExtra: ["zen_bienetre"],
+    evitePour: [],
   },
   {
     nom: "Balance de cuisine connectée avec recettes",
@@ -104,6 +109,7 @@ export const cuisineSeeds: GiftSeed[] = [
     categorie: "cuisine",
     emoji: "⚖️",
     giftTypes: ["ameliore_quotidien"],
+    evitePour: [],
   },
   {
     nom: "Kit de fumage à froid pour aliments",
@@ -113,6 +119,7 @@ export const cuisineSeeds: GiftSeed[] = [
     categorie: "cuisine",
     emoji: "💨",
     giftTypes: ["original_rare", "inattendu"],
+    evitePour: [],
   },
   {
     nom: "Set de bento japonais élégant",
@@ -130,6 +137,7 @@ export const cuisineSeeds: GiftSeed[] = [
     categorie: "cuisine",
     emoji: "🧊",
     passions: ["mixologie"],
+    evitePour: [],
   },
   {
     nom: "Coffret dégustation d'huiles d'olive premium",
@@ -139,6 +147,7 @@ export const cuisineSeeds: GiftSeed[] = [
     categorie: "cuisine",
     emoji: "🫒",
     passions: ["gastronomie"],
+    evitePour: [],
   },
   {
     nom: "Mandoline professionnelle multi-lames",
@@ -147,6 +156,7 @@ export const cuisineSeeds: GiftSeed[] = [
     prixMax: 55,
     categorie: "cuisine",
     emoji: "🥕",
+    reserveAdulte: true,
   },
   {
     nom: "Set à fondue savoyarde en pierre",
@@ -165,5 +175,6 @@ export const cuisineSeeds: GiftSeed[] = [
     categorie: "cuisine",
     emoji: "🌿",
     passions: ["jardinage", "nature"],
+    evitePour: ["plantes"],
   },
 ];

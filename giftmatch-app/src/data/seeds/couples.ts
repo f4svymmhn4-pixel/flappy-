@@ -95,6 +95,7 @@ export const couplesSeeds: GiftSeed[] = [
     categorie: "couples",
     emoji: "🍫",
     passions: ["gastronomie", "oenologie"],
+    reserveAdulte: true,
   },
   {
     nom: "Séance photo de couple avec photographe",
@@ -149,6 +150,7 @@ export const couplesSeeds: GiftSeed[] = [
     categorie: "couples",
     emoji: "🍷",
     passions: ["gastronomie", "oenologie"],
+    reserveAdulte: true,
   },
   {
     nom: "Horoscope de couple personnalisé illustré",

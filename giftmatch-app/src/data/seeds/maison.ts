@@ -10,6 +10,7 @@ export const maisonSeeds: GiftSeed[] = [
     emoji: "🕯️",
     passions: ["bien_etre"],
     stylesExtra: ["zen_bienetre"],
+    evitePour: [],
   },
   {
     nom: "Coussin chauffant thérapeutique",
@@ -20,6 +21,7 @@ export const maisonSeeds: GiftSeed[] = [
     emoji: "🧣",
     passions: ["bien_etre"],
     stylesExtra: ["zen_bienetre"],
+    evitePour: [],
   },
   {
     nom: "Plaid en laine mérinos tissé main",
@@ -47,6 +49,8 @@ export const maisonSeeds: GiftSeed[] = [
     emoji: "🥃",
     genre: "homme",
     relations: ["partenaire", "papa", "ami", "collegue", "famille", "autre"],
+    reserveAdulte: true,
+    evitePour: ["vin_spiritueux"],
   },
   {
     nom: "Horloge murale silencieuse scandinave",
@@ -63,6 +67,7 @@ export const maisonSeeds: GiftSeed[] = [
     prixMax: 40,
     categorie: "maison",
     emoji: "🛁",
+    evitePour: [],
   },
   {
     nom: "Lampe de chevet tactile à intensité variable",
@@ -81,6 +86,7 @@ export const maisonSeeds: GiftSeed[] = [
     emoji: "🪞",
     passions: ["beaute"],
     genre: "femme",
+    evitePour: ["beaute"],
   },
   {
     nom: "Kit de compost de cuisine design",
@@ -90,6 +96,7 @@ export const maisonSeeds: GiftSeed[] = [
     categorie: "maison",
     emoji: "🌱",
     passions: ["nature", "jardinage"],
+    evitePour: ["plantes"],
   },
   {
     nom: "Range-épices tournant en bambou",
@@ -99,6 +106,7 @@ export const maisonSeeds: GiftSeed[] = [
     categorie: "maison",
     emoji: "🧂",
     passions: ["cuisine"],
+    evitePour: ["cuisine"],
   },
   {
     nom: "Coffret à thé compartimenté avec théière",
@@ -108,6 +116,7 @@ export const maisonSeeds: GiftSeed[] = [
     categorie: "maison",
     emoji: "🍵",
     stylesExtra: ["zen_bienetre"],
+    evitePour: [],
   },
   {
     nom: "Vase en céramique fait main",
@@ -135,6 +144,7 @@ export const maisonSeeds: GiftSeed[] = [
     categorie: "maison",
     emoji: "🌬️",
     giftTypes: ["ameliore_quotidien"],
+    evitePour: [],
   },
   {
     nom: "Distributeur d'eau pétillante maison",
@@ -144,6 +154,7 @@ export const maisonSeeds: GiftSeed[] = [
     categorie: "maison",
     emoji: "🫧",
     giftTypes: ["ameliore_quotidien"],
+    evitePour: ["cuisine"],
   },
   {
     nom: "Guirlande lumineuse solaire d'extérieur",
@@ -154,6 +165,7 @@ export const maisonSeeds: GiftSeed[] = [
     emoji: "✨",
     passions: ["jardinage", "nature"],
     saisons: ["printemps", "ete"],
+    evitePour: ["plantes"],
   },
   {
     nom: "Panier de rangement tressé multi-usage",
@@ -174,5 +186,7 @@ export const maisonSeeds: GiftSeed[] = [
     emoji: "🔨",
     passions: ["bricolage"],
     genre: "mixte",
+    reserveAdulte: true,
+    evitePour: [],
   },
 ];

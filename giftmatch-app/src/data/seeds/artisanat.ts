@@ -17,6 +17,7 @@ export const artisanatSeeds: GiftSeed[] = [
     categorie: "artisanat",
     emoji: "🪵",
     sentimental: true,
+    evitePour: [],
   },
   {
     nom: "Bijou en céramique fait main",
@@ -26,6 +27,7 @@ export const artisanatSeeds: GiftSeed[] = [
     categorie: "artisanat",
     emoji: "📿",
     genre: "femme",
+    evitePour: ["bijoux"],
   },
   {
     nom: "Panier tressé artisanal",
@@ -34,6 +36,7 @@ export const artisanatSeeds: GiftSeed[] = [
     prixMax: 50,
     categorie: "artisanat",
     emoji: "🧺",
+    evitePour: [],
   },
   {
     nom: "Coffret de savons naturels façonnés main",
@@ -42,6 +45,7 @@ export const artisanatSeeds: GiftSeed[] = [
     prixMax: 40,
     categorie: "artisanat",
     emoji: "🧼",
+    evitePour: [],
   },
   {
     nom: "Tapisserie murale tissée à la main",
@@ -61,6 +65,7 @@ export const artisanatSeeds: GiftSeed[] = [
     emoji: "🔪",
     genre: "homme",
     giftTypes: ["original_rare", "impressionnant"],
+    reserveAdulte: true,
   },
   {
     nom: "Vase en verre soufflé artisanal",
@@ -78,6 +83,7 @@ export const artisanatSeeds: GiftSeed[] = [
     categorie: "artisanat",
     emoji: "📓",
     passions: ["lecture", "creation_artistique"],
+    evitePour: [],
   },
   {
     nom: "Sculpture en bois flotté",
@@ -95,6 +101,7 @@ export const artisanatSeeds: GiftSeed[] = [
     prixMax: 70,
     categorie: "artisanat",
     emoji: "🥣",
+    evitePour: [],
   },
   {
     nom: "Tapis tissé à la main en laine",
@@ -103,6 +110,7 @@ export const artisanatSeeds: GiftSeed[] = [
     prixMax: 120,
     categorie: "artisanat",
     emoji: "🧶",
+    evitePour: [],
   },
   {
     nom: "Boîte en marqueterie artisanale",
@@ -120,6 +128,7 @@ export const artisanatSeeds: GiftSeed[] = [
     prixMax: 90,
     categorie: "artisanat",
     emoji: "💍",
+    evitePour: ["bijoux"],
   },
   {
     nom: "Tabouret en bois brut fait main",
@@ -128,6 +137,7 @@ export const artisanatSeeds: GiftSeed[] = [
     prixMax: 100,
     categorie: "artisanat",
     emoji: "🪑",
+    evitePour: [],
   },
   {
     nom: "Coussin brodé à la main motif traditionnel",
@@ -136,6 +146,7 @@ export const artisanatSeeds: GiftSeed[] = [
     prixMax: 60,
     categorie: "artisanat",
     emoji: "🧵",
+    evitePour: [],
   },
   {
     nom: "Set de tasses en céramique peintes main",
@@ -144,6 +155,7 @@ export const artisanatSeeds: GiftSeed[] = [
     prixMax: 60,
     categorie: "artisanat",
     emoji: "☕",
+    evitePour: [],
   },
   {
     nom: "Instrument de musique artisanal",
@@ -153,5 +165,6 @@ export const artisanatSeeds: GiftSeed[] = [
     categorie: "artisanat",
     emoji: "🪘",
     passions: ["musique", "instruments"],
+    evitePour: [],
   },
 ];

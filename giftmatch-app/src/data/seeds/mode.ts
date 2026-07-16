@@ -8,6 +8,7 @@ export const modeSeeds: GiftSeed[] = [
     prixMax: 120,
     categorie: "mode",
     emoji: "🧣",
+    evitePour: ["accessoires_mode"],
   },
   {
     nom: "Portefeuille en cuir gravé personnalisable",
@@ -18,6 +19,7 @@ export const modeSeeds: GiftSeed[] = [
     emoji: "👛",
     sentimental: true,
     giftTypes: ["valeur_sentimentale"],
+    evitePour: [],
   },
   {
     nom: "Montre classique bracelet interchangeable",
@@ -26,6 +28,7 @@ export const modeSeeds: GiftSeed[] = [
     prixMax: 150,
     categorie: "mode",
     emoji: "⌚",
+    evitePour: [],
   },
   {
     nom: "Lunettes de soleil polarisées intemporelles",
@@ -34,6 +37,7 @@ export const modeSeeds: GiftSeed[] = [
     prixMax: 110,
     categorie: "mode",
     emoji: "🕶️",
+    evitePour: ["accessoires_mode"],
   },
   {
     nom: "Ceinture réversible en cuir italien",
@@ -43,6 +47,7 @@ export const modeSeeds: GiftSeed[] = [
     categorie: "mode",
     emoji: "👔",
     genre: "homme",
+    evitePour: ["accessoires_mode"],
   },
   {
     nom: "Foulard en soie à motif exclusif",
@@ -52,6 +57,7 @@ export const modeSeeds: GiftSeed[] = [
     categorie: "mode",
     emoji: "🧕",
     genre: "femme",
+    evitePour: [],
   },
   {
     nom: "Boutons de manchette gravés",
@@ -63,6 +69,7 @@ export const modeSeeds: GiftSeed[] = [
     genre: "homme",
     passions: ["bijoux"],
     sentimental: true,
+    evitePour: [],
   },
   {
     nom: "Sac à main en cuir végétal fait main",
@@ -73,6 +80,7 @@ export const modeSeeds: GiftSeed[] = [
     emoji: "👜",
     genre: "femme",
     stylesExtra: ["bobo_parisien"],
+    evitePour: [],
   },
   {
     nom: "Abonnement chaussettes premium",
@@ -82,6 +90,7 @@ export const modeSeeds: GiftSeed[] = [
     categorie: "mode",
     emoji: "🧦",
     giftTypes: ["inattendu"],
+    evitePour: ["accessoires_mode"],
   },
   {
     nom: "Chapeau en feutre façon fedora",
@@ -90,6 +99,7 @@ export const modeSeeds: GiftSeed[] = [
     prixMax: 80,
     categorie: "mode",
     emoji: "🎩",
+    evitePour: ["accessoires_mode"],
   },
   {
     nom: "Bijou minimaliste en acier inoxydable",
@@ -99,6 +109,7 @@ export const modeSeeds: GiftSeed[] = [
     categorie: "mode",
     emoji: "📿",
     passions: ["bijoux"],
+    evitePour: ["bijoux"],
   },
   {
     nom: "Sneakers édition limitée",
@@ -108,6 +119,7 @@ export const modeSeeds: GiftSeed[] = [
     categorie: "mode",
     emoji: "👟",
     giftTypes: ["impressionnant"],
+    evitePour: [],
   },
   {
     nom: "Pochette de rangement à bijoux de voyage",
@@ -118,6 +130,7 @@ export const modeSeeds: GiftSeed[] = [
     emoji: "💍",
     genre: "femme",
     passions: ["bijoux"],
+    evitePour: ["accessoires_voyage"],
   },
   {
     nom: "Boucles d'oreilles en pierre naturelle",
@@ -128,6 +141,7 @@ export const modeSeeds: GiftSeed[] = [
     emoji: "💎",
     genre: "femme",
     passions: ["bijoux"],
+    evitePour: ["bijoux"],
   },
   {
     nom: "Cravate en soie tissée à la main",
@@ -137,6 +151,7 @@ export const modeSeeds: GiftSeed[] = [
     categorie: "mode",
     emoji: "👔",
     genre: "homme",
+    evitePour: [],
   },
   {
     nom: "Gants en cuir doublés cachemire",
@@ -146,6 +161,7 @@ export const modeSeeds: GiftSeed[] = [
     categorie: "mode",
     emoji: "🧤",
     saisons: ["hiver"],
+    evitePour: ["accessoires_mode"],
   },
   {
     nom: "Bracelet gravé avec message caché",
@@ -157,6 +173,7 @@ export const modeSeeds: GiftSeed[] = [
     passions: ["bijoux"],
     sentimental: true,
     giftTypes: ["valeur_sentimentale", "connaissance_profonde"],
+    evitePour: [],
   },
   {
     nom: "Porte-cartes en cuir minimaliste RFID",
@@ -166,5 +183,6 @@ export const modeSeeds: GiftSeed[] = [
     categorie: "mode",
     emoji: "💳",
     giftTypes: ["ameliore_quotidien"],
+    evitePour: ["accessoires_mode"],
   },
 ];

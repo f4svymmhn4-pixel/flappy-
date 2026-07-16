@@ -81,7 +81,7 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     experience: false,
     saisons: ["toute_annee"],
     occasions: ["anniversaire", "noel", "cremaillere"],
-    evitePour: ["decoration", "plantes"],
+    evitePour: ["decoration"],
     boutiques: ["Amazon", "Nature & Découvertes"],
   },
   cuisine: {
@@ -153,7 +153,7 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     experience: false,
     saisons: ["toute_annee"],
     occasions: ["anniversaire", "noel"],
-    evitePour: ["vetements", "accessoires_mode", "chaussures", "bijoux"],
+    evitePour: [],
     boutiques: ["Amazon", "Autre"],
   },
   beaute: {
@@ -189,7 +189,7 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     experience: false,
     saisons: ["toute_annee"],
     occasions: ["anniversaire", "noel"],
-    evitePour: ["jeux", "materiel_creatif", "objets_collection"],
+    evitePour: [],
     boutiques: ["Amazon", "Fnac"],
   },
   experiences: {
@@ -243,7 +243,7 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     experience: false,
     saisons: ["toute_annee"],
     occasions: ["anniversaire", "noel"],
-    evitePour: ["livres"],
+    evitePour: [],
     boutiques: ["Fnac", "Amazon"],
   },
   enfants: {
@@ -333,7 +333,7 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     experience: false,
     saisons: ["toute_annee"],
     occasions: ["anniversaire", "cremaillere"],
-    evitePour: ["objets_collection", "materiel_creatif"],
+    evitePour: ["objets_collection"],
     boutiques: ["Autre", "Nature & Découvertes"],
   },
 };
@@ -415,7 +415,8 @@ export function expandSeed(seed: GiftSeed): Gift {
     premium: seed.premium ?? (profile.premium || seed.prixMin >= 150),
     experience: seed.experience ?? profile.experience,
     saisons: unique(seed.saisons ?? profile.saisons),
-    evitePour: unique([...(seed.evitePour ?? []), ...profile.evitePour]),
+    evitePour: unique(seed.evitePour ?? profile.evitePour),
+    reserveAdulte: seed.reserveAdulte ?? false,
   };
 
   return {

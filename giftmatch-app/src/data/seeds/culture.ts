@@ -18,6 +18,7 @@ export const cultureSeeds: GiftSeed[] = [
     emoji: "📚",
     passions: ["lecture"],
     sentimental: true,
+    evitePour: ["livres"],
   },
   {
     nom: "Abonnement plateforme de cours en ligne",
@@ -61,6 +62,7 @@ export const cultureSeeds: GiftSeed[] = [
     categorie: "culture",
     emoji: "📦",
     passions: ["lecture"],
+    evitePour: ["livres"],
   },
   {
     nom: "Coffret initiation à l'œnologie",
@@ -70,6 +72,7 @@ export const cultureSeeds: GiftSeed[] = [
     categorie: "culture",
     emoji: "🍷",
     passions: ["gastronomie", "oenologie"],
+    reserveAdulte: true,
   },
   {
     nom: "Kit d'apprentissage d'une nouvelle langue",

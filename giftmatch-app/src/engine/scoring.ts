@@ -95,9 +95,10 @@ export function scoreGift(gift: Gift, answers: QuizAnswers): ScoreResult {
     }
   }
 
-  if (answers.style) {
+  if (answers.styles.length > 0) {
     maxScore += WEIGHTS.style;
-    if (gift.tags.styles.includes(answers.style)) {
+    const matches = answers.styles.filter((s) => gift.tags.styles.includes(s));
+    if (matches.length > 0) {
       score += WEIGHTS.style;
       breakdown.push({ label: "style", points: WEIGHTS.style });
     }

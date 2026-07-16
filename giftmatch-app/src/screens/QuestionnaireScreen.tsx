@@ -9,6 +9,7 @@ import { ProgressBar } from "../components/ProgressBar";
 import { GradientButton } from "../components/GradientButton";
 import { SingleSelectQuestion } from "../components/steps/SingleSelectQuestion";
 import { MultiSelectQuestion } from "../components/steps/MultiSelectQuestion";
+import { CardMultiSelectQuestion } from "../components/steps/CardMultiSelectQuestion";
 import { TextQuestion } from "../components/steps/TextQuestion";
 import {
   ageOptions,
@@ -60,7 +61,7 @@ export function QuestionnaireScreen({ navigation }: Props) {
       case 3:
         return answers.passions.length > 0;
       case 4:
-        return !!answers.style;
+        return answers.styles.length > 0;
       case 5:
         return !!answers.giftType;
       case 6:
@@ -91,10 +92,10 @@ export function QuestionnaireScreen({ navigation }: Props) {
     undefined,
     undefined,
     "Sélectionne autant de réponses que nécessaire.",
+    "Sélectionne un ou plusieurs styles qui lui correspondent.",
     undefined,
     undefined,
-    undefined,
-    "Objectif : éviter les cadeaux inutiles.",
+    "Objectif : éviter les cadeaux inutiles. Sélectionne autant de réponses que nécessaire.",
     "Dis-nous un détail qui pourrait nous aider.",
   ];
 
@@ -140,10 +141,16 @@ export function QuestionnaireScreen({ navigation }: Props) {
         );
       case 4:
         return (
-          <SingleSelectQuestion
+          <CardMultiSelectQuestion
             options={styleOptions}
-            value={answers.style}
-            onSelect={(style) => updateAnswers({ style })}
+            values={answers.styles}
+            onToggle={(style) =>
+              updateAnswers({
+                styles: answers.styles.includes(style)
+                  ? answers.styles.filter((s) => s !== style)
+                  : [...answers.styles, style],
+              })
+            }
             withSubtitles
           />
         );

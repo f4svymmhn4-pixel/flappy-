@@ -115,7 +115,9 @@ export function buildPersonalizedReason(
   }
 
   if (matched.has("style")) {
-    fragments.push(`correspond à son style ${STYLE_LABELS[answers.style!]}`);
+    const matchedStyles = answers.styles.filter((s) => gift.tags.styles.includes(s));
+    const labels = matchedStyles.map((s) => STYLE_LABELS[s]);
+    fragments.push(`correspond à son style ${joinFr(labels)}`);
   }
 
   if (matched.has("giftType") && answers.giftType) {

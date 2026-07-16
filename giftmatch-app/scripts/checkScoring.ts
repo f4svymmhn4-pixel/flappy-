@@ -8,7 +8,7 @@ const answers: QuizAnswers = {
   ageGroup: "21-30",
   budget: "50-100",
   passions: ["cuisine", "gastronomie", "voyage"],
-  style: "bobo_parisien",
+  styles: ["bobo_parisien", "epicurien"],
   giftType: "connaissance_profonde",
   reaction: "ca_me_touche",
   alreadyHas: ["technologie"],

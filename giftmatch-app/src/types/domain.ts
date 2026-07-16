@@ -101,7 +101,27 @@ export type Style =
   | "creatif"
   | "passionne_hobby"
   | "drole_bande"
-  | "cocooning_maison";
+  | "cocooning_maison"
+  | "minimaliste"
+  | "sportif"
+  | "ecolo"
+  | "amateur_luxe"
+  | "fashion_addict"
+  | "boheme"
+  | "epicurien"
+  | "gourmet"
+  | "intellectuel"
+  | "vintage_nostalgique"
+  | "entrepreneur"
+  | "manuel_bricoleur"
+  | "passionne_musique"
+  | "fan_cinema_series"
+  | "gamer"
+  | "nature_randonnee"
+  | "original_insolite"
+  | "traditionnel"
+  | "romantique"
+  | "collectionneur";
 
 export type GiftType =
   | "inattendu"
@@ -123,12 +143,23 @@ export type Reaction =
 
 export type AlreadyHas =
   | "vetements"
-  | "livres"
-  | "jeux"
-  | "decoration"
-  | "technologie"
+  | "chaussures"
+  | "bijoux"
   | "beaute"
+  | "livres"
+  | "technologie"
+  | "decoration"
+  | "plantes"
   | "cuisine"
+  | "accessoires_voyage"
+  | "equipement_sport"
+  | "jeux"
+  | "vin_spiritueux"
+  | "materiel_creatif"
+  | "objets_collection"
+  | "accessoires_mode"
+  | "objets_connectes"
+  | "souvenirs_voyage"
   | "sais_pas";
 
 export type GiftCategory =
@@ -205,7 +236,7 @@ export interface QuizAnswers {
   budget?: BudgetRange;
   budgetExact?: number;
   passions: Passion[];
-  style?: Style;
+  styles: Style[];
   giftType?: GiftType;
   reaction?: Reaction;
   alreadyHas: AlreadyHas[];
@@ -214,6 +245,7 @@ export interface QuizAnswers {
 
 export const emptyAnswers: QuizAnswers = {
   passions: [],
+  styles: [],
   alreadyHas: [],
 };
 

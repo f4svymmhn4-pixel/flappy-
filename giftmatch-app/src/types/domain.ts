@@ -36,29 +36,60 @@ export type BudgetRange =
   | "plus200";
 
 export type Passion =
+  // Sport & fitness
   | "jeux_video"
   | "sport"
   | "fitness"
   | "rugby"
+  | "football"
+  | "basketball"
+  | "tennis"
+  | "golf"
+  | "natation"
+  | "cyclisme"
+  | "course_a_pied"
+  | "yoga"
+  | "escalade"
+  | "randonnee"
+  // Cuisine & gastronomie
   | "cuisine"
   | "gastronomie"
+  | "patisserie"
+  | "oenologie"
+  | "cafe_lifestyle"
+  | "mixologie"
+  // Culture & loisirs
   | "lecture"
   | "films_series"
   | "musique"
   | "instruments"
+  | "jeux_societe"
+  | "apprentissage_culture"
   | "photo_video"
-  | "voyage"
-  | "nature"
+  // Maison & création
   | "decoration"
   | "creation_artistique"
-  | "apprentissage_culture"
+  | "artisanat"
+  | "bricolage"
+  | "jardinage"
+  // Mode & beauté
+  | "mode"
+  | "beaute"
+  | "bijoux"
+  // Voyage & aventure
+  | "voyage"
+  | "nature"
+  | "camping"
+  // Véhicules
   | "automobile"
   | "moto"
+  // Animaux
   | "animaux"
-  | "mode_beaute"
-  | "jeux_societe"
-  | "jardinage"
-  | "cafe_lifestyle";
+  // Bien-être & luxe
+  | "bien_etre"
+  | "luxe"
+  // Technologie
+  | "technologie";
 
 export type Style =
   | "bobo_parisien"
@@ -192,4 +223,11 @@ export interface ScoredGift {
   maxScore: number;
   compatibility: number;
   raison: string;
+}
+
+/** A gift saved by the user, with an optional custom label ("Cadeau maman", "Idée Noël 2026"...). */
+export interface FavoriteEntry {
+  giftId: string;
+  customName?: string;
+  savedAt: number;
 }

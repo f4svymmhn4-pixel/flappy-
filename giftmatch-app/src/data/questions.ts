@@ -50,29 +50,60 @@ export const budgetOptions: Option<BudgetRange>[] = [
 ];
 
 export const passionOptions: Option<Passion>[] = [
+  // Sport & fitness
   { value: "jeux_video", emoji: "🎮", label: "Jeux vidéo" },
   { value: "sport", emoji: "⚽", label: "Sport" },
   { value: "fitness", emoji: "🏋️", label: "Fitness / musculation" },
   { value: "rugby", emoji: "🏉", label: "Rugby / sports collectifs" },
+  { value: "football", emoji: "⚽", label: "Football" },
+  { value: "basketball", emoji: "🏀", label: "Basketball" },
+  { value: "tennis", emoji: "🎾", label: "Tennis / padel" },
+  { value: "golf", emoji: "⛳", label: "Golf" },
+  { value: "natation", emoji: "🏊", label: "Natation" },
+  { value: "cyclisme", emoji: "🚴", label: "Cyclisme" },
+  { value: "course_a_pied", emoji: "🏃", label: "Course à pied" },
+  { value: "yoga", emoji: "🧘", label: "Yoga" },
+  { value: "escalade", emoji: "🧗", label: "Escalade" },
+  { value: "randonnee", emoji: "🥾", label: "Randonnée" },
+  // Cuisine & gastronomie
   { value: "cuisine", emoji: "🍳", label: "Cuisine" },
   { value: "gastronomie", emoji: "🍷", label: "Gastronomie" },
+  { value: "patisserie", emoji: "🧁", label: "Pâtisserie" },
+  { value: "oenologie", emoji: "🍇", label: "Œnologie / vin" },
+  { value: "cafe_lifestyle", emoji: "☕", label: "Café / lifestyle" },
+  { value: "mixologie", emoji: "🍸", label: "Mixologie / cocktails" },
+  // Culture & loisirs
   { value: "lecture", emoji: "📚", label: "Lecture" },
   { value: "films_series", emoji: "🎬", label: "Films et séries" },
   { value: "musique", emoji: "🎵", label: "Musique" },
   { value: "instruments", emoji: "🎸", label: "Instruments" },
+  { value: "jeux_societe", emoji: "🎲", label: "Jeux de société" },
+  { value: "apprentissage_culture", emoji: "🧠", label: "Apprentissage / culture" },
   { value: "photo_video", emoji: "📸", label: "Photo / vidéo" },
-  { value: "voyage", emoji: "✈️", label: "Voyage" },
-  { value: "nature", emoji: "🌱", label: "Nature" },
+  // Maison & création
   { value: "decoration", emoji: "🏠", label: "Décoration" },
   { value: "creation_artistique", emoji: "🎨", label: "Création artistique" },
-  { value: "apprentissage_culture", emoji: "🧠", label: "Apprentissage / culture" },
+  { value: "artisanat", emoji: "🧶", label: "Artisanat" },
+  { value: "bricolage", emoji: "🔨", label: "Bricolage" },
+  { value: "jardinage", emoji: "🌿", label: "Jardinage" },
+  // Mode & beauté
+  { value: "mode", emoji: "👗", label: "Mode" },
+  { value: "beaute", emoji: "💄", label: "Beauté" },
+  { value: "bijoux", emoji: "💍", label: "Bijoux" },
+  // Voyage & aventure
+  { value: "voyage", emoji: "✈️", label: "Voyage" },
+  { value: "nature", emoji: "🌱", label: "Nature" },
+  { value: "camping", emoji: "⛺", label: "Camping / plein air" },
+  // Véhicules
   { value: "automobile", emoji: "🚗", label: "Automobile" },
   { value: "moto", emoji: "🏍", label: "Moto" },
+  // Animaux
   { value: "animaux", emoji: "🐶", label: "Animaux" },
-  { value: "mode_beaute", emoji: "👗", label: "Mode / beauté" },
-  { value: "jeux_societe", emoji: "🎲", label: "Jeux de société" },
-  { value: "jardinage", emoji: "🌿", label: "Jardinage" },
-  { value: "cafe_lifestyle", emoji: "☕", label: "Café / lifestyle" },
+  // Bien-être & luxe
+  { value: "bien_etre", emoji: "🕯️", label: "Bien-être / relaxation" },
+  { value: "luxe", emoji: "👑", label: "Luxe" },
+  // Technologie
+  { value: "technologie", emoji: "🔌", label: "Technologie / gadgets" },
 ];
 
 export const styleOptions: Option<Style>[] = [

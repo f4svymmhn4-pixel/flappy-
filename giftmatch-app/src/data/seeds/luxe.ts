@@ -25,7 +25,7 @@ export const luxeSeeds: GiftSeed[] = [
     prixMax: 220,
     categorie: "luxe",
     emoji: "🥃",
-    passions: ["gastronomie"],
+    passions: ["gastronomie", "oenologie"],
     genre: "homme",
   },
   {
@@ -79,6 +79,7 @@ export const luxeSeeds: GiftSeed[] = [
     prixMax: 250,
     categorie: "luxe",
     emoji: "💍",
+    passions: ["bijoux"],
   },
   {
     nom: "Coffret dégustation de chocolats grand cru",
@@ -104,6 +105,7 @@ export const luxeSeeds: GiftSeed[] = [
     prixMax: 180,
     categorie: "luxe",
     emoji: "🥃",
+    passions: ["oenologie"],
     genre: "homme",
   },
   {
@@ -129,6 +131,7 @@ export const luxeSeeds: GiftSeed[] = [
     prixMax: 120,
     categorie: "luxe",
     emoji: "🍵",
+    passions: ["bien_etre"],
     stylesExtra: ["zen_bienetre"],
   },
   {

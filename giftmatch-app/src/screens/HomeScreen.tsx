@@ -14,7 +14,7 @@ type Props = NativeStackScreenProps<RootStackParamList, "Home">;
 
 export function HomeScreen({ navigation }: Props) {
   const { reset } = useQuiz();
-  const { favoriteIds } = useFavorites();
+  const { favorites } = useFavorites();
 
   return (
     <View style={styles.container}>
@@ -48,9 +48,9 @@ export function HomeScreen({ navigation }: Props) {
               navigation.navigate("Questionnaire");
             }}
           />
-          {favoriteIds.length > 0 ? (
+          {favorites.length > 0 ? (
             <Text style={styles.favLink} onPress={() => navigation.navigate("Favorites")}>
-              ❤️ Voir mes {favoriteIds.length} cadeau{favoriteIds.length > 1 ? "x" : ""} sauvegardé{favoriteIds.length > 1 ? "s" : ""}
+              ❤️ Voir mes {favorites.length} cadeau{favorites.length > 1 ? "x" : ""} sauvegardé{favorites.length > 1 ? "s" : ""}
             </Text>
           ) : null}
         </Animated.View>

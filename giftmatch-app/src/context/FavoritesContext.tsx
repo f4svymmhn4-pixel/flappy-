@@ -1,41 +1,64 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { FavoriteEntry } from "../types/domain";
 
 const STORAGE_KEY = "giftmatch:favorites";
 
 interface FavoritesContextValue {
-  favoriteIds: string[];
-  isFavorite: (id: string) => boolean;
-  toggleFavorite: (id: string) => void;
+  favorites: FavoriteEntry[];
+  isFavorite: (giftId: string) => boolean;
+  toggleFavorite: (giftId: string) => void;
+  renameFavorite: (giftId: string, customName: string) => void;
+  getCustomName: (giftId: string) => string | undefined;
 }
 
 const FavoritesContext = createContext<FavoritesContextValue | undefined>(undefined);
 
+/** Old builds stored a plain string[] of gift ids; upgrade it in place. */
+function normalizeStored(raw: unknown): FavoriteEntry[] {
+  if (!Array.isArray(raw)) return [];
+  return raw.map((item) =>
+    typeof item === "string"
+      ? { giftId: item, savedAt: Date.now() }
+      : (item as FavoriteEntry)
+  );
+}
+
 export function FavoritesProvider({ children }: { children: React.ReactNode }) {
-  const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
+  const [favorites, setFavorites] = useState<FavoriteEntry[]>([]);
 
   useEffect(() => {
     AsyncStorage.getItem(STORAGE_KEY)
       .then((raw) => {
-        if (raw) setFavoriteIds(JSON.parse(raw));
+        if (raw) setFavorites(normalizeStored(JSON.parse(raw)));
       })
       .catch(() => {});
   }, []);
 
   useEffect(() => {
-    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(favoriteIds)).catch(() => {});
-  }, [favoriteIds]);
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(favorites)).catch(() => {});
+  }, [favorites]);
 
   const value = useMemo<FavoritesContextValue>(
     () => ({
-      favoriteIds,
-      isFavorite: (id: string) => favoriteIds.includes(id),
-      toggleFavorite: (id: string) =>
-        setFavoriteIds((prev) =>
-          prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]
+      favorites,
+      isFavorite: (giftId: string) => favorites.some((f) => f.giftId === giftId),
+      toggleFavorite: (giftId: string) =>
+        setFavorites((prev) =>
+          prev.some((f) => f.giftId === giftId)
+            ? prev.filter((f) => f.giftId !== giftId)
+            : [...prev, { giftId, savedAt: Date.now() }]
         ),
+      renameFavorite: (giftId: string, customName: string) =>
+        setFavorites((prev) =>
+          prev.map((f) =>
+            f.giftId === giftId ? { ...f, customName: customName.trim() || undefined } : f
+          )
+        ),
+      getCustomName: (giftId: string) =>
+        favorites.find((f) => f.giftId === giftId)?.customName,
     }),
-    [favoriteIds]
+    [favorites]
   );
 
   return <FavoritesContext.Provider value={value}>{children}</FavoritesContext.Provider>;

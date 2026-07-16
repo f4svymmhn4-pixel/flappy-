@@ -8,6 +8,7 @@ export const maisonSeeds: GiftSeed[] = [
     prixMax: 50,
     categorie: "maison",
     emoji: "🕯️",
+    passions: ["bien_etre"],
     stylesExtra: ["zen_bienetre"],
   },
   {
@@ -17,6 +18,7 @@ export const maisonSeeds: GiftSeed[] = [
     prixMax: 35,
     categorie: "maison",
     emoji: "🧣",
+    passions: ["bien_etre"],
     stylesExtra: ["zen_bienetre"],
   },
   {
@@ -77,7 +79,7 @@ export const maisonSeeds: GiftSeed[] = [
     prixMax: 70,
     categorie: "maison",
     emoji: "🪞",
-    passions: ["mode_beaute"],
+    passions: ["beaute"],
     genre: "femme",
   },
   {
@@ -114,6 +116,7 @@ export const maisonSeeds: GiftSeed[] = [
     prixMax: 65,
     categorie: "maison",
     emoji: "🏺",
+    passions: ["artisanat"],
     stylesExtra: ["bobo_parisien", "creatif"],
   },
   {
@@ -159,6 +162,17 @@ export const maisonSeeds: GiftSeed[] = [
     prixMax: 45,
     categorie: "maison",
     emoji: "🧺",
+    passions: ["artisanat"],
     stylesExtra: ["bobo_parisien"],
+  },
+  {
+    nom: "Coffret d'outils multifonction pour bricoleur",
+    description: "Une caisse à outils complète avec les essentiels pour les petits travaux à la maison.",
+    prixMin: 50,
+    prixMax: 90,
+    categorie: "maison",
+    emoji: "🔨",
+    passions: ["bricolage"],
+    genre: "mixte",
   },
 ];

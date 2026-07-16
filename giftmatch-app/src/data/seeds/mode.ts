@@ -61,6 +61,7 @@ export const modeSeeds: GiftSeed[] = [
     categorie: "mode",
     emoji: "💎",
     genre: "homme",
+    passions: ["bijoux"],
     sentimental: true,
   },
   {
@@ -97,6 +98,7 @@ export const modeSeeds: GiftSeed[] = [
     prixMax: 45,
     categorie: "mode",
     emoji: "📿",
+    passions: ["bijoux"],
   },
   {
     nom: "Sneakers édition limitée",
@@ -115,6 +117,7 @@ export const modeSeeds: GiftSeed[] = [
     categorie: "mode",
     emoji: "💍",
     genre: "femme",
+    passions: ["bijoux"],
   },
   {
     nom: "Boucles d'oreilles en pierre naturelle",
@@ -124,6 +127,7 @@ export const modeSeeds: GiftSeed[] = [
     categorie: "mode",
     emoji: "💎",
     genre: "femme",
+    passions: ["bijoux"],
   },
   {
     nom: "Cravate en soie tissée à la main",
@@ -150,6 +154,7 @@ export const modeSeeds: GiftSeed[] = [
     prixMax: 55,
     categorie: "mode",
     emoji: "📿",
+    passions: ["bijoux"],
     sentimental: true,
     giftTypes: ["valeur_sentimentale", "connaissance_profonde"],
   },

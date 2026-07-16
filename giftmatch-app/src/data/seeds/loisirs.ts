@@ -94,7 +94,7 @@ export const loisirsSeeds: GiftSeed[] = [
     prixMax: 55,
     categorie: "loisirs",
     emoji: "🍷",
-    passions: ["gastronomie"],
+    passions: ["gastronomie", "oenologie"],
   },
   {
     nom: "Kit de poterie à faire soi-même",
@@ -103,7 +103,7 @@ export const loisirsSeeds: GiftSeed[] = [
     prixMax: 65,
     categorie: "loisirs",
     emoji: "🏺",
-    passions: ["creation_artistique"],
+    passions: ["creation_artistique", "artisanat"],
   },
   {
     nom: "Longue-vue d'observation des oiseaux",
@@ -131,7 +131,7 @@ export const loisirsSeeds: GiftSeed[] = [
     prixMax: 45,
     categorie: "loisirs",
     emoji: "🕯️",
-    passions: ["creation_artistique"],
+    passions: ["creation_artistique", "artisanat"],
   },
   {
     nom: "Livre-jeu d'escape game à domicile",
@@ -149,7 +149,7 @@ export const loisirsSeeds: GiftSeed[] = [
     prixMax: 65,
     categorie: "loisirs",
     emoji: "🍸",
-    passions: ["gastronomie"],
+    passions: ["gastronomie", "mixologie"],
   },
   {
     nom: "Abonnement magazine passion sur-mesure",

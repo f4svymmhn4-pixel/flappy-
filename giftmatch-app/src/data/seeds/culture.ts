@@ -69,7 +69,7 @@ export const cultureSeeds: GiftSeed[] = [
     prixMax: 85,
     categorie: "culture",
     emoji: "🍷",
-    passions: ["gastronomie"],
+    passions: ["gastronomie", "oenologie"],
   },
   {
     nom: "Kit d'apprentissage d'une nouvelle langue",

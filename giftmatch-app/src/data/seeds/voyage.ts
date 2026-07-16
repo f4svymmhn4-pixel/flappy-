@@ -78,7 +78,7 @@ export const voyageSeeds: GiftSeed[] = [
     prixMax: 50,
     categorie: "voyage",
     emoji: "💧",
-    passions: ["nature", "voyage"],
+    passions: ["nature", "voyage", "randonnee", "camping"],
     stylesExtra: ["aventurier"],
   },
   {
@@ -104,6 +104,7 @@ export const voyageSeeds: GiftSeed[] = [
     prixMax: 60,
     categorie: "voyage",
     emoji: "🔋",
+    passions: ["randonnee", "camping"],
     stylesExtra: ["aventurier"],
   },
   {
@@ -158,6 +159,7 @@ export const voyageSeeds: GiftSeed[] = [
     prixMax: 40,
     categorie: "voyage",
     emoji: "⛱️",
+    passions: ["natation", "camping"],
     saisons: ["ete"],
   },
 ];

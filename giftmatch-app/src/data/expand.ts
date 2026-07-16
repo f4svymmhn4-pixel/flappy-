@@ -49,7 +49,7 @@ interface CategoryProfile {
 
 const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
   technologie: {
-    passions: [],
+    passions: ["technologie"],
     styles: ["geek_passionne"],
     relations: ADULT_RELATIONS,
     ages: ADULT_AGES,
@@ -139,7 +139,7 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     boutiques: ["Amazon", "Fnac"],
   },
   mode: {
-    passions: ["mode_beaute"],
+    passions: ["mode"],
     styles: ["elegant_classique"],
     relations: ADULT_RELATIONS,
     ages: ADULT_AGES,
@@ -157,7 +157,7 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     boutiques: ["Amazon", "Autre"],
   },
   beaute: {
-    passions: ["mode_beaute"],
+    passions: ["beaute"],
     styles: ["zen_bienetre", "elegant_classique"],
     relations: ADULT_RELATIONS,
     ages: ADULT_AGES,
@@ -301,7 +301,7 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     boutiques: ["Amazon", "Fnac"],
   },
   luxe: {
-    passions: [],
+    passions: ["luxe"],
     styles: ["elegant_classique"],
     relations: ADULT_RELATIONS,
     ages: ["21-30", "31-45", "46-60", "60+"],
@@ -319,7 +319,7 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     boutiques: ["Autre", "Amazon"],
   },
   artisanat: {
-    passions: ["decoration", "creation_artistique"],
+    passions: ["decoration", "creation_artistique", "artisanat"],
     styles: ["bobo_parisien", "creatif"],
     relations: ADULT_RELATIONS,
     ages: ADULT_AGES,

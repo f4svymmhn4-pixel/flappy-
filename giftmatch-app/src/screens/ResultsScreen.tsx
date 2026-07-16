@@ -1,9 +1,8 @@
-import React, { useMemo } from "react";
-import { Alert, Share, StyleSheet, Text, View } from "react-native";
+import React, { useMemo, useState } from "react";
+import { Share, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
-import * as Linking from "expo-linking";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { RootStackParamList } from "../navigation/types";
@@ -13,14 +12,19 @@ import { GIFTS } from "../data/gifts";
 import { getTopGifts, scoreGift } from "../engine/scoring";
 import { buildPersonalizedReason } from "../engine/reason";
 import { GiftCard } from "../components/GiftCard";
+import { GiftLinksModal } from "../components/GiftLinksModal";
+import { RenameModal } from "../components/RenameModal";
 import { GradientButton } from "../components/GradientButton";
+import { Gift } from "../types/domain";
 import { colors, gradients, spacing, typography } from "../theme/theme";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Results">;
 
 export function ResultsScreen({ navigation }: Props) {
   const { answers, reset } = useQuiz();
-  const { isFavorite, toggleFavorite } = useFavorites();
+  const { isFavorite, toggleFavorite, renameFavorite } = useFavorites();
+  const [linksGift, setLinksGift] = useState<Gift | null>(null);
+  const [renameGift, setRenameGift] = useState<Gift | null>(null);
 
   const results = useMemo(() => {
     const top = getTopGifts(GIFTS, answers, 3);
@@ -33,21 +37,15 @@ export function ResultsScreen({ navigation }: Props) {
     });
   }, [answers]);
 
-  const handleOpenLinks = (gift: (typeof results)[number]["scored"]["gift"]) => {
-    Alert.alert(
-      gift.nom,
-      "Où veux-tu voir ce cadeau ?",
-      [
-        ...gift.liens.map((lien) => ({
-          text: lien.boutique,
-          onPress: () => Linking.openURL(lien.url).catch(() => {}),
-        })),
-        { text: "Annuler", style: "cancel" as const },
-      ]
-    );
+  const handleToggleSave = (gift: Gift) => {
+    const wasSaved = isFavorite(gift.id);
+    toggleFavorite(gift.id);
+    if (!wasSaved) {
+      setRenameGift(gift);
+    }
   };
 
-  const handleShare = (gift: (typeof results)[number]["scored"]["gift"]) => {
+  const handleShare = (gift: Gift) => {
     Share.share({
       message: `🎁 ${gift.nom} — ${gift.description}\nDéniché avec GiftMatch !`,
     }).catch(() => {});
@@ -72,8 +70,8 @@ export function ResultsScreen({ navigation }: Props) {
               rank={(index + 1) as 1 | 2 | 3}
               reason={r.reason}
               saved={isFavorite(r.scored.gift.id)}
-              onOpenLinks={() => handleOpenLinks(r.scored.gift)}
-              onSave={() => toggleFavorite(r.scored.gift.id)}
+              onOpenLinks={() => setLinksGift(r.scored.gift)}
+              onSave={() => handleToggleSave(r.scored.gift)}
               onShare={() => handleShare(r.scored.gift)}
               index={index}
             />
@@ -95,6 +93,23 @@ export function ResultsScreen({ navigation }: Props) {
           </View>
         </ScrollView>
       </SafeAreaView>
+
+      <GiftLinksModal
+        gift={linksGift}
+        visible={linksGift !== null}
+        onClose={() => setLinksGift(null)}
+      />
+
+      <RenameModal
+        visible={renameGift !== null}
+        title="Donne un nom à cette sauvegarde"
+        placeholder='Ex : "Cadeau maman", "Idée Noël 2026"...'
+        onCancel={() => setRenameGift(null)}
+        onSave={(name) => {
+          if (renameGift) renameFavorite(renameGift.id, name);
+          setRenameGift(null);
+        }}
+      />
     </View>
   );
 }

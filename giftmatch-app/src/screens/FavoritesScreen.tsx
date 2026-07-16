@@ -1,25 +1,31 @@
-import React, { useMemo } from "react";
-import { Alert, Pressable, Share, StyleSheet, Text, View } from "react-native";
+import React, { useMemo, useState } from "react";
+import { Pressable, Share, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView } from "react-native-gesture-handler";
 import { LinearGradient } from "expo-linear-gradient";
-import * as Linking from "expo-linking";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import { RootStackParamList } from "../navigation/types";
 import { useFavorites } from "../context/FavoritesContext";
 import { GIFTS } from "../data/gifts";
+import { GiftLinksModal } from "../components/GiftLinksModal";
+import { RenameModal } from "../components/RenameModal";
+import { Gift } from "../types/domain";
 import { colors, radius, spacing, typography } from "../theme/theme";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Favorites">;
 
 export function FavoritesScreen({ navigation }: Props) {
-  const { favoriteIds, toggleFavorite } = useFavorites();
+  const { favorites, toggleFavorite, renameFavorite, getCustomName } = useFavorites();
+  const [linksGift, setLinksGift] = useState<Gift | null>(null);
+  const [renameGift, setRenameGift] = useState<Gift | null>(null);
 
-  const favoriteGifts = useMemo(
-    () => GIFTS.filter((g) => favoriteIds.includes(g.id)),
-    [favoriteIds]
-  );
+  const favoriteGifts = useMemo(() => {
+    const byId = new Map(GIFTS.map((g) => [g.id, g]));
+    return favorites
+      .map((f) => byId.get(f.giftId))
+      .filter((g): g is Gift => g !== undefined);
+  }, [favorites]);
 
   return (
     <View style={styles.container}>
@@ -36,55 +42,82 @@ export function FavoritesScreen({ navigation }: Props) {
           {favoriteGifts.length === 0 ? (
             <Text style={styles.empty}>Aucun cadeau sauvegardé pour le moment.</Text>
           ) : (
-            favoriteGifts.map((gift, index) => (
-              <Animated.View
-                key={gift.id}
-                entering={FadeInUp.delay(index * 60).duration(350)}
-                style={styles.card}
-              >
-                <LinearGradient colors={gift.couleurs} style={styles.badge}>
-                  <Text style={styles.badgeEmoji}>{gift.emoji}</Text>
-                </LinearGradient>
-                <View style={styles.cardBody}>
-                  <Text style={styles.cardName}>{gift.nom}</Text>
-                  <Text style={styles.cardPrice}>
-                    {gift.prixMin === gift.prixMax
-                      ? `${gift.prixMin} €`
-                      : `${gift.prixMin} – ${gift.prixMax} €`}
-                  </Text>
-                  <View style={styles.cardActions}>
-                    <Pressable
-                      onPress={() =>
-                        Alert.alert(gift.nom, "Où veux-tu voir ce cadeau ?", [
-                          ...gift.liens.map((lien) => ({
-                            text: lien.boutique,
-                            onPress: () => Linking.openURL(lien.url).catch(() => {}),
-                          })),
-                          { text: "Annuler", style: "cancel" as const },
-                        ])
-                      }
-                    >
-                      <Text style={styles.actionText}>🛒 Voir</Text>
-                    </Pressable>
-                    <Pressable
-                      onPress={() =>
-                        Share.share({
-                          message: `🎁 ${gift.nom} — ${gift.description}\nDéniché avec GiftMatch !`,
-                        }).catch(() => {})
-                      }
-                    >
-                      <Text style={styles.actionText}>↗️ Partager</Text>
-                    </Pressable>
-                    <Pressable onPress={() => toggleFavorite(gift.id)}>
-                      <Text style={styles.actionText}>🗑️ Retirer</Text>
-                    </Pressable>
+            favoriteGifts.map((gift, index) => {
+              const customName = getCustomName(gift.id);
+              return (
+                <Animated.View
+                  key={gift.id}
+                  entering={FadeInUp.delay(index * 60).duration(350)}
+                  style={styles.card}
+                >
+                  <LinearGradient colors={gift.couleurs} style={styles.badge}>
+                    <Text style={styles.badgeEmoji}>{gift.emoji}</Text>
+                  </LinearGradient>
+                  <View style={styles.cardBody}>
+                    <View style={styles.nameRow}>
+                      <Text style={styles.cardCustomName} numberOfLines={1}>
+                        {customName ?? gift.nom}
+                      </Text>
+                      <Pressable
+                        onPress={() => setRenameGift(gift)}
+                        hitSlop={8}
+                        style={styles.editBtn}
+                      >
+                        <Text style={styles.editIcon}>✏️</Text>
+                      </Pressable>
+                    </View>
+                    {customName ? (
+                      <Text style={styles.cardGiftName} numberOfLines={1}>
+                        {gift.nom}
+                      </Text>
+                    ) : null}
+                    <Text style={styles.cardPrice}>
+                      {gift.prixMin === gift.prixMax
+                        ? `${gift.prixMin} €`
+                        : `${gift.prixMin} – ${gift.prixMax} €`}
+                    </Text>
+                    <View style={styles.cardActions}>
+                      <Pressable onPress={() => setLinksGift(gift)}>
+                        <Text style={styles.actionText}>🛒 Voir</Text>
+                      </Pressable>
+                      <Pressable
+                        onPress={() =>
+                          Share.share({
+                            message: `🎁 ${gift.nom} — ${gift.description}\nDéniché avec GiftMatch !`,
+                          }).catch(() => {})
+                        }
+                      >
+                        <Text style={styles.actionText}>↗️ Partager</Text>
+                      </Pressable>
+                      <Pressable onPress={() => toggleFavorite(gift.id)}>
+                        <Text style={styles.actionText}>🗑️ Retirer</Text>
+                      </Pressable>
+                    </View>
                   </View>
-                </View>
-              </Animated.View>
-            ))
+                </Animated.View>
+              );
+            })
           )}
         </ScrollView>
       </SafeAreaView>
+
+      <GiftLinksModal
+        gift={linksGift}
+        visible={linksGift !== null}
+        onClose={() => setLinksGift(null)}
+      />
+
+      <RenameModal
+        visible={renameGift !== null}
+        title="Renommer cette sauvegarde"
+        initialValue={renameGift ? getCustomName(renameGift.id) : undefined}
+        placeholder='Ex : "Cadeau maman", "Idée Noël 2026"...'
+        onCancel={() => setRenameGift(null)}
+        onSave={(name) => {
+          if (renameGift) renameFavorite(renameGift.id, name);
+          setRenameGift(null);
+        }}
+      />
     </View>
   );
 }
@@ -131,8 +164,16 @@ const styles = StyleSheet.create({
   },
   badgeEmoji: { fontSize: 28 },
   cardBody: { flex: 1 },
-  cardName: { color: colors.text, fontWeight: "700", fontSize: 15, marginBottom: 2 },
-  cardPrice: { color: colors.gold, fontWeight: "700", marginBottom: spacing.sm },
+  nameRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  cardCustomName: { color: colors.text, fontWeight: "700", fontSize: 15, flexShrink: 1 },
+  cardGiftName: { color: colors.textDim, fontSize: 12, marginTop: 1, marginBottom: 2 },
+  editBtn: { paddingHorizontal: 6, paddingVertical: 2 },
+  editIcon: { fontSize: 14 },
+  cardPrice: { color: colors.gold, fontWeight: "700", marginTop: 2, marginBottom: spacing.sm },
   cardActions: { flexDirection: "row", gap: 16 },
   actionText: { color: colors.primaryLight, fontWeight: "600", fontSize: 13 },
 });

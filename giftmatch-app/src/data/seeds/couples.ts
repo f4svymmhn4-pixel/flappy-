@@ -50,6 +50,7 @@ export const couplesSeeds: GiftSeed[] = [
     prixMax: 65,
     categorie: "couples",
     emoji: "📿",
+    passions: ["bijoux"],
     giftTypes: ["valeur_sentimentale"],
   },
   {
@@ -93,7 +94,7 @@ export const couplesSeeds: GiftSeed[] = [
     prixMax: 65,
     categorie: "couples",
     emoji: "🍫",
-    passions: ["gastronomie"],
+    passions: ["gastronomie", "oenologie"],
   },
   {
     nom: "Séance photo de couple avec photographe",
@@ -120,6 +121,7 @@ export const couplesSeeds: GiftSeed[] = [
     prixMax: 80,
     categorie: "couples",
     emoji: "🧖",
+    passions: ["bien_etre"],
     stylesExtra: ["zen_bienetre"],
   },
   {
@@ -146,7 +148,7 @@ export const couplesSeeds: GiftSeed[] = [
     prixMax: 65,
     categorie: "couples",
     emoji: "🍷",
-    passions: ["gastronomie"],
+    passions: ["gastronomie", "oenologie"],
   },
   {
     nom: "Horoscope de couple personnalisé illustré",

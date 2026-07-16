@@ -51,6 +51,7 @@ export const beauteSeeds: GiftSeed[] = [
     prixMax: 30,
     categorie: "beaute",
     emoji: "💎",
+    passions: ["bien_etre"],
     stylesExtra: ["zen_bienetre"],
   },
   {
@@ -69,6 +70,7 @@ export const beauteSeeds: GiftSeed[] = [
     prixMax: 55,
     categorie: "beaute",
     emoji: "🛀",
+    passions: ["bien_etre"],
     stylesExtra: ["zen_bienetre"],
   },
   {
@@ -159,6 +161,7 @@ export const beauteSeeds: GiftSeed[] = [
     prixMax: 85,
     categorie: "beaute",
     emoji: "🧖",
+    passions: ["bien_etre"],
     stylesExtra: ["zen_bienetre"],
     experience: true,
   },

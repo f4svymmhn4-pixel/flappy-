@@ -8,6 +8,7 @@ export const cuisineSeeds: GiftSeed[] = [
     prixMax: 160,
     categorie: "cuisine",
     emoji: "🧁",
+    passions: ["patisserie"],
   },
   {
     nom: "Machine à pâtes fraîches manuelle",
@@ -64,6 +65,7 @@ export const cuisineSeeds: GiftSeed[] = [
     prixMax: 30,
     categorie: "cuisine",
     emoji: "🎂",
+    passions: ["patisserie"],
   },
   {
     nom: "Siphon à cocktails et espumas",
@@ -72,6 +74,7 @@ export const cuisineSeeds: GiftSeed[] = [
     prixMax: 60,
     categorie: "cuisine",
     emoji: "🍹",
+    passions: ["mixologie"],
     giftTypes: ["inattendu"],
   },
   {
@@ -90,6 +93,7 @@ export const cuisineSeeds: GiftSeed[] = [
     prixMax: 90,
     categorie: "cuisine",
     emoji: "🍵",
+    passions: ["bien_etre"],
     stylesExtra: ["zen_bienetre"],
   },
   {
@@ -125,6 +129,7 @@ export const cuisineSeeds: GiftSeed[] = [
     prixMax: 35,
     categorie: "cuisine",
     emoji: "🧊",
+    passions: ["mixologie"],
   },
   {
     nom: "Coffret dégustation d'huiles d'olive premium",

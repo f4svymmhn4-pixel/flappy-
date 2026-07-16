@@ -45,7 +45,7 @@ export const experiencesSeeds: GiftSeed[] = [
     prixMax: 100,
     categorie: "experiences",
     emoji: "🏺",
-    passions: ["creation_artistique"],
+    passions: ["creation_artistique", "artisanat"],
   },
   {
     nom: "Vol en montgolfière au lever du soleil",
@@ -63,6 +63,7 @@ export const experiencesSeeds: GiftSeed[] = [
     prixMax: 150,
     categorie: "experiences",
     emoji: "🧖",
+    passions: ["bien_etre"],
     stylesExtra: ["zen_bienetre"],
   },
   {
@@ -72,7 +73,7 @@ export const experiencesSeeds: GiftSeed[] = [
     prixMax: 100,
     categorie: "experiences",
     emoji: "🍷",
-    passions: ["gastronomie"],
+    passions: ["gastronomie", "oenologie"],
   },
   {
     nom: "Sortie en kart ou pilotage sportif",
@@ -90,6 +91,7 @@ export const experiencesSeeds: GiftSeed[] = [
     prixMax: 110,
     categorie: "experiences",
     emoji: "🤿",
+    passions: ["natation"],
     stylesExtra: ["aventurier"],
     saisons: ["ete"],
   },
@@ -117,6 +119,7 @@ export const experiencesSeeds: GiftSeed[] = [
     prixMax: 90,
     categorie: "experiences",
     emoji: "🍸",
+    passions: ["mixologie"],
   },
   {
     nom: "Cours de danse en couple",
@@ -143,7 +146,7 @@ export const experiencesSeeds: GiftSeed[] = [
     prixMax: 80,
     categorie: "experiences",
     emoji: "🍇",
-    passions: ["gastronomie", "voyage"],
+    passions: ["gastronomie", "voyage", "oenologie"],
   },
   {
     nom: "Atelier photo avec un professionnel",

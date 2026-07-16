@@ -1,12 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Animated, { FadeIn, FadeInDown, FadeInUp } from "react-native-reanimated";
 import { RootStackParamList } from "../navigation/types";
 import { GradientButton } from "../components/GradientButton";
-import { colors, gradients, spacing, typography } from "../theme/theme";
+import { colors, spacing, typography } from "../theme/theme";
 import { useQuiz } from "../context/QuizContext";
 import { useFavorites } from "../context/FavoritesContext";
 
@@ -21,14 +21,20 @@ export function HomeScreen({ navigation }: Props) {
       <LinearGradient colors={[colors.background, colors.backgroundAlt]} style={StyleSheet.absoluteFill} />
       <Animated.View
         entering={FadeIn.duration(900)}
-        style={[styles.glow, { backgroundColor: colors.primary }]}
+        style={[styles.glow, styles.glowTop, { backgroundColor: colors.primary }]}
+      />
+      <Animated.View
+        entering={FadeIn.duration(900)}
+        style={[styles.glow, styles.glowBottom, { backgroundColor: colors.accent }]}
       />
       <SafeAreaView style={styles.safe}>
         <Animated.View entering={FadeInDown.delay(100).duration(600)} style={styles.logoWrap}>
-          <LinearGradient colors={gradients.hero} style={styles.logoBadge}>
-            <Text style={styles.logoEmoji}>🎁</Text>
-          </LinearGradient>
-          <Text style={styles.brand}>GiftMatch</Text>
+          <Image
+            source={require("../../assets/logo-mark.png")}
+            style={styles.logoBadge}
+            resizeMode="cover"
+          />
+          <Text style={styles.brand}>La Perle Rare</Text>
         </Animated.View>
 
         <View style={styles.center}>
@@ -64,31 +70,35 @@ const styles = StyleSheet.create({
   safe: { flex: 1, paddingHorizontal: spacing.lg, justifyContent: "space-between" },
   glow: {
     position: "absolute",
-    width: 320,
-    height: 320,
-    borderRadius: 320,
-    top: -120,
-    right: -100,
-    opacity: 0.25,
+    width: 280,
+    height: 280,
+    borderRadius: 280,
+  },
+  glowTop: {
+    top: -110,
+    right: -90,
+    opacity: 0.16,
+  },
+  glowBottom: {
+    bottom: -100,
+    left: -100,
+    opacity: 0.12,
   },
   logoWrap: {
     alignItems: "center",
-    marginTop: spacing.xl,
+    marginTop: spacing.lg,
   },
   logoBadge: {
-    width: 72,
-    height: 72,
-    borderRadius: 24,
-    alignItems: "center",
-    justifyContent: "center",
+    width: 64,
+    height: 64,
+    borderRadius: 20,
     marginBottom: spacing.sm,
   },
-  logoEmoji: { fontSize: 36 },
   brand: {
     color: colors.text,
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "800",
-    letterSpacing: 0.5,
+    letterSpacing: 0.6,
   },
   center: {
     flex: 1,

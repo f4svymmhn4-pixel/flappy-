@@ -47,7 +47,7 @@ export function ResultsScreen({ navigation }: Props) {
 
   const handleShare = (gift: Gift) => {
     Share.share({
-      message: `🎁 ${gift.nom} — ${gift.description}\nDéniché avec GiftMatch !`,
+      message: `🎁 ${gift.nom} — ${gift.description}\nDéniché avec La Perle Rare !`,
     }).catch(() => {});
   };
 

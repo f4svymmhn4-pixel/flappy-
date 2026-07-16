@@ -83,7 +83,7 @@ export function FavoritesScreen({ navigation }: Props) {
                       <Pressable
                         onPress={() =>
                           Share.share({
-                            message: `🎁 ${gift.nom} — ${gift.description}\nDéniché avec GiftMatch !`,
+                            message: `🎁 ${gift.nom} — ${gift.description}\nDéniché avec La Perle Rare !`,
                           }).catch(() => {})
                         }
                       >

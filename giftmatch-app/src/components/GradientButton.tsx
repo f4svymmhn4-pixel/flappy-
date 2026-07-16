@@ -62,19 +62,21 @@ export function GradientButton({
 
 const styles = StyleSheet.create({
   base: {
-    paddingVertical: 18,
-    paddingHorizontal: 28,
+    paddingVertical: 22,
+    paddingHorizontal: 32,
     borderRadius: radius.pill,
     alignItems: "center",
     justifyContent: "center",
+    width: "100%",
   },
   medium: {
     paddingVertical: 12,
     paddingHorizontal: 20,
+    width: undefined,
   },
   label: {
     color: colors.white,
-    fontSize: 17,
-    letterSpacing: 0.3,
+    fontSize: 18,
+    letterSpacing: 0.4,
   },
 });

@@ -224,6 +224,31 @@ function compatibilityPercent(score: number, maxScore: number): number {
   return Math.min(99, Math.max(55, raw));
 }
 
+/**
+ * Turns raw per-gift percentages into the ones actually displayed. Several
+ * top gifts often land on an identical (or rounding-identical) percentage
+ * since they satisfy the same set of criteria, which reads as a bug in the
+ * UI even though the ranking itself is correct. Walking the already-sorted
+ * list and enforcing a minimum gap between consecutive ranks keeps the
+ * genuine score gaps when they exist, and only invents a small gap when
+ * two gifts would otherwise display the exact same number.
+ */
+function spreadCompatibilities(rawPercents: number[]): number[] {
+  const MIN_GAP = 2;
+  const FLOOR = 55;
+  const result: number[] = [];
+  for (let i = 0; i < rawPercents.length; i++) {
+    if (i === 0) {
+      result.push(rawPercents[i]);
+      continue;
+    }
+    const prev = result[i - 1];
+    const candidate = Math.min(rawPercents[i], prev - MIN_GAP);
+    result.push(Math.max(FLOOR, candidate));
+  }
+  return result;
+}
+
 function resolvedAgeGroup(answers: QuizAnswers): AgeGroup | undefined {
   if (answers.ageExact !== undefined) return ageGroupFromExact(answers.ageExact);
   return answers.ageGroup;
@@ -274,11 +299,16 @@ export function getTopGifts(
 
   scored.sort((a, b) => b.score / b.maxScore - a.score / a.maxScore || b.score - a.score);
 
-  return scored.slice(0, count).map(({ gift, score, maxScore }) => ({
+  const top = scored.slice(0, count);
+  const compatibilities = spreadCompatibilities(
+    top.map(({ score, maxScore }) => compatibilityPercent(score, maxScore))
+  );
+
+  return top.map(({ gift, score, maxScore }, index) => ({
     gift,
     score,
     maxScore,
-    compatibility: compatibilityPercent(score, maxScore),
+    compatibility: compatibilities[index],
     raison: "",
   }));
 }

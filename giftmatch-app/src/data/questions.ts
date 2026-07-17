@@ -310,6 +310,7 @@ export const reactionOptions: Option<Reaction>[] = [
 ];
 
 export const alreadyHasOptions: Option<AlreadyHas>[] = [
+  { value: "sais_pas", emoji: "❓", label: "Rien de particulier / je ne sais pas" },
   { value: "vetements", emoji: "👕", label: "Beaucoup de vêtements" },
   { value: "chaussures", emoji: "👟", label: "Beaucoup de chaussures" },
   { value: "bijoux", emoji: "💍", label: "Beaucoup de bijoux" },
@@ -328,5 +329,4 @@ export const alreadyHasOptions: Option<AlreadyHas>[] = [
   { value: "accessoires_mode", emoji: "👜", label: "Beaucoup d'accessoires de mode" },
   { value: "objets_connectes", emoji: "📱", label: "Beaucoup d'objets connectés" },
   { value: "souvenirs_voyage", emoji: "🗺️", label: "Beaucoup de souvenirs de voyage" },
-  { value: "sais_pas", emoji: "❓", label: "Rien de particulier / je ne sais pas" },
 ];

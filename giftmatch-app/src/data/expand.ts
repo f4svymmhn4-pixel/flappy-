@@ -366,11 +366,13 @@ function slugify(text: string): string {
     .replace(/(^-|-$)/g, "");
 }
 
+const AMAZON_ASSOCIATE_TAG = "perlerare06-21";
+
 function searchUrl(boutique: StoreName, nom: string): string {
   const q = encodeURIComponent(nom);
   switch (boutique) {
     case "Amazon":
-      return `https://www.amazon.fr/s?k=${q}`;
+      return `https://www.amazon.fr/s?k=${q}&tag=${AMAZON_ASSOCIATE_TAG}`;
     case "Fnac":
       return `https://www.fnac.com/SearchResult/ResultList.aspx?Search=${q}`;
     case "Nature & Découvertes":

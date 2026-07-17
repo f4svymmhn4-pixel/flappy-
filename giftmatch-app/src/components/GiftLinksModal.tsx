@@ -60,6 +60,10 @@ export function GiftLinksModal({ gift, visible, onClose }: Props) {
                   ))}
                 </View>
 
+                <Text style={styles.disclosure}>
+                  Liens affiliés : nous pouvons percevoir une commission sur les achats effectués via ces liens, sans coût supplémentaire pour vous.
+                </Text>
+
                 <Pressable style={styles.closeBtn} onPress={onClose}>
                   <Text style={styles.closeBtnText}>Fermer</Text>
                 </Pressable>
@@ -154,6 +158,13 @@ const styles = StyleSheet.create({
     color: colors.primaryLight,
     fontSize: 20,
     fontWeight: "700",
+  },
+  disclosure: {
+    color: colors.textDim,
+    fontSize: 11,
+    lineHeight: 15,
+    textAlign: "center",
+    marginBottom: spacing.sm,
   },
   closeBtn: {
     alignSelf: "center",

@@ -182,12 +182,7 @@ export type GiftCategory =
 
 export type Genre = "homme" | "femme" | "mixte";
 
-export type StoreName =
-  | "Amazon"
-  | "Fnac"
-  | "Nature & Découvertes"
-  | "Decathlon"
-  | "Autre";
+export type StoreName = "Amazon";
 
 export interface GiftLink {
   boutique: StoreName;

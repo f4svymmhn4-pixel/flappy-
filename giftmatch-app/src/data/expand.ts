@@ -11,7 +11,6 @@ import {
   Reaction,
   Relation,
   Style,
-  StoreName,
 } from "../types/domain";
 import { GiftSeed } from "./seedTypes";
 
@@ -44,7 +43,6 @@ interface CategoryProfile {
   saisons: string[];
   occasions: string[];
   evitePour: AlreadyHas[];
-  boutiques: StoreName[];
 }
 
 const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
@@ -64,7 +62,6 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     saisons: ["toute_annee"],
     occasions: ["anniversaire", "noel"],
     evitePour: ["technologie", "objets_connectes"],
-    boutiques: ["Amazon", "Fnac"],
   },
   maison: {
     passions: ["decoration"],
@@ -82,7 +79,6 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     saisons: ["toute_annee"],
     occasions: ["anniversaire", "noel", "cremaillere"],
     evitePour: ["decoration"],
-    boutiques: ["Amazon", "Nature & Découvertes"],
   },
   cuisine: {
     passions: ["cuisine", "gastronomie"],
@@ -100,7 +96,6 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     saisons: ["toute_annee"],
     occasions: ["anniversaire", "noel", "cremaillere"],
     evitePour: ["cuisine"],
-    boutiques: ["Amazon", "Fnac"],
   },
   sport: {
     passions: ["sport", "fitness"],
@@ -118,7 +113,6 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     saisons: ["toute_annee"],
     occasions: ["anniversaire", "noel"],
     evitePour: ["equipement_sport"],
-    boutiques: ["Decathlon", "Amazon"],
   },
   voyage: {
     passions: ["voyage"],
@@ -136,7 +130,6 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     saisons: ["toute_annee"],
     occasions: ["anniversaire", "depart_vacances"],
     evitePour: ["accessoires_voyage", "souvenirs_voyage"],
-    boutiques: ["Amazon", "Fnac"],
   },
   mode: {
     passions: ["mode"],
@@ -154,7 +147,6 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     saisons: ["toute_annee"],
     occasions: ["anniversaire", "noel"],
     evitePour: [],
-    boutiques: ["Amazon", "Autre"],
   },
   beaute: {
     passions: ["beaute"],
@@ -172,7 +164,6 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     saisons: ["toute_annee"],
     occasions: ["anniversaire", "noel"],
     evitePour: ["beaute"],
-    boutiques: ["Amazon", "Nature & Découvertes"],
   },
   loisirs: {
     passions: [],
@@ -190,7 +181,6 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     saisons: ["toute_annee"],
     occasions: ["anniversaire", "noel"],
     evitePour: [],
-    boutiques: ["Amazon", "Fnac"],
   },
   experiences: {
     passions: [],
@@ -208,7 +198,6 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     saisons: ["toute_annee"],
     occasions: ["anniversaire", "saint_valentin", "depart_retraite"],
     evitePour: [],
-    boutiques: ["Autre", "Amazon"],
   },
   objets_personnalises: {
     passions: [],
@@ -226,7 +215,6 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     saisons: ["toute_annee"],
     occasions: ["anniversaire", "naissance", "anniversaire_couple"],
     evitePour: [],
-    boutiques: ["Autre", "Amazon"],
   },
   culture: {
     passions: ["lecture", "apprentissage_culture"],
@@ -244,7 +232,6 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     saisons: ["toute_annee"],
     occasions: ["anniversaire", "noel"],
     evitePour: [],
-    boutiques: ["Fnac", "Amazon"],
   },
   enfants: {
     passions: [],
@@ -262,7 +249,6 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     saisons: ["toute_annee"],
     occasions: ["anniversaire", "noel"],
     evitePour: ["jeux"],
-    boutiques: ["Amazon", "Fnac"],
   },
   couples: {
     passions: [],
@@ -280,7 +266,6 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     saisons: ["toute_annee"],
     occasions: ["saint_valentin", "anniversaire_couple", "anniversaire"],
     evitePour: [],
-    boutiques: ["Amazon", "Autre"],
   },
   humour: {
     passions: [],
@@ -298,7 +283,6 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     saisons: ["toute_annee"],
     occasions: ["anniversaire", "pot_depart"],
     evitePour: [],
-    boutiques: ["Amazon", "Fnac"],
   },
   luxe: {
     passions: ["luxe"],
@@ -316,7 +300,6 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     saisons: ["toute_annee"],
     occasions: ["anniversaire", "noel", "anniversaire_couple"],
     evitePour: ["vin_spiritueux"],
-    boutiques: ["Autre", "Amazon"],
   },
   artisanat: {
     passions: ["decoration", "creation_artistique", "artisanat"],
@@ -334,7 +317,6 @@ const CATEGORY_PROFILES: Record<GiftCategory, CategoryProfile> = {
     saisons: ["toute_annee"],
     occasions: ["anniversaire", "cremaillere"],
     evitePour: ["objets_collection"],
-    boutiques: ["Autre", "Nature & Découvertes"],
   },
 };
 
@@ -368,28 +350,14 @@ function slugify(text: string): string {
 
 const AMAZON_ASSOCIATE_TAG = "perlerare06-21";
 
-function searchUrl(boutique: StoreName, nom: string): string {
+function amazonSearchUrl(nom: string): string {
   const q = encodeURIComponent(nom);
-  switch (boutique) {
-    case "Amazon":
-      return `https://www.amazon.fr/s?k=${q}&tag=${AMAZON_ASSOCIATE_TAG}`;
-    case "Fnac":
-      return `https://www.fnac.com/SearchResult/ResultList.aspx?Search=${q}`;
-    case "Nature & Découvertes":
-      return `https://www.natureetdecouvertes.com/search?text=${q}`;
-    case "Decathlon":
-      return `https://www.decathlon.fr/search?Ntt=${q}`;
-    case "Autre":
-    default:
-      return `https://www.google.com/search?tbm=shop&q=${q}`;
-  }
+  return `https://www.amazon.fr/s?k=${q}&tag=${AMAZON_ASSOCIATE_TAG}`;
 }
 
-function buildLinks(boutiques: StoreName[], nom: string): GiftLink[] {
-  return boutiques.map((boutique) => ({
-    boutique,
-    url: searchUrl(boutique, nom),
-  }));
+/** Every gift links exclusively to Amazon, tagged with our Associates ID. */
+function buildLinks(nom: string): GiftLink[] {
+  return [{ boutique: "Amazon", url: amazonSearchUrl(nom) }];
 }
 
 let counters: Partial<Record<GiftCategory, number>> = {};
@@ -432,7 +400,7 @@ export function expandSeed(seed: GiftSeed): Gift {
     emoji: seed.emoji,
     couleurs: CATEGORY_GRADIENTS[seed.categorie],
     tags,
-    liens: buildLinks(profile.boutiques, seed.nom),
+    liens: buildLinks(seed.nom),
   };
 }
 

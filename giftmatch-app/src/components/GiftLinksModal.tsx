@@ -87,6 +87,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surface,
     borderTopLeftRadius: radius.xl,
     borderTopRightRadius: radius.xl,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderBottomWidth: 0,
     overflow: "hidden",
   },
   header: {
@@ -136,6 +139,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     backgroundColor: colors.backgroundAlt,
     borderRadius: radius.md,
+    borderWidth: 1,
+    borderColor: colors.border,
     paddingVertical: 14,
     paddingHorizontal: spacing.md,
     marginBottom: spacing.sm,

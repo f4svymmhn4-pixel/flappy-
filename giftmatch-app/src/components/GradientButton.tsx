@@ -54,7 +54,15 @@ export function GradientButton({
           shadow.glow,
         ]}
       >
-        <Text style={[typography.bodyBold, styles.label]}>{label}</Text>
+        <Text
+          style={[
+            typography.bodyBold,
+            styles.label,
+            { color: colorsOverride ? colors.text : colors.textOnGold },
+          ]}
+        >
+          {label}
+        </Text>
       </LinearGradient>
     </AnimatedPressable>
   );
@@ -75,7 +83,6 @@ const styles = StyleSheet.create({
     width: undefined,
   },
   label: {
-    color: colors.white,
     fontSize: 18,
     letterSpacing: 0.4,
   },

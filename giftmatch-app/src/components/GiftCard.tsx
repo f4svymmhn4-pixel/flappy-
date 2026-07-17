@@ -6,9 +6,9 @@ import { ScoredGift } from "../types/domain";
 import { colors, radius, shadow, spacing, typography } from "../theme/theme";
 
 const RANK_META = {
-  1: { medal: "🥇", title: "Cadeau parfait", colors: ["#FBBF24", "#F59E0B"] as [string, string] },
-  2: { medal: "🥈", title: "Alternative originale", colors: ["#CBD5E1", "#94A3B8"] as [string, string] },
-  3: { medal: "🥉", title: "Option plus économique", colors: ["#D97706", "#92400E"] as [string, string] },
+  1: { medal: "🥇", title: "Cadeau parfait", colors: ["#F0D9A0", "#D9A96A"] as [string, string] },
+  2: { medal: "🥈", title: "Alternative originale", colors: ["#2F6B5B", "#1B4A3E"] as [string, string] },
+  3: { medal: "🥉", title: "Option plus économique", colors: ["#B9895A", "#8A5F3C"] as [string, string] },
 };
 
 interface Props {
@@ -76,6 +76,8 @@ const styles = StyleSheet.create({
   card: {
     borderRadius: radius.xl,
     backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
     overflow: "hidden",
     marginBottom: spacing.lg,
   },
@@ -165,7 +167,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary,
   },
   primaryActionText: {
-    color: colors.white,
+    color: colors.textOnGold,
     fontWeight: "700",
     fontSize: 13,
   },

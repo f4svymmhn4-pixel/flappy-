@@ -1,27 +1,27 @@
 export const colors = {
-  background: "#0F0B1E",
-  backgroundAlt: "#1A1330",
-  surface: "#231B3B",
-  surfaceLight: "#2E2450",
-  primary: "#7C3AED",
-  primaryLight: "#A78BFA",
-  accent: "#F472B6",
-  gold: "#FBBF24",
-  text: "#FFFFFF",
-  textMuted: "#B9B0D6",
-  textDim: "#8478A8",
-  success: "#34D399",
-  border: "rgba(255,255,255,0.10)",
+  background: "#03100F",
+  backgroundAlt: "#0A2624",
+  surface: "#0A2422",
+  surfaceLight: "#123330",
+  primary: "#D9AD63",
+  primaryLight: "#E8C687",
+  accent: "#1F6B57",
+  gold: "#D9AD63",
+  text: "#F5EFDD",
+  textMuted: "#C7D0C2",
+  textDim: "#7C9089",
+  success: "#4ADE80",
+  border: "rgba(217,173,99,0.35)",
   white: "#FFFFFF",
+  /** Dark text used on top of gold-filled surfaces (buttons, pills), where
+   * white would fail contrast against the light gold fill. */
+  textOnGold: "#12241F",
 };
 
 export const gradients: Record<string, [string, string]> = {
-  hero: ["#7C3AED", "#EC4899"],
-  button: ["#7C3AED", "#DB2777"],
-  card: ["#231B3B", "#2E2450"],
-  gold: ["#FBBF24", "#F59E0B"],
-  silver: ["#CBD5E1", "#94A3B8"],
-  bronze: ["#D97706", "#92400E"],
+  hero: ["#F0D9A0", "#D9A96A"],
+  button: ["#F0D9A0", "#D9A96A"],
+  card: ["#0A2422", "#123330"],
 };
 
 export const spacing = {
@@ -41,10 +41,18 @@ export const radius = {
   pill: 999,
 };
 
+/** Elegant serif for headings/brand, matching the "La Perle Rare" direction
+ * artistique; body copy stays on the platform's default sans-serif for
+ * readability at small sizes. */
+export const fonts = {
+  serif: "PlayfairDisplay_600SemiBold",
+  serifBold: "PlayfairDisplay_700Bold",
+};
+
 export const typography = {
-  h1: { fontSize: 32, fontWeight: "800" as const },
-  h2: { fontSize: 24, fontWeight: "700" as const },
-  h3: { fontSize: 18, fontWeight: "700" as const },
+  h1: { fontSize: 32, fontWeight: "700" as const, fontFamily: fonts.serifBold },
+  h2: { fontSize: 24, fontWeight: "700" as const, fontFamily: fonts.serifBold },
+  h3: { fontSize: 19, fontWeight: "600" as const, fontFamily: fonts.serif },
   body: { fontSize: 16, fontWeight: "400" as const },
   bodyBold: { fontSize: 16, fontWeight: "600" as const },
   small: { fontSize: 13, fontWeight: "400" as const },
@@ -55,14 +63,14 @@ export const shadow = {
   soft: {
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.25,
+    shadowOpacity: 0.3,
     shadowRadius: 16,
     elevation: 6,
   },
   glow: {
-    shadowColor: "#7C3AED",
+    shadowColor: "#D9AD63",
     shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.55,
+    shadowOpacity: 0.45,
     shadowRadius: 26,
     elevation: 10,
   },

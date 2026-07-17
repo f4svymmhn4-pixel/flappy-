@@ -66,6 +66,8 @@ const styles = StyleSheet.create({
     maxWidth: 380,
     backgroundColor: colors.surface,
     borderRadius: radius.lg,
+    borderWidth: 1,
+    borderColor: colors.border,
     padding: spacing.lg,
   },
   title: {
@@ -103,7 +105,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   primaryText: {
-    color: colors.white,
+    color: colors.textOnGold,
     fontWeight: "700",
   },
 });

@@ -404,23 +404,26 @@ export function expandSeed(seed: GiftSeed): Gift {
   };
 }
 
+/** Category accent gradients, all drawn from the same deep-emerald /
+ * bronze / champagne-gold family as the rest of the app so no screen ever
+ * reverts to the old purple/pink palette. */
 export const CATEGORY_GRADIENTS: Record<GiftCategory, [string, string]> = {
-  technologie: ["#4F46E5", "#7C3AED"],
-  maison: ["#F59E0B", "#F97316"],
-  cuisine: ["#EF4444", "#F59E0B"],
-  sport: ["#10B981", "#059669"],
-  voyage: ["#0EA5E9", "#2563EB"],
-  mode: ["#EC4899", "#DB2777"],
-  beaute: ["#F472B6", "#EC4899"],
-  loisirs: ["#8B5CF6", "#6D28D9"],
-  experiences: ["#F97316", "#EA580C"],
-  objets_personnalises: ["#E11D48", "#BE123C"],
-  culture: ["#6366F1", "#4338CA"],
-  enfants: ["#22D3EE", "#0891B2"],
-  couples: ["#FB7185", "#E11D48"],
-  humour: ["#FACC15", "#EAB308"],
-  luxe: ["#111827", "#374151"],
-  artisanat: ["#92400E", "#B45309"],
+  technologie: ["#0F3D3A", "#1B5E52"],
+  maison: ["#7A5A2E", "#A67C3D"],
+  cuisine: ["#8A4B23", "#B56A2E"],
+  sport: ["#0E5C3F", "#137A52"],
+  voyage: ["#0B4A54", "#116B78"],
+  mode: ["#8C5A4A", "#B57C5C"],
+  beaute: ["#9C6B52", "#C08A5E"],
+  loisirs: ["#1E4A2E", "#2E6B44"],
+  experiences: ["#A87C33", "#D9A857"],
+  objets_personnalises: ["#6B3A2E", "#8F5039"],
+  culture: ["#123049", "#1B4A66"],
+  enfants: ["#0E6B6B", "#159090"],
+  couples: ["#7A3B3B", "#A65252"],
+  humour: ["#B8901E", "#E0B23C"],
+  luxe: ["#1A1A16", "#3A331F"],
+  artisanat: ["#6E4522", "#9C6530"],
 };
 
 /** Human-readable French labels for each category, used across the UI. */

@@ -6,7 +6,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Animated, { FadeIn, FadeInDown, FadeInUp } from "react-native-reanimated";
 import { RootStackParamList } from "../navigation/types";
 import { GradientButton } from "../components/GradientButton";
-import { colors, spacing, typography } from "../theme/theme";
+import { colors, fonts, spacing, typography } from "../theme/theme";
 import { useQuiz } from "../context/QuizContext";
 import { useFavorites } from "../context/FavoritesContext";
 
@@ -21,7 +21,7 @@ export function HomeScreen({ navigation }: Props) {
       <LinearGradient colors={[colors.background, colors.backgroundAlt]} style={StyleSheet.absoluteFill} />
       <Animated.View
         entering={FadeIn.duration(900)}
-        style={[styles.glow, styles.glowTop, { backgroundColor: colors.primary }]}
+        style={[styles.glow, styles.glowTop, { backgroundColor: colors.accent }]}
       />
       <Animated.View
         entering={FadeIn.duration(900)}
@@ -32,7 +32,7 @@ export function HomeScreen({ navigation }: Props) {
           <Image
             source={require("../../assets/logo-mark.png")}
             style={styles.logoBadge}
-            resizeMode="cover"
+            resizeMode="contain"
           />
           <Text style={styles.brand}>La Perle Rare</Text>
         </Animated.View>
@@ -77,28 +77,27 @@ const styles = StyleSheet.create({
   glowTop: {
     top: -110,
     right: -90,
-    opacity: 0.16,
+    opacity: 0.35,
   },
   glowBottom: {
     bottom: -100,
     left: -100,
-    opacity: 0.12,
+    opacity: 0.3,
   },
   logoWrap: {
     alignItems: "center",
     marginTop: spacing.lg,
   },
   logoBadge: {
-    width: 64,
-    height: 64,
-    borderRadius: 20,
-    marginBottom: spacing.sm,
+    width: 128,
+    height: 128,
+    marginBottom: spacing.xs,
   },
   brand: {
-    color: colors.text,
-    fontSize: 20,
-    fontWeight: "800",
-    letterSpacing: 0.6,
+    color: colors.primaryLight,
+    fontSize: 26,
+    fontFamily: fonts.serifBold,
+    letterSpacing: 0.4,
   },
   center: {
     flex: 1,

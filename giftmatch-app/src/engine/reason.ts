@@ -119,45 +119,68 @@ function joinFr(items: string[]): string {
   return `${items.slice(0, -1).join(", ")} et ${items[items.length - 1]}`;
 }
 
+type FragmentType =
+  | "passion"
+  | "style"
+  | "giftType"
+  | "reaction"
+  | "detail"
+  | "alreadyHasException"
+  | "budget"
+  | "generic";
+
 /**
  * Builds the "Pourquoi il/elle va aimer" paragraph shown on the results
  * screen, weaving together only the dimensions that actually matched so the
  * explanation always reflects real signal from the questionnaire.
+ *
+ * `rank` varies which angle leads the sentence: passions/centres d'intérêt
+ * are the dominant scoring signal, so the top matches (rank 1-2) always
+ * foreground them explicitly. The 3rd suggestion deliberately leads with a
+ * different angle (gift type, reaction sought, budget...) so the three
+ * explanations don't all read like the same template repeated three times.
  */
 export function buildPersonalizedReason(
   gift: Gift,
   answers: QuizAnswers,
-  breakdown: ScoreBreakdownItem[]
+  breakdown: ScoreBreakdownItem[],
+  rank?: 1 | 2 | 3
 ): string {
   const matched = new Set(breakdown.filter((b) => b.points > 0).map((b) => b.label));
   const relationSubject = answers.relation
     ? RELATION_SUBJECT[answers.relation]
     : "cette personne";
+  const leadsWithPassion = rank !== 3;
 
-  const fragments: string[] = [];
+  const fragments = new Map<FragmentType, string>();
 
   if (matched.has("passion")) {
     const matchedPassions = answers.passions.filter((p) => gift.tags.passions.includes(p));
     const labels = matchedPassions.map((p) => PASSION_LABELS[p]);
-    fragments.push(`${relationSubject} aime ${joinFr(labels)}`);
+    fragments.set(
+      "passion",
+      leadsWithPassion
+        ? `ce choix s'inspire directement de ses centres d'intérêt : ${relationSubject} aime ${joinFr(labels)}`
+        : `${relationSubject} aime aussi ${joinFr(labels)}`
+    );
   }
 
   if (matched.has("style")) {
     const matchedStyles = answers.styles.filter((s) => gift.tags.styles.includes(s));
     const labels = matchedStyles.map((s) => STYLE_LABELS[s]);
-    fragments.push(`correspond à son style ${joinFr(labels)}`);
+    fragments.set("style", `correspond à son style ${joinFr(labels)}`);
   }
 
   if (matched.has("giftType") && answers.giftType) {
-    fragments.push(GIFT_TYPE_PHRASES[answers.giftType]);
+    fragments.set("giftType", GIFT_TYPE_PHRASES[answers.giftType]);
   }
 
   if (matched.has("reaction") && answers.reaction) {
-    fragments.push(`tu devrais obtenir la réaction ${REACTION_LABELS[answers.reaction]}`);
+    fragments.set("reaction", `tu devrais obtenir la réaction ${REACTION_LABELS[answers.reaction]}`);
   }
 
   if (matched.has("detail") && answers.detail) {
-    fragments.push(`on a tenu compte de ce que tu nous as confié : "${answers.detail.trim()}"`);
+    fragments.set("detail", `on a tenu compte de ce que tu nous as confié : "${answers.detail.trim()}"`);
   }
 
   if (
@@ -167,20 +190,40 @@ export function buildPersonalizedReason(
   ) {
     const relevantHas = answers.alreadyHas.find((h) => ALREADY_HAS_DOMAIN[h].includes(gift.categorie));
     if (relevantHas) {
-      fragments.push(
+      fragments.set(
+        "alreadyHasException",
         `même si ${relationSubject} a déjà ${ALREADY_HAS_LABELS[relevantHas]}, ce choix change vraiment de l'ordinaire`
       );
     }
   }
 
-  if (fragments.length < 2 && (answers.budget || answers.budgetExact !== undefined)) {
-    fragments.push("il reste dans le budget que tu as fixé");
+  if (answers.budget || answers.budgetExact !== undefined) {
+    fragments.set("budget", "il reste dans le budget que tu as fixé");
   }
 
-  if (fragments.length === 0) {
-    fragments.push(`${relationSubject} devrait apprécier cette idée dans la catégorie ${gift.categorie.replace("_", " ")}`);
+  if (fragments.size === 0) {
+    fragments.set(
+      "generic",
+      `${relationSubject} devrait apprécier cette idée dans la catégorie ${gift.categorie.replace("_", " ")}`
+    );
   }
 
-  const top = fragments.slice(0, 4);
-  return `Nous avons choisi ce cadeau car ${joinFr(top)}.`;
+  // Ranks 1-2: passions lead, kept tight and focused so the interest match
+  // stays the headline. Rank 3: a different angle leads instead, with
+  // passions demoted to a supporting mention if there's room.
+  const order: FragmentType[] = leadsWithPassion
+    ? ["passion", "alreadyHasException", "style", "detail", "giftType", "budget"]
+    : ["giftType", "reaction", "alreadyHasException", "style", "detail", "passion", "budget"];
+
+  const maxFragments = 3;
+  const selected = order
+    .filter((type) => fragments.has(type))
+    .slice(0, maxFragments)
+    .map((type) => fragments.get(type)!);
+
+  if (selected.length === 0 && fragments.has("generic")) {
+    selected.push(fragments.get("generic")!);
+  }
+
+  return `Nous avons choisi ce cadeau car ${joinFr(selected)}.`;
 }

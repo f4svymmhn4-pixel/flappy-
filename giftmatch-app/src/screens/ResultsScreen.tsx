@@ -28,11 +28,12 @@ export function ResultsScreen({ navigation }: Props) {
 
   const results = useMemo(() => {
     const top = getTopGifts(GIFTS, answers, 3);
-    return top.map((scored) => {
+    return top.map((scored, index) => {
       const { breakdown } = scoreGift(scored.gift, answers);
+      const rank = (index + 1) as 1 | 2 | 3;
       return {
         scored,
-        reason: buildPersonalizedReason(scored.gift, answers, breakdown),
+        reason: buildPersonalizedReason(scored.gift, answers, breakdown, rank),
       };
     });
   }, [answers]);

@@ -1,8 +1,20 @@
 # Décisions en attente avant la suite
 
 Trois points que le brief demande explicitement de trancher avant de coder
-ou de remplir des données. Ce document pose les options et l'analyse ; les
-décisions elles-mêmes sont demandées séparément.
+ou de remplir des données. Ce document pose les options et l'analyse.
+
+## Décisions actées (2026-07-23)
+
+- **Clubs/compétitions : option 1** — noms réels, sans logos ni couleurs
+  officielles. Risque retenu en connaissance de cause (moyen à élevé si le
+  jeu gagne en audience) ; à revoir si le projet se monétise ou reçoit une
+  mise en demeure. Nom du jeu original protégeant au moins la marque du
+  projet lui-même.
+- **Direction artistique : variante A** — feuille de match officielle (fond
+  clair, grille façon formulaire fédéral, accent unique).
+- **Nom du jeu : "Carnet de Terrain"**.
+
+Le reste de ce document conserve l'analyse complète pour référence.
 
 ---
 

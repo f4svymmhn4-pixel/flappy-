@@ -73,3 +73,43 @@ Canvas 2D au moment de l'exécution — il n'y a aucune image importée. Tous le
 sons (saut, score, collision, fin de partie) sont générés au moment de
 l'exécution avec l'API Web Audio — il n'y a aucun fichier audio importé. Rien
 n'est copié ni dérivé des ressources du jeu Flappy Bird original.
+
+---
+
+## Carnet de Terrain — jeu de carrière de rugby (en cours de construction)
+
+Un second projet, sans rapport avec Flappy Bird, est en cours de
+développement dans ce même dépôt : **Carnet de Terrain**, un jeu de carrière
+de rugby à XV. Voir `docs/modele-rugby.md` (modèle rugbystique chiffré) et
+`docs/decisions-en-attente.md` (décisions de direction artistique, de nom et
+de risque juridique sur les noms de clubs).
+
+Le moteur de simulation (jalon 2 du plan de développement) vit dans
+`src/engine/` — logique pure, testée, sans dépendance UI — et se vérifie en
+ligne de commande :
+
+```bash
+npm install
+npm test                 # suite de tests (vitest)
+npm run typecheck        # vérification TypeScript stricte
+
+# Simuler une carrière complète, avec une graine pour la rejouer à l'identique
+npm run simulate -- --position 11 --seed 42 --name "Léo Faivre" --nationality France
+```
+
+| Fichier | Rôle |
+|---|---|
+| `src/engine/types.ts` | Types partagés (attributs, poste, joueur, saison, carrière) |
+| `src/engine/rng.ts` | Générateur pseudo-aléatoire à graine (déterministe) |
+| `src/engine/ageCurve.ts` | Courbe d'âge générique (croissance / plateau / déclin) |
+| `src/engine/attributes.ts` | Calcul de l'OVR et génération des attributs à la création |
+| `src/engine/positions.ts` | Données des 15 postes (pondération, blessures, courbe d'âge) |
+| `src/engine/player.ts` | Création d'un joueur de 17 ans |
+| `src/engine/injury.ts` | Modèle de blessures et protocole commotion |
+| `src/engine/discipline.ts` | Cartons, commissions, barème de suspension |
+| `src/engine/season.ts` | Simulation d'une saison (matchs, stats, blessures, discipline) |
+| `src/engine/progression.ts` | Entraînement d'intersaison, vieillissement, déclin |
+| `src/engine/career.ts` | Orchestration d'une carrière complète jusqu'à la retraite |
+| `src/cli/simulate.ts` | CLI de vérification (aucune UI à ce stade) |
+
+Aucune interface utilisateur n'existe encore : c'est l'objet du jalon 3.

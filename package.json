@@ -1,0 +1,19 @@
+{
+  "name": "carnet-de-terrain",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Carnet de Terrain — jeu de carrière de rugby à XV",
+  "scripts": {
+    "simulate": "tsx src/cli/simulate.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.4"
+  }
+}

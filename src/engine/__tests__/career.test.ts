@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { simulateCareer } from "../career.js";
+import { evaluateRetirement, simulateCareer } from "../career.js";
+import { createPlayer } from "../player.js";
+import { createRng } from "../rng.js";
 import { getPosition } from "../positions.js";
 import type { PositionId } from "../types.js";
 
@@ -48,5 +50,30 @@ describe("simulateCareer", () => {
   it("respecte le garde-fou maxSeasons", () => {
     const career = simulateCareer({ name: "Test", nationality: "France", position: 10, seed: 42, maxSeasons: 3 });
     expect(career.seasons.length).toBeLessThanOrEqual(3);
+  });
+});
+
+describe("evaluateRetirement", () => {
+  it("force la retraite dès que le nombre de commotions atteint le seuil", () => {
+    const rng = createRng(1);
+    const player = createPlayer({ name: "Test", nationality: "France", position: 5, rng });
+    player.concussionCount = 3;
+    const decision = evaluateRetirement(player, getPosition(5), [], rng);
+    expect(decision?.reason).toBe("commotions");
+  });
+
+  it("ne déclenche rien pour un joueur jeune, en forme, sans historique", () => {
+    const rng = createRng(1);
+    const player = createPlayer({ name: "Test", nationality: "France", position: 10, rng, potential: 0.9 });
+    const decision = evaluateRetirement(player, getPosition(10), [], rng);
+    expect(decision).toBeUndefined();
+  });
+
+  it("force la retraite une fois l'âge plafond du poste atteint", () => {
+    const rng = createRng(1);
+    const player = createPlayer({ name: "Test", nationality: "France", position: 1, rng });
+    player.age = getPosition(1).careerSpan.max;
+    const decision = evaluateRetirement(player, getPosition(1), [], rng);
+    expect(decision?.reason).toBe("declin");
   });
 });

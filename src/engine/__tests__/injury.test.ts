@@ -55,7 +55,7 @@ describe("rollInjury", () => {
       const player = createPlayer({ name: "Test", nationality: "France", position: 5, rng });
       const roll = rollInjury(player, position, 1, 1, rng);
       if (roll?.isConcussion) {
-        expect(roll.injury.weeksOut).toBeGreaterThanOrEqual(3);
+        expect(roll.weeksOut).toBeGreaterThanOrEqual(3);
         found = true;
       }
     }
@@ -68,7 +68,7 @@ describe("rollInjury", () => {
       const rng = createRng(seed);
       const player = createPlayer({ name: "Test", nationality: "France", position: 6, rng });
       const roll = rollInjury(player, position, 1, 1, rng);
-      if (roll) expect(roll.injury.weeksOut).toBeGreaterThan(0);
+      if (roll) expect(roll.weeksOut).toBeGreaterThan(0);
     }
   });
 });

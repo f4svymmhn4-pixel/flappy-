@@ -74,12 +74,12 @@ export function simulateSeason(
 
     const log: MatchLog = { matchIndex, played: true, statLine };
 
-    const injuryRoll = rollInjury(player, positionDef, seasonNumber, matchIndex, rng);
-    if (injuryRoll) {
-      log.injury = injuryRoll.injury;
-      player.injuryHistory.push(injuryRoll.injury);
-      weeksOutInjury = injuryRoll.injury.weeksOut;
-      if (injuryRoll.isConcussion) player.concussionCount++;
+    const injury = rollInjury(player, positionDef, seasonNumber, matchIndex, rng);
+    if (injury) {
+      log.injury = injury;
+      player.injuryHistory.push(injury);
+      weeksOutInjury = injury.weeksOut;
+      if (injury.isConcussion) player.concussionCount++;
     }
 
     const disciplineRoll = rollDiscipline(player, positionDef, seasonNumber, matchIndex, rng);

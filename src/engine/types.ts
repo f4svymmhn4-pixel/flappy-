@@ -58,6 +58,7 @@ export interface InjuryRecord {
   matchIndex: number;
   severity: InjurySeverity;
   weeksOut: number;
+  isConcussion: boolean;
 }
 
 export interface DisciplineRecord {

@@ -23,18 +23,13 @@ export function injuryProbability(player: Player, position: PositionDef): number
   return clamp(position.injuryBaseRate * modAge * modFatigue * modCondition, 0, 0.6);
 }
 
-export interface InjuryRoll {
-  injury: InjuryRecord;
-  isConcussion: boolean;
-}
-
 export function rollInjury(
   player: Player,
   position: PositionDef,
   season: number,
   matchIndex: number,
   rng: Rng,
-): InjuryRoll | undefined {
+): InjuryRecord | undefined {
   if (!rng.chance(injuryProbability(player, position))) return undefined;
 
   const severity = rng.weightedPick(
@@ -51,8 +46,5 @@ export function rollInjury(
     weeksOut = Math.max(weeksOut, COMMOTION_MIN_WEEKS);
   }
 
-  return {
-    injury: { season, matchIndex, severity, weeksOut },
-    isConcussion,
-  };
+  return { season, matchIndex, severity, weeksOut, isConcussion };
 }

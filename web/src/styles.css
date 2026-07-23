@@ -1,0 +1,332 @@
+/* Carnet de Terrain — DA "feuille de match officielle" (variante A validée).
+   Fond papier clair, grille fine, un seul accent. Mobile-first, lisible en
+   plein soleil, aucune animation gratuite. */
+
+:root {
+  --paper: #f3efe3;
+  --paper-card: #fbf9f2;
+  --ink: #201d19;
+  --ink-soft: #58524a;
+  --line: #cabfa8;
+  --accent: #7a1f2e;
+  --accent-ink: #fbf9f2;
+  --danger: #7a1f2e;
+
+  --font-heading: "Arial Narrow", "Helvetica Condensed", system-ui, sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", "Consolas", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-image: linear-gradient(var(--line) 1px, transparent 1px);
+  background-size: 100% 2rem;
+  background-attachment: local;
+  min-height: 100vh;
+}
+
+#app {
+  max-width: 30rem;
+  margin: 0 auto;
+  padding: 1rem 1.1rem 3rem;
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 0.75rem;
+  color: var(--ink);
+}
+
+h1 {
+  font-size: 1.5rem;
+  border-bottom: 3px solid var(--accent);
+  padding-bottom: 0.4rem;
+}
+
+h2 {
+  font-size: 1.15rem;
+}
+
+h3 {
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+
+p {
+  line-height: 1.5;
+  margin: 0 0 0.9rem;
+}
+
+.masthead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.masthead .brand {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 1.1rem;
+}
+
+.masthead .meta {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+}
+
+.card {
+  background: var(--paper-card);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  margin-bottom: 0.3rem;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  font: inherit;
+  font-size: 1rem;
+  padding: 0.6rem 0.7rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  border-radius: 2px;
+}
+
+input:focus-visible,
+select:focus-visible,
+button:focus-visible,
+[role="radio"]:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.field-group {
+  margin-bottom: 1rem;
+}
+
+fieldset {
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 0.8rem;
+  margin: 0 0 1rem;
+}
+
+legend {
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+  padding: 0 0.3rem;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 1rem;
+  padding: 0.9rem 1rem;
+  border: 2px solid var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-radius: 2px;
+  cursor: pointer;
+  min-height: 48px;
+}
+
+.btn:hover {
+  filter: brightness(1.08);
+}
+
+.btn:active {
+  filter: brightness(0.95);
+}
+
+.btn.secondary {
+  background: transparent;
+  color: var(--accent);
+}
+
+.btn[disabled] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Feuille de match interactive — choix du poste */
+.formation {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.formation-row {
+  display: grid;
+  gap: 0.4rem;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+}
+
+.pos-btn {
+  font-family: var(--font-mono);
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  border-radius: 2px;
+  padding: 0.5rem 0.2rem;
+  min-height: 3.4rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  line-height: 1.1;
+}
+
+.pos-btn .num {
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.pos-btn .label {
+  font-family: var(--font-body);
+  font-size: 0.58rem;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+.pos-btn[aria-pressed="true"] {
+  border-color: var(--accent);
+  border-width: 2px;
+  background: #fbeceb;
+}
+
+.pos-btn[aria-pressed="true"] .label {
+  color: var(--accent);
+}
+
+/* Feuille de stats */
+.statline {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.statline td,
+.statline th {
+  text-align: left;
+  padding: 0.3rem 0.2rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.statline td:last-child,
+.statline th:last-child {
+  text-align: right;
+  font-weight: 700;
+}
+
+.ovr {
+  font-family: var(--font-mono);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.15rem 0.4rem;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  color: var(--ink-soft);
+  margin: 0 0.3rem 0.3rem 0;
+}
+
+.tag.injury {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.ambiance {
+  font-style: italic;
+  border-left: 3px solid var(--accent);
+  padding-left: 0.75rem;
+  margin: 1rem 0;
+  color: var(--ink);
+}
+
+.career-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  margin-bottom: 1rem;
+}
+
+.career-table th,
+.career-table td {
+  border-bottom: 1px solid var(--line);
+  padding: 0.3rem 0.25rem;
+  text-align: right;
+}
+
+.career-table th:first-child,
+.career-table td:first-child {
+  text-align: left;
+}
+
+.help-text {
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

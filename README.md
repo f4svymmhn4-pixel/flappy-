@@ -95,6 +95,10 @@ npm run typecheck        # vérification TypeScript stricte
 
 # Simuler une carrière complète, avec une graine pour la rejouer à l'identique
 npm run simulate -- --position 11 --seed 42 --name "Léo Faivre" --nationality France
+
+# UI minimale (jalon 3) : création de joueur, une saison, un bilan
+npm run dev               # serveur de dev, ouvrir l'URL affichée
+npm run build              # build de production dans dist-web/
 ```
 
 | Fichier | Rôle |
@@ -110,6 +114,23 @@ npm run simulate -- --position 11 --seed 42 --name "Léo Faivre" --nationality F
 | `src/engine/season.ts` | Simulation d'une saison (matchs, stats, blessures, discipline) |
 | `src/engine/progression.ts` | Entraînement d'intersaison, vieillissement, déclin |
 | `src/engine/career.ts` | Orchestration d'une carrière complète jusqu'à la retraite |
-| `src/cli/simulate.ts` | CLI de vérification (aucune UI à ce stade) |
+| `src/cli/simulate.ts` | CLI de vérification (aucune UI) |
 
-Aucune interface utilisateur n'existe encore : c'est l'objet du jalon 3.
+L'UI minimale du jalon 3 vit dans `web/` (Vite + TypeScript vanilla, sans
+framework — le flux est linéaire, un écran = une action, pas besoin d'un
+gestionnaire d'état). Elle importe directement les modules de `src/engine/`,
+sans dupliquer aucune logique de jeu :
+
+| Fichier | Rôle |
+|---|---|
+| `web/index.html` | Point d'entrée Vite |
+| `web/src/styles.css` | Direction artistique "feuille de match officielle" (variante A) |
+| `web/src/main.ts` | Les 4 écrans : création, avant-saison, bilan, bilan de carrière |
+| `web/src/session.ts` | Petit orchestrateur qui pilote le moteur saison par saison |
+| `web/src/formation.ts` | Disposition de la feuille de match interactive (choix du poste) |
+| `web/src/nations.ts` | Liste des nations jouables (brief §5, pas encore reliée à la sélection) |
+| `web/src/phrases.ts` | Banque de phrases d'ambiance (brief §8), tirée déterministe |
+
+Ce qui manque encore, prévu aux jalons suivants : les 3 à 5 événements à
+choix multiples par saison (jalon 4), les clubs/compétitions/mercato
+(jalon 5), les sélections nationales et la Coupe du monde (jalon 6).
